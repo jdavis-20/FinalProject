@@ -15,7 +15,7 @@ import UIKit
 var camera = SKCameraNode()
 var manager = CMMotionManager()
 var player = SKSpriteNode()
-var testMenu =  Menu(position: "right",
+var testMenu =  Menu(/*position: "right",*/
                      screenHeight: 375,
                      screenWidth: 667)
 
@@ -46,7 +46,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func startGame(){
         //started variable triggers when start button is pressed, sets tilt
         started = true
+        print(testMenu.position)
         
+        //TODO: vibration response
         //AudioServicesPlaySystemSound(1520)
         //AudioServicesPlayAlertSound(kSystemSoundID_Vibrate)
     }
@@ -56,6 +58,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func testButton(){
         print("test menu button pressed")
+        //TODO: fix scene switch crash
         //let menuScene = SKScene(fileNamed: "MenuScene")
         //let transition: SKTransition = SKTransition.fade(withDuration: 1)
         //self.view?.presentScene(menuScene!, transition: transition)
@@ -65,16 +68,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     //executes when the scene is first loaded------------------------------------------------------------------------------
     
     override func didMove(to view: SKView) {
+        //let zoomOut = SKAction.scale(by: 2, duration: 1)
+        //camera!.run(zoomOut)
+        
         //menu setup
-        testMenu = Menu(position: "right",
+        testMenu = Menu(/*position: "right",*/
                         screenHeight: frame.size.height,
                         screenWidth: frame.size.width)
+        testMenu.position = CGPoint(x: ((frame.size.width / 3) * 2), y: 0)
         camera!.addChild(testMenu)
         testMenu.zPosition = 1
         let testMenuButton = Button(defaultButtonImage: "button",
                                     activeButtonImage: "button_active",
                                     buttonAction: testButton)
-        testMenuButton.position = CGPoint(x: (frame.size.width / 3),
+        testMenuButton.position = CGPoint(x: 0,
                                           y: 0)
         testMenu.addChild(testMenuButton)
         
@@ -204,9 +211,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     @IBAction func swipeMade(_ sender: UISwipeGestureRecognizer) {
         //menu in and out (origin of menu object is at 0,0 not at the origin of the rectangle)
-        let enterAction = SKAction.moveTo(x: 0,
+        let enterAction = SKAction.moveTo(x: (frame.size.width / 3),
                                           duration: 0.5)
-        let leaveAction = SKAction.moveTo(x: (frame.size.width / 3),
+        let leaveAction = SKAction.moveTo(x: ((frame.size.width / 3) * 2),
                                           duration: 0.5)
 
         if sender.direction == .left {
@@ -229,7 +236,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                                contactB: SKPhysicsBody) {
             let aName = contactA.node?.name
             let bName = contactB.node?.name
-            print("bodyA is \(aName))\n bodyB is \(bName)")
+            print("COLLISION: \n  bodyA is \(aName!)\n  bodyB is \(bName!)")
         }
         //prints the names of items involved in a collision
         if (contact.bodyA.node != nil) &&
@@ -286,9 +293,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if playerXDirection == "right"{
                 //player.run(towards)
             }
-        
         }
-
     }
     
     

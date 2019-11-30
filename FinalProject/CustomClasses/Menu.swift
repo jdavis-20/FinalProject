@@ -15,13 +15,15 @@ class Menu: SKShapeNode {
     let enterPath = UIBezierPath()
     let leavePath = UIBezierPath()
     
-    init(position: String, screenHeight: CGFloat,
+    init(/*position: String, */screenHeight: CGFloat,
          screenWidth: CGFloat) {
         menuRect = SKShapeNode(rectOf: CGSize(width: 0,
                                               height: 0))
         menuRect.name = "menu"
+        menuRect = SKShapeNode(rectOf: CGSize(width: (screenWidth / 3),
+                                              height: screenHeight))
 
-        switch position {
+        /*switch position {
             
         case "top":
             menuRect = SKShapeNode(rectOf: CGSize(width: screenWidth,
@@ -44,12 +46,12 @@ class Menu: SKShapeNode {
         case "right":
             menuRect = SKShapeNode(rectOf: CGSize(width: (screenWidth / 3),
                                                   height: screenHeight))
-            menuRect.position = CGPoint(x: (screenWidth / 3),
+            menuRect.position = CGPoint(x: ((screenWidth / 3) * 1),
                                         y: 0)
-            
+ 
         default:
             print("error: no valid menu position provided")
-        }
+        }*/
         
         menuRect.fillColor = SKColor(red: 0.2,
                                      green: 0,
@@ -63,17 +65,6 @@ class Menu: SKShapeNode {
         super.init()
         
         self.addChild(menuRect)
-    }
-    
-    func enter() {
-        let enterAction = SKAction.moveTo(x: (frame.size.width / 3),
-                                          duration: 1)
-        self.run(enterAction)
-    }
-    func leave() {
-       let leaveAction = SKAction.moveTo(x: (frame.size.width * (2/3)),
-                                         duration: 1)
-        self.run(leaveAction)
     }
     
     required init(coder aDecoder: NSCoder) {
