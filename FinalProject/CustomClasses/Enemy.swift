@@ -15,7 +15,10 @@ class Enemy: SKNode {
     let path = UIBezierPath()
     
     func movement() {
-        let followPath:SKAction = SKAction.follow(path.cgPath, asOffset: true, orientToPath: false, speed: 200)
+        let followPath:SKAction = SKAction.follow(path.cgPath,
+                                                  asOffset: true,
+                                                  orientToPath: false,
+                                                  speed: 200)
         self.run(followPath)
     }
     
@@ -26,13 +29,16 @@ class Enemy: SKNode {
                                                                   height: enemyNode.size.height))
         enemyNode.physicsBody?.affectedByGravity = false
         enemyNode.physicsBody?.allowsRotation = false
-        enemyNode.physicsBody?.isDynamic = true
+        enemyNode.physicsBody?.isDynamic = false
         enemyNode.physicsBody?.contactTestBitMask = 0x00000001
         enemyNode.position = position
         
         path.move(to: CGPoint(x: 0, y: 0))
         path.addLine(to: CGPoint(x: 0, y: 100))
+        path.addLine(to: CGPoint(x: 100, y: 100))
+        path.addLine(to: CGPoint(x: 100, y: 0))
         path.addLine(to: CGPoint(x: 0, y: 0))
+        
 
         super.init()
         

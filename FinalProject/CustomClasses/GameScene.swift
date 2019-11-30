@@ -9,17 +9,37 @@
 import SpriteKit
 import CoreMotion
 import AudioToolbox
+import UIKit
 
+//nodes
 var camera = SKCameraNode()
 var manager = CMMotionManager()
 var player = SKSpriteNode()
+var testMenu =  Menu(position: "right",
+                     screenHeight: 375,
+                     screenWidth: 667)
 
+//orientation
 var preferredTilt: Double?
 var destX: CGFloat = 0.0
 var destY: CGFloat = 0.0
-var started = false
 
+//game state values
+var started = false
+public var playerHealth: Int = 10
+var playerAlive = true
+var playerYDirection = "up"
+var playerXDirection = "still"
+var menuOut = true
+
+//movement and animation
 let path = UIBezierPath()
+let away = SKAction.setTexture(SKTexture(imageNamed: "playerback"))
+let towards = SKAction.setTexture(SKTexture(imageNamed: "player"))
+
+
+//this is the superclass to all game levels----------------------------------------------------------------------------------
+//it contains fundamental mechanics and anything that needs to persist across levels----------------------------------------
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
@@ -31,26 +51,61 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //AudioServicesPlayAlertSound(kSystemSoundID_Vibrate)
     }
     
+    
+    //button on the in-game menu, currently quits to the main menu--------------------------------------------------------
+    
+    func testButton(){
+        print("test menu button pressed")
+        //let menuScene = SKScene(fileNamed: "MenuScene")
+        //let transition: SKTransition = SKTransition.fade(withDuration: 1)
+        //self.view?.presentScene(menuScene!, transition: transition)
+    }
+    
+    
+    //executes when the scene is first loaded------------------------------------------------------------------------------
+    
     override func didMove(to view: SKView) {
+        //menu setup
+        testMenu = Menu(position: "right",
+                        screenHeight: frame.size.height,
+                        screenWidth: frame.size.width)
+        camera!.addChild(testMenu)
+        testMenu.zPosition = 1
+        let testMenuButton = Button(defaultButtonImage: "button",
+                                    activeButtonImage: "button_active",
+                                    buttonAction: testButton)
+        testMenuButton.position = CGPoint(x: (frame.size.width / 3),
+                                          y: 0)
+        testMenu.addChild(testMenuButton)
+        
+        //prep for swipe detection
+        let leftRecognizer = UISwipeGestureRecognizer(target: self,
+                                                      action: #selector(swipeMade(_:)))
+        leftRecognizer.direction = .left
+        self.view!.addGestureRecognizer(leftRecognizer)
+        
+        let rightRecognizer = UISwipeGestureRecognizer(target: self,
+                                                       action: #selector(swipeMade(_:)))
+        rightRecognizer.direction = .right
+        self.view!.addGestureRecognizer(rightRecognizer)
+        
         //physics contact delegate
         physicsWorld.contactDelegate = self
         
         //start gameplay within the level button
-        let startButton = Button(defaultButtonImage: "button", activeButtonImage: "button_active", buttonAction: startGame)
-        startButton.position = CGPoint(x: (frame.size.width / 2), y: (frame.size.height / 4))
+        let startButton = Button(defaultButtonImage: "button",
+                                 activeButtonImage: "button_active",
+                                 buttonAction: startGame)
+        startButton.position = CGPoint(x: (frame.size.width / 2),
+                                       y: (frame.size.height / 4))
         addChild(startButton)
+
         
-        //test menu stationary in camera view (not working)
-        let testMenu =
-            Menu(color: .blue,
-                 position: "top",
-                 screenHeight: frame.size.height,
-                 screenWidth: frame.size.width)
-        camera!.addChild(testMenu)
+        //player-----------------------------------------------------------------------------------------------------------
         
-        //player
         player = SKSpriteNode(imageNamed: "player")
-        player.position = CGPoint(x: (frame.size.width / 2), y: (frame.size.height / 2))
+        player.position = CGPoint(x: (frame.size.width / 2),
+                                  y: (frame.size.height / 2))
         player.name = "player"
         
         player.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: player.size.width,
@@ -65,12 +120,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         addChild(player)
         
-        //enemy using custom class
-        let enemy = Enemy(image: "button", position: CGPoint(x: (frame.size.width / 3), y: (frame.size.height / 3)))
+        
+        //enemy---------------------------------------------------------------------------------------------------------
+        
+        let enemy = Enemy(image: "enemy", position: CGPoint(x: (frame.size.width / 3),
+                                                            y: (frame.size.height / 3)))
         addChild(enemy)
         enemy.movement()
         
-        //accelerometer data
+        
+        //accelerometer data--------------------------------------------------------------------------------------------
+        
         if manager.isAccelerometerAvailable {
             manager.accelerometerUpdateInterval = 0.01
             manager.startAccelerometerUpdates(to: .main) {
@@ -86,24 +146,50 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     //0° is flat, 90° is vertical
                 }
                 
-                //range where tilt moves the player, X
                 if started == true {
-                    if (data.acceleration.y > 0.1 || data.acceleration.y < -0.1) {
+                    //tilt moves, X
+                    if (data.acceleration.y > 0.1 ||
+                        data.acceleration.y < -0.1) {
+                        
                         destX = CGFloat((data.acceleration.y) * 350)
+                        //RIGHT
+                        if (data.acceleration.y > 0.1){
+                            playerXDirection = "right"
+                        }
+                        //LEFT
+                        if (data.acceleration.y < -0.1){
+                            playerXDirection = "left"
+                        }
                     }
-                    //tilt below the threshold, no movement X
+                        
+                    //tilt doesn't move, X
                     else {
                         destX = CGFloat(0)
+                        playerXDirection = "still"
                     }
+                    
                     //tilt moves, Y
-                    if ((-data.acceleration.x + preferredTilt!) > 0.1 || (-data.acceleration.x + preferredTilt!) < -0.1) {
+                    if ((-data.acceleration.x + preferredTilt!) > 0.1 ||
+                        (-data.acceleration.x + preferredTilt!) < -0.1) {
+                        
                         destY = CGFloat((-data.acceleration.x + preferredTilt!) * 350)
+                        //UP
+                        if ((-data.acceleration.x + preferredTilt!) > 0.1) {
+                            playerYDirection = "up"
+                        }
+                        //DOWN
+                        if ((-data.acceleration.x + preferredTilt!) < -0.1) {
+                            playerYDirection = "down"
+                        }
                     }
+                        
                     //tilt doesn't move, Y
                     else {
                         destY = CGFloat(0)
+                        playerYDirection = "still"
                     }
                 }
+                    
                 //tilt cannot move player before start button is pressed
                 else if started == false {
                     destX = CGFloat(0)
@@ -113,31 +199,104 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    //collision detection
-    func didBegin(_ contact: SKPhysicsContact){
-        func describeCollision(contactA: SKPhysicsBody, contactB: SKPhysicsBody) {
-            let aName = contactA.node?.name!
-            let bName = contactB.node?.name!
-            print("bodyA is \(aName)\n bodyB is \(bName)")
+    
+    //triggers when a swipe is detected------------------------------------------------------------------------------------
+    
+    @IBAction func swipeMade(_ sender: UISwipeGestureRecognizer) {
+        //menu in and out (origin of menu object is at 0,0 not at the origin of the rectangle)
+        let enterAction = SKAction.moveTo(x: 0,
+                                          duration: 0.5)
+        let leaveAction = SKAction.moveTo(x: (frame.size.width / 3),
+                                          duration: 0.5)
+
+        if sender.direction == .left {
+                print("left swipe")
+                testMenu.run(enterAction)
+                menuOut = true
         }
-        
-        if (contact.bodyA.node != nil) && (contact.bodyB.node != nil) {
-            describeCollision(contactA: contact.bodyA, contactB: contact.bodyB)
-        if (contact.bodyB.node?.name == "player") && (contact.bodyA.node?.name == "wall") {
-            print("player collided with wall")
+        if sender.direction == .right{
+                print("right swipe")
+                testMenu.run(leaveAction)
+                menuOut = false
+        }
+    }
+    
+    
+    //collision detection------------------------------------------------------------------------------------------------
+    
+    func didBegin(_ contact: SKPhysicsContact){
+        func describeCollision(contactA: SKPhysicsBody,
+                               contactB: SKPhysicsBody) {
+            let aName = contactA.node?.name
+            let bName = contactB.node?.name
+            print("bodyA is \(aName))\n bodyB is \(bName)")
+        }
+        //prints the names of items involved in a collision
+        if (contact.bodyA.node != nil) &&
+            (contact.bodyB.node != nil) {
+            describeCollision(contactA: contact.bodyA,
+                              contactB: contact.bodyB)
+            //player collision with wall
+            if (contact.bodyB.node?.name == "player") &&
+                (contact.bodyA.node?.name == "wall") {
+                print("player collided with wall")
+                }
+            //player touches an enemy (can be initiated by either body)
+            if ((contact.bodyB.node?.name == "player") &&
+                (contact.bodyA.node?.name == "enemy")) ||
+                ((contact.bodyB.node?.name == "enemy") &&
+                (contact.bodyA.node?.name == "player")) {
+                playerHealth -= 1
+                print("player touched enemy")
+                //death condition (may need to be moved later)
+                if playerHealth <= 0 {
+                    playerAlive = false
+                    print("player died")
+                }
             }
         }
     }
+    
+   
+    //called every frame when not paused-----------------------------------------------------------------------------------
     
     override func didSimulatePhysics() {
         //camera follows player sprite
         camera!.position.x = player.position.x
         camera!.position.y = player.position.y
+        
+        //texture changes for the direction the player character is facing
+        //TODO: add "still" positions
+        if playerYDirection == "up"{
+            player.run(away)
+            
+            if playerXDirection == "left"{
+                //player.run(away)
+            }
+            if playerXDirection == "right"{
+                //player.run(away)
+            }
+        }
+        if playerYDirection == "down"{
+            player.run(towards)
+            
+            if playerXDirection == "left"{
+                //player.run(towards)
+            }
+            if playerXDirection == "right"{
+                //player.run(towards)
+            }
+        
+        }
+
     }
     
     
+    //called every frame--------------------------------------------------------------------------------------------------
+    
     override func update(_ currentTime: TimeInterval) {
-        //player movement is executed each frame
-        player.physicsBody!.velocity = CGVector(dx: destX, dy: destY)
+        //player movement based on tilt
+        player.physicsBody!.velocity = CGVector(dx: destX,
+                                                dy: destY)
     }
 }

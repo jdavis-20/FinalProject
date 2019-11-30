@@ -17,11 +17,17 @@ var levelSelectCamera = SKCameraNode()
 
 class LevelSelectScene : SKScene {
     override func didMove(to view: SKView) {
-        l1label.fontColor = .black; l2label.fontColor = .black; l3label.fontColor = .black
+        l1label.fontColor = .black
+        l2label.fontColor = .black
+        l3label.fontColor = .black
+        l1label.zPosition = 1
+        l2label.zPosition = 1
+        l3label.zPosition = 1
         
         //setting up camera
         levelSelectCamera = self.childNode(withName: "levelSelectCamera") as! SKCameraNode
-        levelSelectCamera.position = CGPoint(x: (frame.size.width / 2), y: (frame.size.height / 2))
+        levelSelectCamera.position = CGPoint(x: (frame.size.width / 2),
+                                             y: (frame.size.height / 2))
         
         //setting scenes as variables
         var l1scene = SKScene(fileNamed: "Level1Scene")
@@ -33,34 +39,40 @@ class LevelSelectScene : SKScene {
         //functions to switch scenes
         
         func playL1(){
-            self.view?.presentScene(l1scene!, transition: transition)
+            self.view?.presentScene(l1scene!,
+                                    transition: transition)
         }
         func playL2(){
-            self.view?.presentScene(l2scene!, transition: transition)
+            self.view?.presentScene(l2scene!,
+                                    transition: transition)
         }
         func playL3(){
-            self.view?.presentScene(l3scene!, transition: transition)
+            self.view?.presentScene(l3scene!,
+                                    transition: transition)
         }
         
         //buttons to trigger functions
         let l1Button = Button(defaultButtonImage: "button",
                                  activeButtonImage: "button_active",
                                  buttonAction: playL1)
-        l1Button.position = CGPoint(x: (frame.size.width / 4), y: (frame.size.height / 2))
+        l1Button.position = CGPoint(x: (frame.size.width / 4),
+                                    y: (frame.size.height / 2))
         addChild(l1Button)
         l1Button.addChild(l1label)
         
         let l2Button = Button(defaultButtonImage: "button",
                               activeButtonImage: "button_active",
                               buttonAction: playL2)
-        l2Button.position = CGPoint(x: (frame.size.width * (2/4)), y: (frame.size.height / 2))
+        l2Button.position = CGPoint(x: (frame.size.width * (2/4)),
+                                    y: (frame.size.height / 2))
         addChild(l2Button)
         l2Button.addChild(l2label)
         
         let l3Button = Button(defaultButtonImage: "button",
                               activeButtonImage: "button_active",
                               buttonAction: playL3)
-        l3Button.position = CGPoint(x: (frame.size.width * (3/4)), y: (frame.size.height / 2))
+        l3Button.position = CGPoint(x: (frame.size.width * (3/4)),
+                                    y: (frame.size.height / 2))
         addChild(l3Button)
         l3Button.addChild(l3label)
     }

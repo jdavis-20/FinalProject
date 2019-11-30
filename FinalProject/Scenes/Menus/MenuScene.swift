@@ -17,21 +17,24 @@ class MenuScene: SKScene {
     override func didMove(to view: SKView) {
         //setting up camera
         menuCamera = self.childNode(withName: "menuCamera") as! SKCameraNode
-        menuCamera.position = CGPoint(x: (frame.size.width / 2), y: (frame.size.height / 2))
+        menuCamera.position = CGPoint(x: (frame.size.width / 2),
+                                      y: (frame.size.height / 2))
 
         //setting scene to transition to
         var scene = SKScene(fileNamed: "LevelSelectScene")
         var transition: SKTransition = SKTransition.fade(withDuration: 1)
         
         func levelSelect(){
-            self.view?.presentScene(scene!, transition: transition)
+            self.view?.presentScene(scene!,
+                                    transition: transition)
         }
         
         //button triggers actual transition
-        let playButton = Button(defaultButtonImage: "button",
-                                 activeButtonImage: "button_active",
+        let playButton = Button(defaultButtonImage: "play",
+                                 activeButtonImage: "play",
                                  buttonAction: levelSelect)
-        playButton.position = CGPoint(x: (frame.size.width / 2), y: (frame.size.height / 2))
+        playButton.position = CGPoint(x: (frame.size.width / 2),
+                                      y: (frame.size.height / 2))
         addChild(playButton)
     }
 }

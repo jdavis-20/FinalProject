@@ -13,9 +13,14 @@ class Wall: SKNode {
     
     let wallRect: SKShapeNode
     
-    init(height: Double, width: Double, color: SKColor, position: CGPoint) {
-        wallRect = SKShapeNode(rectOf: CGSize(width: width, height: height))
-        wallRect.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: width, height: height))
+    init(height: Double,
+         width: Double,
+         color: SKColor,
+         position: CGPoint) {
+        wallRect = SKShapeNode(rectOf: CGSize(width: width,
+                                              height: height))
+        wallRect.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: width,
+                                                                 height: height))
         wallRect.name = "wall" //change to individual names later?
         
         wallRect.fillColor = color

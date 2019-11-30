@@ -13,8 +13,10 @@ class Button: SKNode {
     let activeButton: SKSpriteNode
     var action: () -> ()
     
-    //Takes a default and active image and returns them as sprites
-    init(defaultButtonImage: String, activeButtonImage: String, buttonAction: @escaping () -> ()) {
+    //takes a default and active version of the button
+    init(defaultButtonImage: String,
+         activeButtonImage: String,
+         buttonAction: @escaping () -> ()) {
         defaultButton = SKSpriteNode(imageNamed: defaultButtonImage)
         activeButton = SKSpriteNode(imageNamed: activeButtonImage)
         activeButton.isHidden = true
@@ -31,12 +33,14 @@ class Button: SKNode {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    override func touchesBegan(_ touches: Set<UITouch>,
+                               with event: UIEvent?) {
         activeButton.isHidden = false
         defaultButton.isHidden = true
     }
     
-    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+    override func touchesMoved(_ touches: Set<UITouch>,
+                               with event: UIEvent?) {
         for touch in touches {
             let location = touch.location(in: self)
             
@@ -50,7 +54,8 @@ class Button: SKNode {
         }
     }
     
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+    override func touchesEnded(_ touches: Set<UITouch>,
+                               with event: UIEvent?) {
         for touch in touches {
             let location = touch.location(in: self)
             
