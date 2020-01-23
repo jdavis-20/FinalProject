@@ -26,6 +26,11 @@
 		2536DE2523882B34000FC136 /* play.png in Resources */ = {isa = PBXBuildFile; fileRef = 2536DE2223882B34000FC136 /* play.png */; };
 		2536DE2623882B34000FC136 /* player.png in Resources */ = {isa = PBXBuildFile; fileRef = 2536DE2323882B34000FC136 /* player.png */; };
 		2536DE2823882E8D000FC136 /* playerback.png in Resources */ = {isa = PBXBuildFile; fileRef = 2536DE2723882E8C000FC136 /* playerback.png */; };
+		253A1C872392C2BA00CBECB9 /* tempicon.png in Resources */ = {isa = PBXBuildFile; fileRef = 253A1C852392C2B900CBECB9 /* tempicon.png */; };
+		253A1C882392C2BA00CBECB9 /* tempiconsmall.png in Resources */ = {isa = PBXBuildFile; fileRef = 253A1C862392C2B900CBECB9 /* tempiconsmall.png */; };
+		253A1C8A2392C3B400CBECB9 /* tempiconsmall2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 253A1C892392C3B300CBECB9 /* tempiconsmall2x.png */; };
+		253A1C8E2392C4DF00CBECB9 /* tempiconsmalliPad2xios9.png in Resources */ = {isa = PBXBuildFile; fileRef = 253A1C8C2392C4DE00CBECB9 /* tempiconsmalliPad2xios9.png */; };
+		253A1C8F2392C4DF00CBECB9 /* tempiconiPad2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 253A1C8D2392C4DF00CBECB9 /* tempiconiPad2x.png */; };
 		2561E94023548BFC00B23812 /* LevelSelectScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2561E93F23548BFC00B23812 /* LevelSelectScene.swift */; };
 		2561E94223548C0F00B23812 /* LevelSelectScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 2561E94123548C0F00B23812 /* LevelSelectScene.sks */; };
 		2561E9442354C58000B23812 /* Level2Scene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 2561E9432354C58000B23812 /* Level2Scene.sks */; };
@@ -34,6 +39,8 @@
 		2561E94A2354C5AA00B23812 /* Level3Scene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2561E9492354C5AA00B23812 /* Level3Scene.swift */; };
 		25642EF5235373C100650F9C /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25642EF4235373C100650F9C /* MenuScene.swift */; };
 		25642EF7235373E500650F9C /* MenuScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 25642EF6235373E500650F9C /* MenuScene.sks */; };
+		2585FCCE23D9C919005926F5 /* Level4Scene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 2585FCCD23D9C919005926F5 /* Level4Scene.sks */; };
+		2585FCD023D9C935005926F5 /* Level4Scene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2585FCCF23D9C935005926F5 /* Level4Scene.swift */; };
 		25B9C4182374C07F00BAFC36 /* Enemy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25B9C4172374C07F00BAFC36 /* Enemy.swift */; };
 		25C97990238D8744001865CC /* GameData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25C9798F238D8744001865CC /* GameData.swift */; };
 		25EE37F62367438E00C30E82 /* Menu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25EE37F52367438E00C30E82 /* Menu.swift */; };
@@ -82,6 +89,11 @@
 		2536DE2223882B34000FC136 /* play.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = play.png; path = "../../../../Uni Projects/2019-20/Project/Temp Assets/play.png"; sourceTree = "<group>"; };
 		2536DE2323882B34000FC136 /* player.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = player.png; path = "../../../../Uni Projects/2019-20/Project/Temp Assets/player.png"; sourceTree = "<group>"; };
 		2536DE2723882E8C000FC136 /* playerback.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = playerback.png; sourceTree = "<group>"; };
+		253A1C852392C2B900CBECB9 /* tempicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tempicon.png; sourceTree = "<group>"; };
+		253A1C862392C2B900CBECB9 /* tempiconsmall.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tempiconsmall.png; sourceTree = "<group>"; };
+		253A1C892392C3B300CBECB9 /* tempiconsmall2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tempiconsmall2x.png; sourceTree = "<group>"; };
+		253A1C8C2392C4DE00CBECB9 /* tempiconsmalliPad2xios9.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tempiconsmalliPad2xios9.png; sourceTree = "<group>"; };
+		253A1C8D2392C4DF00CBECB9 /* tempiconiPad2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tempiconiPad2x.png; sourceTree = "<group>"; };
 		2561E93F23548BFC00B23812 /* LevelSelectScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelSelectScene.swift; sourceTree = "<group>"; };
 		2561E94123548C0F00B23812 /* LevelSelectScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = LevelSelectScene.sks; sourceTree = "<group>"; };
 		2561E9432354C58000B23812 /* Level2Scene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Level2Scene.sks; sourceTree = "<group>"; };
@@ -90,6 +102,8 @@
 		2561E9492354C5AA00B23812 /* Level3Scene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Level3Scene.swift; sourceTree = "<group>"; };
 		25642EF4235373C100650F9C /* MenuScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
 		25642EF6235373E500650F9C /* MenuScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MenuScene.sks; sourceTree = "<group>"; };
+		2585FCCD23D9C919005926F5 /* Level4Scene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Level4Scene.sks; sourceTree = "<group>"; };
+		2585FCCF23D9C935005926F5 /* Level4Scene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Level4Scene.swift; sourceTree = "<group>"; };
 		25B9C4172374C07F00BAFC36 /* Enemy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enemy.swift; sourceTree = "<group>"; };
 		25C9798F238D8744001865CC /* GameData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameData.swift; sourceTree = "<group>"; };
 		25EE37F52367438E00C30E82 /* Menu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Menu.swift; sourceTree = "<group>"; };
@@ -191,6 +205,7 @@
 		25105E88235322CB00CAC3AE /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				253A1C8B2392C3C200CBECB9 /* Icons */,
 				2536DE2723882E8C000FC136 /* playerback.png */,
 				2536DE2123882B34000FC136 /* enemy.png */,
 				2536DE2223882B34000FC136 /* play.png */,
@@ -200,6 +215,18 @@
 			);
 			name = Images;
 			path = "New Group";
+			sourceTree = "<group>";
+		};
+		253A1C8B2392C3C200CBECB9 /* Icons */ = {
+			isa = PBXGroup;
+			children = (
+				253A1C8D2392C4DF00CBECB9 /* tempiconiPad2x.png */,
+				253A1C8C2392C4DE00CBECB9 /* tempiconsmalliPad2xios9.png */,
+				253A1C852392C2B900CBECB9 /* tempicon.png */,
+				253A1C892392C3B300CBECB9 /* tempiconsmall2x.png */,
+				253A1C862392C2B900CBECB9 /* tempiconsmall.png */,
+			);
+			path = Icons;
 			sourceTree = "<group>";
 		};
 		2561E93C2354892F00B23812 /* Scenes */ = {
@@ -231,6 +258,8 @@
 				2561E9452354C59000B23812 /* Level2Scene.swift */,
 				2561E9472354C5A000B23812 /* Level3Scene.sks */,
 				2561E9492354C5AA00B23812 /* Level3Scene.swift */,
+				2585FCCD23D9C919005926F5 /* Level4Scene.sks */,
+				2585FCCF23D9C935005926F5 /* Level4Scene.swift */,
 			);
 			path = Levels;
 			sourceTree = "<group>";
@@ -342,21 +371,27 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				253A1C8A2392C3B400CBECB9 /* tempiconsmall2x.png in Resources */,
 				2536DE2623882B34000FC136 /* player.png in Resources */,
 				25105E4923521E2900CAC3AE /* Main.storyboard in Resources */,
 				2561E94223548C0F00B23812 /* LevelSelectScene.sks in Resources */,
 				2536DE2423882B34000FC136 /* enemy.png in Resources */,
 				25105E85235322B900CAC3AE /* button.png in Resources */,
 				25642EF7235373E500650F9C /* MenuScene.sks in Resources */,
+				253A1C8E2392C4DF00CBECB9 /* tempiconsmalliPad2xios9.png in Resources */,
+				253A1C8F2392C4DF00CBECB9 /* tempiconiPad2x.png in Resources */,
 				2536DE2823882E8D000FC136 /* playerback.png in Resources */,
 				25105E8E2353386700CAC3AE /* Level1Scene.sks in Resources */,
 				25105E4B23521E2900CAC3AE /* Assets.xcassets in Resources */,
+				253A1C882392C2BA00CBECB9 /* tempiconsmall.png in Resources */,
 				2561E9482354C5A000B23812 /* Level3Scene.sks in Resources */,
 				25105E4E23521E2900CAC3AE /* LaunchScreen.storyboard in Resources */,
 				25105E83235322B500CAC3AE /* button_active.png in Resources */,
 				2561E9442354C58000B23812 /* Level2Scene.sks in Resources */,
 				2536DE2523882B34000FC136 /* play.png in Resources */,
+				253A1C872392C2BA00CBECB9 /* tempicon.png in Resources */,
 				25105E4223521E2900CAC3AE /* Actions.sks in Resources */,
+				2585FCCE23D9C919005926F5 /* Level4Scene.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -391,6 +426,7 @@
 				25105E7C2353227900CAC3AE /* Wall.swift in Sources */,
 				25EE37F62367438E00C30E82 /* Menu.swift in Sources */,
 				25105E8C2353384300CAC3AE /* Level1Scene.swift in Sources */,
+				2585FCD023D9C935005926F5 /* Level4Scene.swift in Sources */,
 				25642EF5235373C100650F9C /* MenuScene.swift in Sources */,
 				25105E3E23521E2900CAC3AE /* AppDelegate.swift in Sources */,
 				2561E94023548BFC00B23812 /* LevelSelectScene.swift in Sources */,

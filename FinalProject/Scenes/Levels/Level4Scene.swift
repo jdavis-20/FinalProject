@@ -1,20 +1,20 @@
 //
-//  Level3Scene.swift
+//  Level4Scene.swift
 //  FinalProject
 //
-//  Created by Julian Davis on 10/14/19.
-//  Copyright © 2019 Julian Davis. All rights reserved.
+//  Created by Julian Davis on 1/23/20.
+//  Copyright © 2020 Julian Davis. All rights reserved.
 //
 
 import SpriteKit
 import CoreMotion
 import AudioToolbox
 
-var level3Label = SKLabelNode(text: "Level 3")
+var level4Label = SKLabelNode(text: "Level 3")
 
-class Level3Scene: GameScene {
+class Level4Scene: GameScene {
     override func didMove(to view: SKView) {
-        level3Label.position = CGPoint(x:(frame.size.width / 2),
+        level4Label.position = CGPoint(x:(frame.size.width / 2),
                                        y:(frame.size.height / 4))
         
         let leftWall: Wall =
@@ -52,3 +52,4 @@ class Level3Scene: GameScene {
         super.didMove(to: view)
     }
 }
+
