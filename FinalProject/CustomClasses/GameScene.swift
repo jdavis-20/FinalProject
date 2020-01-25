@@ -103,16 +103,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let startButton = Button(defaultButtonImage: "button",
                                  activeButtonImage: "button_active",
                                  buttonAction: startGame)
-        startButton.position = CGPoint(x: (frame.size.width / 2),
-                                       y: (frame.size.height / 4))
+        startButton.position = CGPoint(x: 0,
+                                       y: (frame.size.height / 2))
         addChild(startButton)
 
         
         //player-----------------------------------------------------------------------------------------------------------
         
         player = SKSpriteNode(imageNamed: "player")
-        player.position = CGPoint(x: (frame.size.width / 2),
-                                  y: (frame.size.height / 2))
+        player.position = CGPoint(x: 0,
+                                  y: 0)
         player.name = "player"
         
         player.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: player.size.width,
@@ -158,7 +158,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     if (data.acceleration.y > 0.1 ||
                         data.acceleration.y < -0.1) {
                         
-                        destX = CGFloat((data.acceleration.y) * 350)
+                        destX = CGFloat((data.acceleration.y) * 400)
                         //RIGHT
                         if (data.acceleration.y > 0.1){
                             playerXDirection = "right"
@@ -179,7 +179,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     if ((-data.acceleration.x + preferredTilt!) > 0.1 ||
                         (-data.acceleration.x + preferredTilt!) < -0.1) {
                         
-                        destY = CGFloat((-data.acceleration.x + preferredTilt!) * 350)
+                        destY = CGFloat((-data.acceleration.x + preferredTilt!) * 400)
                         //UP
                         if ((-data.acceleration.x + preferredTilt!) > 0.1) {
                             playerYDirection = "up"

@@ -10,12 +10,15 @@ import SpriteKit
 import CoreMotion
 import AudioToolbox
 
-var level4Label = SKLabelNode(text: "Level 3")
+var level4Label = SKLabelNode()
 
 class Level4Scene: GameScene {
     override func didMove(to view: SKView) {
-        level4Label.position = CGPoint(x:(frame.size.width / 2),
-                                       y:(frame.size.height / 4))
+        level4Label.text = "Level 4"
+        level4Label.fontSize = 30
+        level4Label.zPosition = 5
+        level4Label.position = CGPoint(x:0, y:0)
+        self.addChild(level4Label)
         
         let leftWall: Wall =
             Wall(height: 400.0,
