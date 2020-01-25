@@ -29,9 +29,6 @@ class Level1Scene: GameScene {
         }
         
     
-        //labels not working?
-    
-    
         
 
         
