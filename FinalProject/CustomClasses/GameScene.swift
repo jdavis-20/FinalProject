@@ -155,8 +155,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 
                 if started == true {
                     //tilt moves, X
-                    if (data.acceleration.y > 0.1 ||
-                        data.acceleration.y < -0.1) {
+                    if (data.acceleration.y > 0.08 ||
+                        data.acceleration.y < -0.08) {
                         
                         destX = CGFloat((data.acceleration.y) * 400)
                         //RIGHT
@@ -176,16 +176,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     }
                     
                     //tilt moves, Y
-                    if ((-data.acceleration.x + preferredTilt!) > 0.1 ||
-                        (-data.acceleration.x + preferredTilt!) < -0.1) {
+                    if ((-data.acceleration.x + preferredTilt!) > 0.08 ||
+                        (-data.acceleration.x + preferredTilt!) < -0.08) {
                         
-                        destY = CGFloat((-data.acceleration.x + preferredTilt!) * 400)
                         //UP
                         if ((-data.acceleration.x + preferredTilt!) > 0.1) {
+                            destY = CGFloat((-data.acceleration.x + preferredTilt!) * 400)
                             playerYDirection = "up"
                         }
                         //DOWN
                         if ((-data.acceleration.x + preferredTilt!) < -0.1) {
+                            destY = CGFloat((-data.acceleration.x + preferredTilt!) * 450)
                             playerYDirection = "down"
                         }
                     }
