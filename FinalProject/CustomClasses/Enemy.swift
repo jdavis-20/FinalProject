@@ -33,13 +33,10 @@ class Enemy: SKNode {
         enemyNode.physicsBody?.contactTestBitMask = 0x00000001
         enemyNode.position = position
         
-        path.move(to: CGPoint(x: 0, y: 0))
-        path.addLine(to: CGPoint(x: 0, y: 100))
-        path.addLine(to: CGPoint(x: 100, y: 100))
-        path.addLine(to: CGPoint(x: 100, y: 0))
-        path.addLine(to: CGPoint(x: 0, y: 0))
+        path.move(to: CGPoint(x: -50, y: 0))
+        path.addLine(to: CGPoint(x: 50, y: 0))
+        path.addLine(to: CGPoint(x: -50, y: 0))
         
-
         super.init()
         
         self.addChild(enemyNode)

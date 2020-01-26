@@ -14,12 +14,12 @@ class MazeWall: SKSpriteNode {
     func setWallPhysics() {
         self.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: self.size.width,
                                                                  height: self.size.height))
-        self.name = "wall" //change to individual names later?
+//        self.name = "wall" //change to individual names later?
         
         self.physicsBody?.isDynamic = false
         self.physicsBody?.restitution = 1
         self.physicsBody?.categoryBitMask = 0x00000001
-        print("init maze wall")
+//        print("init maze wall")
     }
     
 

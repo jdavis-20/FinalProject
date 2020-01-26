@@ -104,7 +104,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                                  activeButtonImage: "button_active",
                                  buttonAction: startGame)
         startButton.position = CGPoint(x: 0,
-                                       y: (frame.size.height / 2))
+                                       y: (frame.size.height / 4))
         addChild(startButton)
 
         
@@ -130,10 +130,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         //enemy---------------------------------------------------------------------------------------------------------
         
-        let enemy = Enemy(image: "enemy", position: CGPoint(x: (frame.size.width / 3),
-                                                            y: (frame.size.height / 3)))
+        let enemy = Enemy(image: "enemy", position: CGPoint(x: 0,
+                                                            y: (frame.size.height * (3/8))))
         addChild(enemy)
-        enemy.movement()
+        
+        if (started == true) {
+            enemy.movement()
+        }
         
         
         //accelerometer data--------------------------------------------------------------------------------------------

@@ -22,7 +22,7 @@ class Level1Scene: GameScene {
         self.addChild(level1Label)
         
         // runs through all nodes in the scene, finds those with a specific name and sets the physics for them as walls
-        scene!.enumerateChildNodes(withName: "SKSpriteNode") {
+        scene!.enumerateChildNodes(withName: "MazeWall") {
             (node, stop) in
             let mazeNode = node as? MazeWall
             mazeNode?.setWallPhysics()
