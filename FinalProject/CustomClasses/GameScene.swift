@@ -58,11 +58,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     //button on the in-game menu, currently quits to the main menu--------------------------------------------------------
     
     func testButton(){
-        print("test menu button pressed")
+        print("main menu button pressed")
         //TODO: fix scene switch crash
-        //let menuScene = SKScene(fileNamed: "MenuScene")
-        //let transition: SKTransition = SKTransition.fade(withDuration: 1)
-        //self.view?.presentScene(menuScene!, transition: transition)
+        let menuScene = SKScene(fileNamed: "MenuScene")
+        let transition: SKTransition = SKTransition.fade(withDuration: 1)
+        self.view?.presentScene(menuScene!, transition: transition)
+        self.removeAllChildren()
+        self.removeAllActions()
     }
     
     
@@ -168,11 +170,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         
                         destX = CGFloat((data.acceleration.y) * 450) // left and right speed
                         // RIGHT
-                        if (data.acceleration.y > 0.1){
+                        if (data.acceleration.y > 0.06){
                             playerXDirection = "right"
                         }
                         // LEFT
-                        if (data.acceleration.y < -0.1){
+                        if (data.acceleration.y < -0.06){
                             playerXDirection = "left"
                         }
                     }
@@ -188,12 +190,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         (-data.acceleration.x + preferredTilt!) < -0.06) {
                         
                         // UP
-                        if ((-data.acceleration.x + preferredTilt!) > 0.1) {
+                        if ((-data.acceleration.x + preferredTilt!) > 0.06) {
                             destY = CGFloat((-data.acceleration.x + preferredTilt!) * 450) // up speed
                             playerYDirection = "up"
                         }
                         // DOWN
-                        if ((-data.acceleration.x + preferredTilt!) < -0.1) {
+                        if ((-data.acceleration.x + preferredTilt!) < -0.06) {
                             destY = CGFloat((-data.acceleration.x + preferredTilt!) * 550) // down speed
                             //(this is faster because tilting down moves the screen out of the player's view
                             playerYDirection = "down"

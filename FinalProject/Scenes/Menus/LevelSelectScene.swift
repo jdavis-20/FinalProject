@@ -22,6 +22,10 @@ class LevelSelectScene : SKScene {
         l2label.fontColor = .black
         l3label.fontColor = .black
         l4label.fontColor = .black
+        l1label.verticalAlignmentMode = .center
+        l2label.verticalAlignmentMode = .center
+        l3label.verticalAlignmentMode = .center
+        l4label.verticalAlignmentMode = .center
         l1label.zPosition = 2
         l2label.zPosition = 2
         l3label.zPosition = 2
@@ -45,18 +49,26 @@ class LevelSelectScene : SKScene {
         func playL1(){
             self.view?.presentScene(l1scene!,
                                     transition: transition)
+            self.removeAllChildren()
+            self.removeAllActions()
         }
         func playL2(){
             self.view?.presentScene(l2scene!,
                                     transition: transition)
+            self.removeAllChildren()
+            self.removeAllActions()
         }
         func playL3(){
             self.view?.presentScene(l3scene!,
                                     transition: transition)
+            self.removeAllChildren()
+            self.removeAllActions()
         }
         func playL4(){
             self.view?.presentScene(l4scene!,
                                     transition: transition)
+            self.removeAllChildren()
+            self.removeAllActions()
         }
         
         //buttons to trigger functions

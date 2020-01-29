@@ -27,6 +27,8 @@ class MenuScene: SKScene {
         func levelSelect(){
             self.view?.presentScene(scene!,
                                     transition: transition)
+            self.removeAllChildren()
+            self.removeAllActions()
         }
         
         //button triggers actual transition
