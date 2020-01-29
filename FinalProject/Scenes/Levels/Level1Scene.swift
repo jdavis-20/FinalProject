@@ -19,7 +19,7 @@ class Level1Scene: GameScene {
         level1Label.fontSize = 30
         level1Label.zPosition = 5
         level1Label.position = CGPoint(x:0, y:0)
-        self.addChild(level1Label)
+        addChild(level1Label)
         
         // runs through all nodes in the scene, finds those with a specific name and sets the physics for them as walls
         scene!.enumerateChildNodes(withName: "MazeWall") {

@@ -12,6 +12,7 @@ import AudioToolbox
 import UIKit
 
 //nodes
+let worldNode = SKNode()
 var camera = SKCameraNode()
 var manager = CMMotionManager()
 var player = SKSpriteNode()
@@ -72,6 +73,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //let zoomOut = SKAction.scale(by: 2, duration: 1)
         //camera!.run(zoomOut)
         
+        // only nodes that are children of worldNode will be paused
+        addChild(worldNode)
+        
         //menu setup
         testMenu = Menu(/*position: "right",*/
                         screenHeight: frame.size.height,
@@ -126,14 +130,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         player.physicsBody?.restitution = 1
         player.physicsBody?.contactTestBitMask = 0x00000001
         
-        addChild(player)
+        worldNode.addChild(player)
         
         
         //enemy---------------------------------------------------------------------------------------------------------
         
         let enemy = Enemy(image: "enemy", position: CGPoint(x: 0,
                                                             y: (frame.size.height * (3/8))))
-        addChild(enemy)
+        worldNode.addChild(enemy)
         
         if (started == true) {
             enemy.movement()
@@ -158,39 +162,40 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
                 
                 if started == true {
-                    //tilt moves, X
-                    if (data.acceleration.y > 0.08 ||
-                        data.acceleration.y < -0.08) {
+                    // tilt moves, X
+                    if (data.acceleration.y > 0.06 ||
+                        data.acceleration.y < -0.06) {
                         
-                        destX = CGFloat((data.acceleration.y) * 400)
-                        //RIGHT
+                        destX = CGFloat((data.acceleration.y) * 450) // left and right speed
+                        // RIGHT
                         if (data.acceleration.y > 0.1){
                             playerXDirection = "right"
                         }
-                        //LEFT
+                        // LEFT
                         if (data.acceleration.y < -0.1){
                             playerXDirection = "left"
                         }
                     }
                         
-                    //tilt doesn't move, X
+                    // tilt doesn't move, X
                     else {
                         destX = CGFloat(0)
                         playerXDirection = "still"
                     }
                     
-                    //tilt moves, Y
-                    if ((-data.acceleration.x + preferredTilt!) > 0.08 ||
-                        (-data.acceleration.x + preferredTilt!) < -0.08) {
+                    // tilt moves, Y
+                    if ((-data.acceleration.x + preferredTilt!) > 0.06 ||
+                        (-data.acceleration.x + preferredTilt!) < -0.06) {
                         
-                        //UP
+                        // UP
                         if ((-data.acceleration.x + preferredTilt!) > 0.1) {
-                            destY = CGFloat((-data.acceleration.x + preferredTilt!) * 400)
+                            destY = CGFloat((-data.acceleration.x + preferredTilt!) * 450) // up speed
                             playerYDirection = "up"
                         }
-                        //DOWN
+                        // DOWN
                         if ((-data.acceleration.x + preferredTilt!) < -0.1) {
-                            destY = CGFloat((-data.acceleration.x + preferredTilt!) * 450)
+                            destY = CGFloat((-data.acceleration.x + preferredTilt!) * 550) // down speed
+                            //(this is faster because tilting down moves the screen out of the player's view
                             playerYDirection = "down"
                         }
                     }
@@ -224,13 +229,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if sender.direction == .left {
                 print("left swipe")
                 testMenu.run(enterAction)
-                scene?.view?.isPaused = true
+                worldNode.isPaused = true
+                physicsWorld.speed = 0
                 menuOut = true
         }
         if sender.direction == .right{
                 print("right swipe")
                 testMenu.run(leaveAction)
-                scene?.view?.isPaused = false
+                worldNode.isPaused = false
+                physicsWorld.speed = 1
                 menuOut = false
         }
     }
