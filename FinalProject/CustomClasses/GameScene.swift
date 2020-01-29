@@ -68,6 +68,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     //executes when the scene is first loaded------------------------------------------------------------------------------
     
     override func didMove(to view: SKView) {
+        // This was to see where the menu was in the overall view, leaving for potential future use
         //let zoomOut = SKAction.scale(by: 2, duration: 1)
         //camera!.run(zoomOut)
         
@@ -223,11 +224,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if sender.direction == .left {
                 print("left swipe")
                 testMenu.run(enterAction)
+                scene?.view?.isPaused = true
                 menuOut = true
         }
         if sender.direction == .right{
                 print("right swipe")
                 testMenu.run(leaveAction)
+                scene?.view?.isPaused = false
                 menuOut = false
         }
     }
