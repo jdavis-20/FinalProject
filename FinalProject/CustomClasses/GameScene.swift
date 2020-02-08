@@ -11,21 +11,22 @@ import CoreMotion
 import AudioToolbox
 import UIKit
 
-//nodes
+// nodes
 let worldNode = SKNode()
 var camera = SKCameraNode()
 var manager = CMMotionManager()
 var player = SKSpriteNode()
+let enemy = Enemy(image: "enemy", position: CGPoint(x: 0, y: 0))
 var testMenu =  Menu(/*position: "right",*/
                      screenHeight: 375,
                      screenWidth: 667)
 
-//orientation
+// orientation
 var preferredTilt: Double?
 var destX: CGFloat = 0.0
 var destY: CGFloat = 0.0
 
-//game state values
+// game state values
 var started = false
 public var playerHealth: Int = 10
 var playerAlive = true
@@ -33,25 +34,25 @@ var playerYDirection = "up"
 var playerXDirection = "still"
 var menuOut = true
 
-//movement and animation
+// movement and animation
 let path = UIBezierPath()
-let away = SKAction.setTexture(SKTexture(imageNamed: "playerback"))
-let towards = SKAction.setTexture(SKTexture(imageNamed: "player"))
+let away = SKAction.setTexture(SKTexture(imageNamed: "BlueFront"))
+let towards = SKAction.setTexture(SKTexture(imageNamed: "RedFront"))
 
 
-//this is the superclass to all game levels----------------------------------------------------------------------------------
-//it contains fundamental mechanics and anything that needs to persist across levels----------------------------------------
+//  this is the superclass to all game levels----------------------------------------------------------------------------------
+// it contains fundamental mechanics and anything that needs to persist across levels----------------------------------------
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func startGame(){
-        //started variable triggers when start button is pressed, sets tilt
+        // started variable triggers when start button is pressed, sets tilt
         started = true
         print(testMenu.position)
         
-        //TODO: vibration response
-        //AudioServicesPlaySystemSound(1520)
-        //AudioServicesPlayAlertSound(kSystemSoundID_Vibrate)
+        // TODO: vibration response
+        // AudioServicesPlaySystemSound(1520)
+        // AudioServicesPlayAlertSound(kSystemSoundID_Vibrate)
     }
     
     
@@ -59,7 +60,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func testButton(){
         print("main menu button pressed")
-        //TODO: fix scene switch crash
         let menuScene = SKScene(fileNamed: "MenuScene")
         let transition: SKTransition = SKTransition.fade(withDuration: 1)
         self.view?.presentScene(menuScene!, transition: transition)
@@ -73,8 +73,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func didMove(to view: SKView) {
         // This was to see where the menu was in the overall view, leaving for potential future use
-        //let zoomOut = SKAction.scale(by: 2, duration: 1)
-        //camera!.run(zoomOut)
+        // let zoomOut = SKAction.scale(by: 2, duration: 1)
+        // camera!.run(zoomOut)
         
         // only nodes that are children of worldNode will be paused
         addChild(worldNode)
@@ -93,7 +93,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                                           y: 0)
         testMenu.addChild(testMenuButton)
         
-        //prep for swipe detection
+        // prep for swipe detection
         let leftRecognizer = UISwipeGestureRecognizer(target: self,
                                                       action: #selector(swipeMade(_:)))
         leftRecognizer.direction = .left
@@ -104,10 +104,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         rightRecognizer.direction = .right
         self.view!.addGestureRecognizer(rightRecognizer)
         
-        //physics contact delegate
+        // physics contact delegate
         physicsWorld.contactDelegate = self
         
-        //start gameplay within the level button
+        // start gameplay within the level button
         let startButton = Button(defaultButtonImage: "button",
                                  activeButtonImage: "button_active",
                                  buttonAction: startGame)
@@ -116,9 +116,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         addChild(startButton)
 
         
-        //player-----------------------------------------------------------------------------------------------------------
+        // player-----------------------------------------------------------------------------------------------------------
         
-        player = SKSpriteNode(imageNamed: "player")
+        player = SKSpriteNode(imageNamed: "RedFront")
         player.position = CGPoint(x: 0,
                                   y: 0)
         player.name = "player"
@@ -136,18 +136,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         worldNode.addChild(player)
         
         
-        //enemy---------------------------------------------------------------------------------------------------------
+        // enemy---------------------------------------------------------------------------------------------------------
         
-        let enemy = Enemy(image: "enemy", position: CGPoint(x: 0,
-                                                            y: (frame.size.height * (3/8))))
+
         worldNode.addChild(enemy)
         
-        if (started == true) {
-            enemy.movement()
-        }
+//        if (started == true) {
+//            enemy.movement()
+//        }
         
         
-        //accelerometer data--------------------------------------------------------------------------------------------
+        // accelerometer data--------------------------------------------------------------------------------------------
         
         if manager.isAccelerometerAvailable {
             manager.accelerometerUpdateInterval = 0.01
@@ -203,14 +202,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         }
                     }
                         
-                    //tilt doesn't move, Y
+                    // tilt doesn't move, Y
                     else {
                         destY = CGFloat(0)
                         playerYDirection = "still"
                     }
                 }
                     
-                //tilt cannot move player before start button is pressed
+                // tilt cannot move player before start button is pressed
                 else if started == false {
                     destX = CGFloat(0)
                     destY = CGFloat(0)
@@ -220,7 +219,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     
-    //triggers when a swipe is detected------------------------------------------------------------------------------------
+    // triggers when a swipe is detected------------------------------------------------------------------------------------
     
     @IBAction func swipeMade(_ sender: UISwipeGestureRecognizer) {
         //menu in and out (origin of menu object is at 0,0 not at the origin of the rectangle)
@@ -246,7 +245,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     
-    //collision detection------------------------------------------------------------------------------------------------
+    // collision detection------------------------------------------------------------------------------------------------
     
     func didBegin(_ contact: SKPhysicsContact){
         
@@ -255,7 +254,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             print("COLLISION: \n  bodyA is \(contactA.node?.name!)\n  bodyB is \(contactB.node?.name!)")
         }
-        //prints the names of items involved in a collision
+        // prints the names of items involved in a collision
         if (contact.bodyA.node != nil) &&
             (contact.bodyB.node != nil) {
             
@@ -267,13 +266,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             describeCollision(contactA: contact.bodyA,
                               contactB: contact.bodyB)
             
-            //player collision with wall
+            // player collision with wall
             if (bName == "player") &&
                 (aName == "wall") {
 //                print("player collided with wall")
                 }
             
-            //player touches an enemy (can be initiated by either body)
+            // player touches an enemy (can be initiated by either body)
             if ((bName == "player") && (aName == "enemy")) ||
                 ((bName == "enemy") && (aName == "player")) {
                 playerHealth -= 1
@@ -285,26 +284,34 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
             }
             
-            //item collision (currently can be initiated by either body, because items may move)
+            // item collision (currently can be initiated by either body, because items may move)
             if ((bName == "player") && (aName == "item")) {
                 aNode?.removeFromParent()
             }
             if ((aName == "player") && (bName == "item")) {
                 bNode?.removeFromParent()
             }
+            
+            // TODO: trying enemy movement stuff
+            if (aName == "wall" && bName == "enemy") {
+                bNode?.zRotation = .pi
+            }
+            if (aName == "enemy" && bName == "wall") {
+                aNode?.zRotation = .pi
+            }
         }
     }
     
    
-    //called every frame when not paused-----------------------------------------------------------------------------------
+    // called every frame when not paused-----------------------------------------------------------------------------------
     
     override func didSimulatePhysics() {
         //camera follows player sprite
         camera?.position.x = player.position.x
         camera?.position.y = player.position.y
         
-        //texture changes for the direction the player character is facing
-        //TODO: add "still" positions
+        // texture changes for the direction the player character is facing
+        // TODO: add "still" positions
         if playerYDirection == "up"{
             player.run(away)
             
@@ -328,11 +335,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     
-    //called every frame--------------------------------------------------------------------------------------------------
+    // called every frame--------------------------------------------------------------------------------------------------
     
     override func update(_ currentTime: TimeInterval) {
-        //player movement based on tilt
+        // player movement based on tilt
         player.physicsBody!.velocity = CGVector(dx: destX,
                                                 dy: destY)
+        // TODO: enemy moves in rotation direciton?
+        enemy.position = CGPoint(x: enemy.position.x + cos(enemy.zRotation) * 10,
+                                 y: enemy.position.y + sin(enemy.zRotation) * 10)
     }
 }
