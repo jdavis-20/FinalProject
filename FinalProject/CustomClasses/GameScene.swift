@@ -63,6 +63,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let menuScene = SKScene(fileNamed: "MenuScene")
         let transition: SKTransition = SKTransition.fade(withDuration: 1)
         self.view?.presentScene(menuScene!, transition: transition)
+        worldNode.removeAllChildren()
         self.removeAllChildren()
         self.removeAllActions()
     }
@@ -129,7 +130,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         player.physicsBody?.isDynamic = true
         player.physicsBody?.mass = 0.8
-        player.physicsBody?.restitution = 1
+        player.physicsBody?.restitution = 0
         player.physicsBody?.contactTestBitMask = 0x00000001
         
         worldNode.addChild(player)
@@ -248,27 +249,33 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     //collision detection------------------------------------------------------------------------------------------------
     
     func didBegin(_ contact: SKPhysicsContact){
+        
         func describeCollision(contactA: SKPhysicsBody,
                                contactB: SKPhysicsBody) {
-            let aName = contactA.node?.name
-            let bName = contactB.node?.name
-            print("COLLISION: \n  bodyA is \(aName!)\n  bodyB is \(bName!)")
+            
+            print("COLLISION: \n  bodyA is \(contactA.node?.name!)\n  bodyB is \(contactB.node?.name!)")
         }
         //prints the names of items involved in a collision
         if (contact.bodyA.node != nil) &&
             (contact.bodyB.node != nil) {
+            
+            let aName = contact.bodyA.node?.name
+            let bName = contact.bodyB.node?.name
+            let aNode = contact.bodyA.node
+            let bNode = contact.bodyB.node
+            
             describeCollision(contactA: contact.bodyA,
                               contactB: contact.bodyB)
+            
             //player collision with wall
-            if (contact.bodyB.node?.name == "player") &&
-                (contact.bodyA.node?.name == "wall") {
-                print("player collided with wall")
+            if (bName == "player") &&
+                (aName == "wall") {
+//                print("player collided with wall")
                 }
+            
             //player touches an enemy (can be initiated by either body)
-            if ((contact.bodyB.node?.name == "player") &&
-                (contact.bodyA.node?.name == "enemy")) ||
-                ((contact.bodyB.node?.name == "enemy") &&
-                (contact.bodyA.node?.name == "player")) {
+            if ((bName == "player") && (aName == "enemy")) ||
+                ((bName == "enemy") && (aName == "player")) {
                 playerHealth -= 1
                 print("player touched enemy")
                 //death condition (may need to be moved later)
@@ -276,6 +283,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     playerAlive = false
                     print("player died")
                 }
+            }
+            
+            //item collision (currently can be initiated by either body, because items may move)
+            if ((bName == "player") && (aName == "item")) {
+                aNode?.removeFromParent()
+            }
+            if ((aName == "player") && (bName == "item")) {
+                bNode?.removeFromParent()
             }
         }
     }
@@ -285,8 +300,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func didSimulatePhysics() {
         //camera follows player sprite
-        camera!.position.x = player.position.x
-        camera!.position.y = player.position.y
+        camera?.position.x = player.position.x
+        camera?.position.y = player.position.y
         
         //texture changes for the direction the player character is facing
         //TODO: add "still" positions

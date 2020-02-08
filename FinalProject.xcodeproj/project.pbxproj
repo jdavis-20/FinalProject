@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2506F6C523E31C4200F639D3 /* item_temp.png in Resources */ = {isa = PBXBuildFile; fileRef = 2506F6C423E31C4200F639D3 /* item_temp.png */; };
 		25105E3E23521E2900CAC3AE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25105E3D23521E2900CAC3AE /* AppDelegate.swift */; };
 		25105E4223521E2900CAC3AE /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 25105E4123521E2900CAC3AE /* Actions.sks */; };
 		25105E4423521E2900CAC3AE /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25105E4323521E2900CAC3AE /* GameScene.swift */; };
@@ -38,6 +39,7 @@
 		2561E9462354C59000B23812 /* Level2Scene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2561E9452354C59000B23812 /* Level2Scene.swift */; };
 		2561E9482354C5A000B23812 /* Level3Scene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 2561E9472354C5A000B23812 /* Level3Scene.sks */; };
 		2561E94A2354C5AA00B23812 /* Level3Scene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2561E9492354C5AA00B23812 /* Level3Scene.swift */; };
+		2563DFE023E1ED380099B21D /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2563DFDF23E1ED380099B21D /* Item.swift */; };
 		25642EF5235373C100650F9C /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25642EF4235373C100650F9C /* MenuScene.swift */; };
 		25642EF7235373E500650F9C /* MenuScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 25642EF6235373E500650F9C /* MenuScene.sks */; };
 		2585FCCE23D9C919005926F5 /* Level4Scene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 2585FCCD23D9C919005926F5 /* Level4Scene.sks */; };
@@ -66,6 +68,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2506F6C423E31C4200F639D3 /* item_temp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = item_temp.png; sourceTree = "<group>"; };
 		25105E3A23521E2900CAC3AE /* FinalProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FinalProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		25105E3D23521E2900CAC3AE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		25105E4123521E2900CAC3AE /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
@@ -103,6 +106,7 @@
 		2561E9452354C59000B23812 /* Level2Scene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Level2Scene.swift; sourceTree = "<group>"; };
 		2561E9472354C5A000B23812 /* Level3Scene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Level3Scene.sks; sourceTree = "<group>"; };
 		2561E9492354C5AA00B23812 /* Level3Scene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Level3Scene.swift; sourceTree = "<group>"; };
+		2563DFDF23E1ED380099B21D /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		25642EF4235373C100650F9C /* MenuScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
 		25642EF6235373E500650F9C /* MenuScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MenuScene.sks; sourceTree = "<group>"; };
 		2585FCCD23D9C919005926F5 /* Level4Scene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Level4Scene.sks; sourceTree = "<group>"; };
@@ -203,6 +207,7 @@
 				252EE1D223DB40440045115B /* MazeWall.swift */,
 				25EE37F52367438E00C30E82 /* Menu.swift */,
 				25B9C4172374C07F00BAFC36 /* Enemy.swift */,
+				2563DFDF23E1ED380099B21D /* Item.swift */,
 			);
 			path = CustomClasses;
 			sourceTree = "<group>";
@@ -212,6 +217,7 @@
 			children = (
 				2585FCD123D9E144005926F5 /* References */,
 				253A1C8B2392C3C200CBECB9 /* Icons */,
+				2506F6C423E31C4200F639D3 /* item_temp.png */,
 				2536DE2723882E8C000FC136 /* playerback.png */,
 				2536DE2123882B34000FC136 /* enemy.png */,
 				2536DE2223882B34000FC136 /* play.png */,
@@ -394,6 +400,7 @@
 				2561E94223548C0F00B23812 /* LevelSelectScene.sks in Resources */,
 				2536DE2423882B34000FC136 /* enemy.png in Resources */,
 				25105E85235322B900CAC3AE /* button.png in Resources */,
+				2506F6C523E31C4200F639D3 /* item_temp.png in Resources */,
 				25642EF7235373E500650F9C /* MenuScene.sks in Resources */,
 				253A1C8E2392C4DF00CBECB9 /* tempiconsmalliPad2xios9.png in Resources */,
 				253A1C8F2392C4DF00CBECB9 /* tempiconiPad2x.png in Resources */,
@@ -438,6 +445,7 @@
 				25105E4423521E2900CAC3AE /* GameScene.swift in Sources */,
 				25B9C4182374C07F00BAFC36 /* Enemy.swift in Sources */,
 				2561E9462354C59000B23812 /* Level2Scene.swift in Sources */,
+				2563DFE023E1ED380099B21D /* Item.swift in Sources */,
 				25C97990238D8744001865CC /* GameData.swift in Sources */,
 				25105E4623521E2900CAC3AE /* GameViewController.swift in Sources */,
 				2561E94A2354C5AA00B23812 /* Level3Scene.swift in Sources */,

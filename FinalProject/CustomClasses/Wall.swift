@@ -27,7 +27,7 @@ class Wall: SKNode {
         wallRect.strokeColor = color
         
         wallRect.physicsBody?.isDynamic = false
-        wallRect.physicsBody?.restitution = 1
+        wallRect.physicsBody?.restitution = 0
         wallRect.physicsBody?.categoryBitMask = 0x00000001
         
         wallRect.position = position
