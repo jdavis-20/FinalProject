@@ -6,7 +6,6 @@
 //  Copyright © 2019 Julian Davis. All rights reserved.
 //
 
-import UIKit
 import SpriteKit
 
 class Enemy: SKNode {

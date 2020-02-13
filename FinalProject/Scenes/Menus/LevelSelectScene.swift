@@ -33,8 +33,10 @@ class LevelSelectScene : SKScene {
         
         //setting up camera
         levelSelectCamera = self.childNode(withName: "levelSelectCamera") as! SKCameraNode
-        levelSelectCamera.position = CGPoint(x: (frame.size.width / 2),
-                                             y: (frame.size.height / 2))
+        levelSelectCamera.position = CGPoint(x: 0,
+                                             y: 0)
+        
+        print(frame.size)
         
         //setting scenes as variables
         var l1scene = SKScene(fileNamed: "Level1Scene")
@@ -72,35 +74,40 @@ class LevelSelectScene : SKScene {
         }
         
         //buttons to trigger functions
-        let l1Button = Button(defaultButtonImage: "button",
-                                 activeButtonImage: "button_active",
+        
+        let l1Button = Button(defaultButtonImage: "yellowplanet",
+                                 activeButtonImage: "yellowplanet",
                                  buttonAction: playL1)
-        l1Button.position = CGPoint(x: (frame.size.width / 5),
-                                    y: (frame.size.height / 2))
+        l1Button.setScale(0.4)
+        l1Button.position = CGPoint(x: (frame.size.width * (-3/8)),
+                                    y: 0)
         addChild(l1Button)
         l1Button.addChild(l1label)
         
-        let l2Button = Button(defaultButtonImage: "button",
-                              activeButtonImage: "button_active",
+        let l2Button = Button(defaultButtonImage: "blueplanet",
+                              activeButtonImage: "blueplanet",
                               buttonAction: playL2)
-        l2Button.position = CGPoint(x: (frame.size.width * (2/5)),
-                                    y: (frame.size.height / 2))
+        l2Button.setScale(0.4)
+        l2Button.position = CGPoint(x: (frame.size.width * (-1/8)),
+                                    y: 0)
         addChild(l2Button)
         l2Button.addChild(l2label)
         
-        let l3Button = Button(defaultButtonImage: "button",
-                              activeButtonImage: "button_active",
+        let l3Button = Button(defaultButtonImage: "purpleplanet",
+                              activeButtonImage: "purpleplanet",
                               buttonAction: playL3)
-        l3Button.position = CGPoint(x: (frame.size.width * (3/5)),
-                                    y: (frame.size.height / 2))
+        l3Button.setScale(0.4)
+        l3Button.position = CGPoint(x: (frame.size.width * (1/8)),
+                                    y: 0)
         addChild(l3Button)
         l3Button.addChild(l3label)
         
-        let l4Button = Button(defaultButtonImage: "button",
-                              activeButtonImage: "button_active",
+        let l4Button = Button(defaultButtonImage: "redplanet",
+                              activeButtonImage: "redplanet",
                               buttonAction: playL4)
-        l4Button.position = CGPoint(x: (frame.size.width * (4/5)),
-                                    y: (frame.size.height / 2))
+        l4Button.setScale(0.4)
+        l4Button.position = CGPoint(x: (frame.size.width * (3/8)),
+                                    y: 0)
         addChild(l4Button)
         l4Button.addChild(l4label)
     }

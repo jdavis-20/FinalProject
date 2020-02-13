@@ -252,7 +252,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         func describeCollision(contactA: SKPhysicsBody,
                                contactB: SKPhysicsBody) {
             
-            print("COLLISION: \n  bodyA is \(contactA.node?.name!)\n  bodyB is \(contactB.node?.name!)")
+            print("COLLISION: \n  bodyA is \(contactA.node?.name! ?? "unidentified")\n  bodyB is \(contactB.node?.name! ?? "unidentified")")
         }
         // prints the names of items involved in a collision
         if (contact.bodyA.node != nil) &&

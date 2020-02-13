@@ -6,8 +6,6 @@
 //  Copyright © 2020 Julian Davis. All rights reserved.
 //
 
-import UIKit
-
 import SpriteKit
 
 class MazeWall: SKSpriteNode {

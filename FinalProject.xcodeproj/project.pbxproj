@@ -23,6 +23,12 @@
 		25105E85235322B900CAC3AE /* button.png in Resources */ = {isa = PBXBuildFile; fileRef = 25105E84235322B900CAC3AE /* button.png */; };
 		25105E8C2353384300CAC3AE /* Level1Scene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25105E8B2353384300CAC3AE /* Level1Scene.swift */; };
 		25105E8E2353386700CAC3AE /* Level1Scene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 25105E8D2353386700CAC3AE /* Level1Scene.sks */; };
+		252CBD2923F4761D00CF40E3 /* sky.png in Resources */ = {isa = PBXBuildFile; fileRef = 252CBD2723F4761D00CF40E3 /* sky.png */; };
+		252CBD2A23F4761D00CF40E3 /* ship (temp).png in Resources */ = {isa = PBXBuildFile; fileRef = 252CBD2823F4761D00CF40E3 /* ship (temp).png */; };
+		252CBD3723F4989800CF40E3 /* redplanet.png in Resources */ = {isa = PBXBuildFile; fileRef = 252CBD3323F4989600CF40E3 /* redplanet.png */; };
+		252CBD3823F4989800CF40E3 /* blueplanet.png in Resources */ = {isa = PBXBuildFile; fileRef = 252CBD3423F4989600CF40E3 /* blueplanet.png */; };
+		252CBD3923F4989800CF40E3 /* yellowplanet.png in Resources */ = {isa = PBXBuildFile; fileRef = 252CBD3523F4989700CF40E3 /* yellowplanet.png */; };
+		252CBD3A23F4989800CF40E3 /* purpleplanet.png in Resources */ = {isa = PBXBuildFile; fileRef = 252CBD3623F4989800CF40E3 /* purpleplanet.png */; };
 		252EE1D323DB40440045115B /* MazeWall.swift in Sources */ = {isa = PBXBuildFile; fileRef = 252EE1D223DB40440045115B /* MazeWall.swift */; };
 		2536DE2823882E8D000FC136 /* playerback.png in Resources */ = {isa = PBXBuildFile; fileRef = 2536DE2723882E8C000FC136 /* playerback.png */; };
 		253A1C872392C2BA00CBECB9 /* tempicon.png in Resources */ = {isa = PBXBuildFile; fileRef = 253A1C852392C2B900CBECB9 /* tempicon.png */; };
@@ -44,6 +50,7 @@
 		2563DFE023E1ED380099B21D /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2563DFDF23E1ED380099B21D /* Item.swift */; };
 		25642EF5235373C100650F9C /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25642EF4235373C100650F9C /* MenuScene.swift */; };
 		25642EF7235373E500650F9C /* MenuScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 25642EF6235373E500650F9C /* MenuScene.sks */; };
+		256FB44423F33A8C003D3BBE /* Popup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 256FB44323F33A8C003D3BBE /* Popup.swift */; };
 		2585FCCE23D9C919005926F5 /* Level4Scene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 2585FCCD23D9C919005926F5 /* Level4Scene.sks */; };
 		2585FCD023D9C935005926F5 /* Level4Scene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2585FCCF23D9C935005926F5 /* Level4Scene.swift */; };
 		2585FCD323D9E195005926F5 /* maze1.png in Resources */ = {isa = PBXBuildFile; fileRef = 2585FCD223D9E195005926F5 /* maze1.png */; };
@@ -92,6 +99,12 @@
 		25105E84235322B900CAC3AE /* button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button.png; sourceTree = "<group>"; };
 		25105E8B2353384300CAC3AE /* Level1Scene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Level1Scene.swift; sourceTree = "<group>"; };
 		25105E8D2353386700CAC3AE /* Level1Scene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Level1Scene.sks; sourceTree = "<group>"; };
+		252CBD2723F4761D00CF40E3 /* sky.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sky.png; sourceTree = "<group>"; };
+		252CBD2823F4761D00CF40E3 /* ship (temp).png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ship (temp).png"; sourceTree = "<group>"; };
+		252CBD3323F4989600CF40E3 /* redplanet.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = redplanet.png; sourceTree = "<group>"; };
+		252CBD3423F4989600CF40E3 /* blueplanet.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blueplanet.png; sourceTree = "<group>"; };
+		252CBD3523F4989700CF40E3 /* yellowplanet.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = yellowplanet.png; sourceTree = "<group>"; };
+		252CBD3623F4989800CF40E3 /* purpleplanet.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = purpleplanet.png; sourceTree = "<group>"; };
 		252EE1D223DB40440045115B /* MazeWall.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MazeWall.swift; sourceTree = "<group>"; };
 		2536DE2723882E8C000FC136 /* playerback.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = playerback.png; sourceTree = "<group>"; };
 		253A1C852392C2B900CBECB9 /* tempicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tempicon.png; sourceTree = "<group>"; };
@@ -114,6 +127,7 @@
 		2563DFDF23E1ED380099B21D /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		25642EF4235373C100650F9C /* MenuScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
 		25642EF6235373E500650F9C /* MenuScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MenuScene.sks; sourceTree = "<group>"; };
+		256FB44323F33A8C003D3BBE /* Popup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Popup.swift; sourceTree = "<group>"; };
 		2585FCCD23D9C919005926F5 /* Level4Scene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Level4Scene.sks; sourceTree = "<group>"; };
 		2585FCCF23D9C935005926F5 /* Level4Scene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Level4Scene.swift; sourceTree = "<group>"; };
 		2585FCD223D9E195005926F5 /* maze1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = maze1.png; sourceTree = "<group>"; };
@@ -205,6 +219,7 @@
 		25105E7F2353228D00CAC3AE /* CustomClasses */ = {
 			isa = PBXGroup;
 			children = (
+				256FB44323F33A8C003D3BBE /* Popup.swift */,
 				25C9798F238D8744001865CC /* GameData.swift */,
 				25105E4323521E2900CAC3AE /* GameScene.swift */,
 				25105E7D2353228600CAC3AE /* Button.swift */,
@@ -220,6 +235,7 @@
 		25105E88235322CB00CAC3AE /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				252CBD2623F4760200CF40E3 /* Level Select */,
 				254C97CC23EF27DF0036FBB6 /* BlueFront.png */,
 				254C97CD23EF27DF0036FBB6 /* PurpleFront.png */,
 				254C97CE23EF27DF0036FBB6 /* RedFront.png */,
@@ -229,6 +245,19 @@
 			);
 			name = Images;
 			path = "New Group";
+			sourceTree = "<group>";
+		};
+		252CBD2623F4760200CF40E3 /* Level Select */ = {
+			isa = PBXGroup;
+			children = (
+				252CBD3423F4989600CF40E3 /* blueplanet.png */,
+				252CBD3623F4989800CF40E3 /* purpleplanet.png */,
+				252CBD3323F4989600CF40E3 /* redplanet.png */,
+				252CBD3523F4989700CF40E3 /* yellowplanet.png */,
+				252CBD2823F4761D00CF40E3 /* ship (temp).png */,
+				252CBD2723F4761D00CF40E3 /* sky.png */,
+			);
+			path = "Level Select";
 			sourceTree = "<group>";
 		};
 		253A1C8B2392C3C200CBECB9 /* Icons */ = {
@@ -417,6 +446,7 @@
 				25105E85235322B900CAC3AE /* button.png in Resources */,
 				2506F6C523E31C4200F639D3 /* item_temp.png in Resources */,
 				25642EF7235373E500650F9C /* MenuScene.sks in Resources */,
+				252CBD2923F4761D00CF40E3 /* sky.png in Resources */,
 				254C97D523EF29510036FBB6 /* enemy.png in Resources */,
 				253A1C8E2392C4DF00CBECB9 /* tempiconsmalliPad2xios9.png in Resources */,
 				253A1C8F2392C4DF00CBECB9 /* tempiconiPad2x.png in Resources */,
@@ -424,15 +454,20 @@
 				2585FCD323D9E195005926F5 /* maze1.png in Resources */,
 				25105E8E2353386700CAC3AE /* Level1Scene.sks in Resources */,
 				25105E4B23521E2900CAC3AE /* Assets.xcassets in Resources */,
+				252CBD3823F4989800CF40E3 /* blueplanet.png in Resources */,
+				252CBD3A23F4989800CF40E3 /* purpleplanet.png in Resources */,
 				253A1C882392C2BA00CBECB9 /* tempiconsmall.png in Resources */,
+				252CBD3723F4989800CF40E3 /* redplanet.png in Resources */,
 				2561E9482354C5A000B23812 /* Level3Scene.sks in Resources */,
 				25105E4E23521E2900CAC3AE /* LaunchScreen.storyboard in Resources */,
 				25105E83235322B500CAC3AE /* button_active.png in Resources */,
 				254C97D323EF28E90036FBB6 /* play.png in Resources */,
 				2561E9442354C58000B23812 /* Level2Scene.sks in Resources */,
 				253A1C872392C2BA00CBECB9 /* tempicon.png in Resources */,
+				252CBD3923F4989800CF40E3 /* yellowplanet.png in Resources */,
 				254C97D023EF27E00036FBB6 /* PurpleFront.png in Resources */,
 				254C97D123EF27E00036FBB6 /* RedFront.png in Resources */,
+				252CBD2A23F4761D00CF40E3 /* ship (temp).png in Resources */,
 				25105E4223521E2900CAC3AE /* Actions.sks in Resources */,
 				2585FCCE23D9C919005926F5 /* Level4Scene.sks in Resources */,
 			);
@@ -467,6 +502,7 @@
 				25C97990238D8744001865CC /* GameData.swift in Sources */,
 				25105E4623521E2900CAC3AE /* GameViewController.swift in Sources */,
 				2561E94A2354C5AA00B23812 /* Level3Scene.swift in Sources */,
+				256FB44423F33A8C003D3BBE /* Popup.swift in Sources */,
 				25105E7C2353227900CAC3AE /* Wall.swift in Sources */,
 				25EE37F62367438E00C30E82 /* Menu.swift in Sources */,
 				25105E8C2353384300CAC3AE /* Level1Scene.swift in Sources */,
