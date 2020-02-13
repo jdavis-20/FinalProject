@@ -76,37 +76,37 @@ class LevelSelectScene : SKScene {
         //buttons to trigger functions
         
         let l1Button = Button(defaultButtonImage: "yellowplanet",
-                                 activeButtonImage: "yellowplanet",
+                                 activeButtonImage: "yellowplanetl",
                                  buttonAction: playL1)
         l1Button.setScale(0.4)
-        l1Button.position = CGPoint(x: (frame.size.width * (-3/8)),
-                                    y: 0)
+        l1Button.position = CGPoint(x: ((-frame.size.width/2) + 100),
+                                    y: ((frame.size.height/2) - 100))
         addChild(l1Button)
         l1Button.addChild(l1label)
         
         let l2Button = Button(defaultButtonImage: "blueplanet",
-                              activeButtonImage: "blueplanet",
+                              activeButtonImage: "blueplanetl",
                               buttonAction: playL2)
         l2Button.setScale(0.4)
-        l2Button.position = CGPoint(x: (frame.size.width * (-1/8)),
-                                    y: 0)
+        l2Button.position = CGPoint(x: 0,
+                                    y: ((-frame.size.height/2) + 110))
         addChild(l2Button)
         l2Button.addChild(l2label)
         
         let l3Button = Button(defaultButtonImage: "purpleplanet",
-                              activeButtonImage: "purpleplanet",
+                              activeButtonImage: "purpleplanetl",
                               buttonAction: playL3)
         l3Button.setScale(0.4)
         l3Button.position = CGPoint(x: (frame.size.width * (1/8)),
-                                    y: 0)
+                                    y: (frame.size.height/2) - 60)
         addChild(l3Button)
         l3Button.addChild(l3label)
         
         let l4Button = Button(defaultButtonImage: "redplanet",
-                              activeButtonImage: "redplanet",
+                              activeButtonImage: "redplanetl",
                               buttonAction: playL4)
         l4Button.setScale(0.4)
-        l4Button.position = CGPoint(x: (frame.size.width * (3/8)),
+        l4Button.position = CGPoint(x: ((frame.size.width/2) - 90),
                                     y: 0)
         addChild(l4Button)
         l4Button.addChild(l4label)
