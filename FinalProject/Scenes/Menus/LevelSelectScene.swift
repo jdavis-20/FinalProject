@@ -18,6 +18,12 @@ var levelSelectCamera = SKCameraNode()
 
 class LevelSelectScene : SKScene {
     override func didMove(to view: SKView) {
+        
+//        TODO: fix overlay touch through
+//        let overlay = childNode(withName: "overlay")
+//        overlay?.isUserInteractionEnabled = false;
+
+        
         l1label.fontColor = .black
         l2label.fontColor = .black
         l3label.fontColor = .black
@@ -88,7 +94,7 @@ class LevelSelectScene : SKScene {
                               activeButtonImage: "blueplanetl",
                               buttonAction: playL2)
         l2Button.setScale(0.4)
-        l2Button.position = CGPoint(x: 0,
+        l2Button.position = CGPoint(x: (-frame.size.width/16),
                                     y: ((-frame.size.height/2) + 110))
         addChild(l2Button)
         l2Button.addChild(l2label)

@@ -59,6 +59,11 @@
 		2585FCD023D9C935005926F5 /* Level4Scene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2585FCCF23D9C935005926F5 /* Level4Scene.swift */; };
 		2585FCD323D9E195005926F5 /* maze1.png in Resources */ = {isa = PBXBuildFile; fileRef = 2585FCD223D9E195005926F5 /* maze1.png */; };
 		25B9C4182374C07F00BAFC36 /* Enemy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25B9C4172374C07F00BAFC36 /* Enemy.swift */; };
+		25C56B6323F6D7D300A61747 /* popup.png in Resources */ = {isa = PBXBuildFile; fileRef = 25C56B6223F6D7D200A61747 /* popup.png */; };
+		25C56B6723F6DFF900A61747 /* 180.png in Resources */ = {isa = PBXBuildFile; fileRef = 25C56B6423F6DFF800A61747 /* 180.png */; };
+		25C56B6823F6DFF900A61747 /* 120.png in Resources */ = {isa = PBXBuildFile; fileRef = 25C56B6523F6DFF800A61747 /* 120.png */; };
+		25C56B6923F6DFF900A61747 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 25C56B6623F6DFF900A61747 /* icon.png */; };
+		25C56B6B23F6E0CE00A61747 /* 1024.png in Resources */ = {isa = PBXBuildFile; fileRef = 25C56B6A23F6E0CD00A61747 /* 1024.png */; };
 		25C97990238D8744001865CC /* GameData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25C9798F238D8744001865CC /* GameData.swift */; };
 		25EE37F62367438E00C30E82 /* Menu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25EE37F52367438E00C30E82 /* Menu.swift */; };
 /* End PBXBuildFile section */
@@ -140,6 +145,11 @@
 		2585FCCF23D9C935005926F5 /* Level4Scene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Level4Scene.swift; sourceTree = "<group>"; };
 		2585FCD223D9E195005926F5 /* maze1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = maze1.png; sourceTree = "<group>"; };
 		25B9C4172374C07F00BAFC36 /* Enemy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enemy.swift; sourceTree = "<group>"; };
+		25C56B6223F6D7D200A61747 /* popup.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = popup.png; sourceTree = "<group>"; };
+		25C56B6423F6DFF800A61747 /* 180.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 180.png; sourceTree = "<group>"; };
+		25C56B6523F6DFF800A61747 /* 120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 120.png; sourceTree = "<group>"; };
+		25C56B6623F6DFF900A61747 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
+		25C56B6A23F6E0CD00A61747 /* 1024.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1024.png; sourceTree = "<group>"; };
 		25C9798F238D8744001865CC /* GameData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameData.swift; sourceTree = "<group>"; };
 		25EE37F52367438E00C30E82 /* Menu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Menu.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -227,9 +237,9 @@
 		25105E7F2353228D00CAC3AE /* CustomClasses */ = {
 			isa = PBXGroup;
 			children = (
-				256FB44323F33A8C003D3BBE /* Popup.swift */,
 				25C9798F238D8744001865CC /* GameData.swift */,
 				25105E4323521E2900CAC3AE /* GameScene.swift */,
+				256FB44323F33A8C003D3BBE /* Popup.swift */,
 				25105E7D2353228600CAC3AE /* Button.swift */,
 				25105E7B2353227900CAC3AE /* Wall.swift */,
 				252EE1D223DB40440045115B /* MazeWall.swift */,
@@ -243,10 +253,8 @@
 		25105E88235322CB00CAC3AE /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				252CBD4523F57A0F00CF40E3 /* Character */,
 				252CBD2623F4760200CF40E3 /* Level Select */,
-				254C97CC23EF27DF0036FBB6 /* BlueFront.png */,
-				254C97CD23EF27DF0036FBB6 /* PurpleFront.png */,
-				254C97CE23EF27DF0036FBB6 /* RedFront.png */,
 				2585FCD123D9E144005926F5 /* References */,
 				253A1C8B2392C3C200CBECB9 /* Icons */,
 				254C97C523EF277D0036FBB6 /* Temp */,
@@ -272,9 +280,23 @@
 			path = "Level Select";
 			sourceTree = "<group>";
 		};
+		252CBD4523F57A0F00CF40E3 /* Character */ = {
+			isa = PBXGroup;
+			children = (
+				254C97CC23EF27DF0036FBB6 /* BlueFront.png */,
+				254C97CD23EF27DF0036FBB6 /* PurpleFront.png */,
+				254C97CE23EF27DF0036FBB6 /* RedFront.png */,
+			);
+			path = Character;
+			sourceTree = "<group>";
+		};
 		253A1C8B2392C3C200CBECB9 /* Icons */ = {
 			isa = PBXGroup;
 			children = (
+				25C56B6A23F6E0CD00A61747 /* 1024.png */,
+				25C56B6523F6DFF800A61747 /* 120.png */,
+				25C56B6423F6DFF800A61747 /* 180.png */,
+				25C56B6623F6DFF900A61747 /* icon.png */,
 				253A1C8D2392C4DF00CBECB9 /* tempiconiPad2x.png */,
 				253A1C8C2392C4DE00CBECB9 /* tempiconsmalliPad2xios9.png */,
 				253A1C852392C2B900CBECB9 /* tempicon.png */,
@@ -287,6 +309,7 @@
 		254C97C523EF277D0036FBB6 /* Temp */ = {
 			isa = PBXGroup;
 			children = (
+				25C56B6223F6D7D200A61747 /* popup.png */,
 				2506F6C423E31C4200F639D3 /* item_temp.png */,
 				2536DE2723882E8C000FC136 /* playerback.png */,
 				254C97D223EF28E80036FBB6 /* play.png */,
@@ -453,6 +476,7 @@
 			files = (
 				253A1C8A2392C3B400CBECB9 /* tempiconsmall2x.png in Resources */,
 				25105E4923521E2900CAC3AE /* Main.storyboard in Resources */,
+				25C56B6B23F6E0CE00A61747 /* 1024.png in Resources */,
 				254C97CF23EF27E00036FBB6 /* BlueFront.png in Resources */,
 				2561E94223548C0F00B23812 /* LevelSelectScene.sks in Resources */,
 				25105E85235322B900CAC3AE /* button.png in Resources */,
@@ -461,6 +485,7 @@
 				252CBD2923F4761D00CF40E3 /* sky.png in Resources */,
 				254C97D523EF29510036FBB6 /* enemy.png in Resources */,
 				252CBD4423F574A900CF40E3 /* yellowplanetl.png in Resources */,
+				25C56B6723F6DFF900A61747 /* 180.png in Resources */,
 				253A1C8E2392C4DF00CBECB9 /* tempiconsmalliPad2xios9.png in Resources */,
 				253A1C8F2392C4DF00CBECB9 /* tempiconiPad2x.png in Resources */,
 				2536DE2823882E8D000FC136 /* playerback.png in Resources */,
@@ -476,6 +501,7 @@
 				252CBD4223F574A900CF40E3 /* blueplanetl.png in Resources */,
 				2561E9482354C5A000B23812 /* Level3Scene.sks in Resources */,
 				25105E4E23521E2900CAC3AE /* LaunchScreen.storyboard in Resources */,
+				25C56B6923F6DFF900A61747 /* icon.png in Resources */,
 				25105E83235322B500CAC3AE /* button_active.png in Resources */,
 				254C97D323EF28E90036FBB6 /* play.png in Resources */,
 				2561E9442354C58000B23812 /* Level2Scene.sks in Resources */,
@@ -483,9 +509,11 @@
 				252CBD3923F4989800CF40E3 /* yellowplanet.png in Resources */,
 				254C97D023EF27E00036FBB6 /* PurpleFront.png in Resources */,
 				254C97D123EF27E00036FBB6 /* RedFront.png in Resources */,
+				25C56B6323F6D7D300A61747 /* popup.png in Resources */,
 				252CBD2A23F4761D00CF40E3 /* ship (temp).png in Resources */,
 				25105E4223521E2900CAC3AE /* Actions.sks in Resources */,
 				2585FCCE23D9C919005926F5 /* Level4Scene.sks in Resources */,
+				25C56B6823F6DFF900A61747 /* 120.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
