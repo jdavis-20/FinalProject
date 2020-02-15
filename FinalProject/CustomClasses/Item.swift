@@ -14,17 +14,19 @@ class Item: SKNode {
     
     init(image: String, position: CGPoint) {
         itemSprite = SKSpriteNode(imageNamed: image)
-        itemSprite.name = "item" // will have to make unique to items
-        
-        itemSprite.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: itemSprite.size.width,
-                                                                   height: itemSprite.size.height))
-        itemSprite.physicsBody?.affectedByGravity = false
-        itemSprite.physicsBody?.allowsRotation = false
-        itemSprite.physicsBody?.isDynamic = false
-        itemSprite.physicsBody?.contactTestBitMask = 0x00000001
-        itemSprite.position = position
         
         super.init()
+        
+        self.name = "item" // will have to make unique to items
+        
+        self.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: itemSprite.size.width,
+                                                                   height: itemSprite.size.height))
+        self.physicsBody?.affectedByGravity = false
+        self.physicsBody?.allowsRotation = false
+        self.physicsBody?.isDynamic = false
+        self.physicsBody?.contactTestBitMask = 0x00000001
+        self.position = position
+        
         
         self.addChild(itemSprite)
     }

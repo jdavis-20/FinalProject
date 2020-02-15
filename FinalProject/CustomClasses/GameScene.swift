@@ -19,7 +19,7 @@ var player = SKSpriteNode()
 let enemy = Enemy(image: "enemy", position: CGPoint(x: 0, y: 0))
 var inGameMenu =  Menu(screenHeight: 375,
                        screenWidth: 667)
-var testPopup = Popup(image: "popup", type: "item", worldNode: worldNode)
+var itemPopup = Popup(image: "popup", type: "item", worldNode: worldNode)
 var optionsPopup = Popup(image: "popup", type: "options", worldNode: worldNode)
 
 // orientation
@@ -34,6 +34,8 @@ var playerAlive = true
 var playerYDirection = "up"
 var playerXDirection = "still"
 var menuOut = true
+var itemPopupOut = false
+var optionsMenuOut = true
 
 // movement and animation
 let path = UIBezierPath()
@@ -71,8 +73,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func options(){
         print("options button pressed")
-//        worldNode.isPaused = true
+        physicsWorld.speed = 0
         optionsPopup.visible()
+        inGameMenu.isPaused = true
+        optionsMenuOut = true
     }
     
     //executes when the scene is first loaded------------------------------------------------------------------------------
@@ -158,9 +162,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         // popup test----------------------------------------------------------------------------------------------------------
         
-        testPopup = Popup(image: "button", type: "item", worldNode: worldNode)
+        itemPopup = Popup(image: "button", type: "item", worldNode: worldNode)
         
-        camera!.addChild(testPopup)
+        camera!.addChild(itemPopup)
         
         // enemy---------------------------------------------------------------------------------------------------------
         
@@ -194,7 +198,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     if (data.acceleration.y > 0.06 ||
                         data.acceleration.y < -0.06) {
                         
-                        destX = CGFloat((data.acceleration.y) * 450) // left and right speed
+                        destX = CGFloat((data.acceleration.y) * 500) // left and right speed
                         // RIGHT
                         if (data.acceleration.y > 0.06){
                             playerXDirection = "right"
@@ -217,12 +221,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         
                         // UP
                         if ((-data.acceleration.x + preferredTilt!) > 0.06) {
-                            destY = CGFloat((-data.acceleration.x + preferredTilt!) * 450) // up speed
+                            destY = CGFloat((-data.acceleration.x + preferredTilt!) * 500) // up speed
                             playerYDirection = "up"
                         }
                         // DOWN
                         if ((-data.acceleration.x + preferredTilt!) < -0.06) {
-                            destY = CGFloat((-data.acceleration.x + preferredTilt!) * 550) // down speed
+                            destY = CGFloat((-data.acceleration.x + preferredTilt!) * 650) // down speed
                             //(this is faster because tilting down moves the screen out of the player's view
                             playerYDirection = "down"
                         }
@@ -253,20 +257,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                                           duration: 0.5)
         let leaveAction = SKAction.moveTo(x: ((frame.size.width / 3) * 2),
                                           duration: 0.5)
-
-        if sender.direction == .left {
-                print("left swipe")
-                inGameMenu.run(enterAction)
-                worldNode.isPaused = true
-                physicsWorld.speed = 0
-                menuOut = true
-        }
-        if sender.direction == .right{
-                print("right swipe")
-                inGameMenu.run(leaveAction)
-                worldNode.isPaused = false
-                physicsWorld.speed = 1
-                menuOut = false
+        if (inGameMenu.isPaused == false) {
+            if sender.direction == .left {
+                    print("left swipe")
+                    inGameMenu.run(enterAction)
+                    worldNode.isPaused = true
+                    physicsWorld.speed = 0
+                    menuOut = true
+            }
+            if sender.direction == .right{
+                    print("right swipe")
+                    inGameMenu.run(leaveAction)
+                    worldNode.isPaused = false
+                    physicsWorld.speed = 1
+                    menuOut = false
+            }
         }
     }
     
@@ -279,8 +284,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                                contactB: SKPhysicsBody) {
             
             print("COLLISION: \n  bodyA is \(contactA.node?.name! ?? "unidentified")\n  bodyB is \(contactB.node?.name! ?? "unidentified")")
+//            print(type(of: contactA.node!))
+//            print(type(of: contactB.node!))
         }
-        // prints the names of items involved in a collision
+        // prints the names of bodies involved in a collision
         if (contact.bodyA.node != nil) &&
             (contact.bodyB.node != nil) {
             
@@ -309,17 +316,26 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     print("player died")
                 }
             }
-            
             // item collision (currently can be initiated by either body, because items may move)
-            if ((bName == "player") && (aName == "item")) {
-                aNode?.removeFromParent()
-                    testPopup.visible()
-                    worldNode.isPaused = true
+            if ((bName == "player") && (aNode! is Item)) {
+                print("item collision")
+                aNode!.removeFromParent()
+                
+                itemPopupOut = true
+                itemPopup.itemName.text = aName
+                itemPopup.visible()
+//                worldNode.isPaused = true
+                physicsWorld.speed = 0
             }
-            if ((aName == "player") && (bName == "item")) {
-                bNode?.removeFromParent()
-                    testPopup.visible()
-                    worldNode.isPaused = true
+            if ((aName == "player") && (bNode! is Item)) {
+                print("item collision")
+                bNode!.removeFromParent()
+                
+                itemPopupOut = true
+                itemPopup.itemName.text = bName
+                itemPopup.visible()
+//                worldNode.isPaused = true
+                physicsWorld.speed = 0
             }
             
             // TODO: trying enemy movement stuff
@@ -332,6 +348,32 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
    
+    // called on the end of a touch-------------------------------------------------------------------------------------------
+    
+    override func touchesEnded(_ touches: Set<UITouch>,
+                               with event: UIEvent?) {
+
+
+        for touch in touches {
+            let location = touch.location(in: self)
+        
+            if !(optionsPopup.popupNode.contains(location)) {
+                if optionsMenuOut == true {
+                    optionsMenuOut = false
+                    optionsPopup.invisible()
+                    inGameMenu.isPaused = false
+                }
+            }
+            if !(itemPopup.popupNode.contains(location)) {
+                if itemPopupOut == true {
+                    itemPopupOut = false;
+                    itemPopup.invisible();
+                    physicsWorld.speed = 1
+                }
+            }
+        }
+    }
+    
     // called every frame when not paused-----------------------------------------------------------------------------------
     
     override func didSimulatePhysics() {

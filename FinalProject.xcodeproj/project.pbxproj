@@ -64,6 +64,10 @@
 		25C56B6823F6DFF900A61747 /* 120.png in Resources */ = {isa = PBXBuildFile; fileRef = 25C56B6523F6DFF800A61747 /* 120.png */; };
 		25C56B6923F6DFF900A61747 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 25C56B6623F6DFF900A61747 /* icon.png */; };
 		25C56B6B23F6E0CE00A61747 /* 1024.png in Resources */ = {isa = PBXBuildFile; fileRef = 25C56B6A23F6E0CD00A61747 /* 1024.png */; };
+		25C56B6F23F6EDC400A61747 /* 76.png in Resources */ = {isa = PBXBuildFile; fileRef = 25C56B6D23F6EDC300A61747 /* 76.png */; };
+		25C56B7123F6F03B00A61747 /* skyvert.png in Resources */ = {isa = PBXBuildFile; fileRef = 25C56B7023F6F03800A61747 /* skyvert.png */; };
+		25C56B7423F6F8C800A61747 /* 835.png in Resources */ = {isa = PBXBuildFile; fileRef = 25C56B7223F6F8C600A61747 /* 835.png */; };
+		25C56B7523F6F8C800A61747 /* 152.png in Resources */ = {isa = PBXBuildFile; fileRef = 25C56B7323F6F8C700A61747 /* 152.png */; };
 		25C97990238D8744001865CC /* GameData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25C9798F238D8744001865CC /* GameData.swift */; };
 		25EE37F62367438E00C30E82 /* Menu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25EE37F52367438E00C30E82 /* Menu.swift */; };
 /* End PBXBuildFile section */
@@ -150,6 +154,10 @@
 		25C56B6523F6DFF800A61747 /* 120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 120.png; sourceTree = "<group>"; };
 		25C56B6623F6DFF900A61747 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
 		25C56B6A23F6E0CD00A61747 /* 1024.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1024.png; sourceTree = "<group>"; };
+		25C56B6D23F6EDC300A61747 /* 76.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 76.png; sourceTree = "<group>"; };
+		25C56B7023F6F03800A61747 /* skyvert.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = skyvert.png; sourceTree = "<group>"; };
+		25C56B7223F6F8C600A61747 /* 835.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 835.png; sourceTree = "<group>"; };
+		25C56B7323F6F8C700A61747 /* 152.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 152.png; sourceTree = "<group>"; };
 		25C9798F238D8744001865CC /* GameData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameData.swift; sourceTree = "<group>"; };
 		25EE37F52367438E00C30E82 /* Menu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Menu.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -276,6 +284,7 @@
 				252CBD4023F574A900CF40E3 /* yellowplanetl.png */,
 				252CBD2823F4761D00CF40E3 /* ship (temp).png */,
 				252CBD2723F4761D00CF40E3 /* sky.png */,
+				25C56B7023F6F03800A61747 /* skyvert.png */,
 			);
 			path = "Level Select";
 			sourceTree = "<group>";
@@ -293,6 +302,9 @@
 		253A1C8B2392C3C200CBECB9 /* Icons */ = {
 			isa = PBXGroup;
 			children = (
+				25C56B7323F6F8C700A61747 /* 152.png */,
+				25C56B7223F6F8C600A61747 /* 835.png */,
+				25C56B6D23F6EDC300A61747 /* 76.png */,
 				25C56B6A23F6E0CD00A61747 /* 1024.png */,
 				25C56B6523F6DFF800A61747 /* 120.png */,
 				25C56B6423F6DFF800A61747 /* 180.png */,
@@ -477,11 +489,13 @@
 				253A1C8A2392C3B400CBECB9 /* tempiconsmall2x.png in Resources */,
 				25105E4923521E2900CAC3AE /* Main.storyboard in Resources */,
 				25C56B6B23F6E0CE00A61747 /* 1024.png in Resources */,
+				25C56B7123F6F03B00A61747 /* skyvert.png in Resources */,
 				254C97CF23EF27E00036FBB6 /* BlueFront.png in Resources */,
 				2561E94223548C0F00B23812 /* LevelSelectScene.sks in Resources */,
 				25105E85235322B900CAC3AE /* button.png in Resources */,
 				2506F6C523E31C4200F639D3 /* item_temp.png in Resources */,
 				25642EF7235373E500650F9C /* MenuScene.sks in Resources */,
+				25C56B7523F6F8C800A61747 /* 152.png in Resources */,
 				252CBD2923F4761D00CF40E3 /* sky.png in Resources */,
 				254C97D523EF29510036FBB6 /* enemy.png in Resources */,
 				252CBD4423F574A900CF40E3 /* yellowplanetl.png in Resources */,
@@ -499,12 +513,14 @@
 				252CBD3723F4989800CF40E3 /* redplanet.png in Resources */,
 				252CBD4323F574A900CF40E3 /* redplanetl.png in Resources */,
 				252CBD4223F574A900CF40E3 /* blueplanetl.png in Resources */,
+				25C56B6F23F6EDC400A61747 /* 76.png in Resources */,
 				2561E9482354C5A000B23812 /* Level3Scene.sks in Resources */,
 				25105E4E23521E2900CAC3AE /* LaunchScreen.storyboard in Resources */,
 				25C56B6923F6DFF900A61747 /* icon.png in Resources */,
 				25105E83235322B500CAC3AE /* button_active.png in Resources */,
 				254C97D323EF28E90036FBB6 /* play.png in Resources */,
 				2561E9442354C58000B23812 /* Level2Scene.sks in Resources */,
+				25C56B7423F6F8C800A61747 /* 835.png in Resources */,
 				253A1C872392C2BA00CBECB9 /* tempicon.png in Resources */,
 				252CBD3923F4989800CF40E3 /* yellowplanet.png in Resources */,
 				254C97D023EF27E00036FBB6 /* PurpleFront.png in Resources */,
