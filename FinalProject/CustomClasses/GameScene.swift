@@ -17,6 +17,8 @@ var camera = SKCameraNode()
 var manager = CMMotionManager()
 var player = SKSpriteNode()
 let enemy = Enemy(image: "enemy", position: CGPoint(x: 0, y: 0))
+
+// menus and popups
 var inGameMenu =  Menu(screenHeight: 375,
                        screenWidth: 667)
 var itemPopup = Popup(image: "popup", type: "item", worldNode: worldNode)
@@ -68,7 +70,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     
-    //button on the in-game menu, currently quits to the main menu--------------------------------------------------------
+    //button on the in-game menu-------------------------------------------------------
     
     func returnToMenu(){
         print("main menu button pressed")
@@ -115,7 +117,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                                  buttonAction: startGame,
                                  label: "start")
         startButton.position = CGPoint(x: 0,
-                                       y: (frame.size.height / 4))
+                                       y: 0)
         startButton.zPosition = 3
         charSelPopup.addChild(startButton)
         
@@ -195,7 +197,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // enemy---------------------------------------------------------------------------------------------------------
         
 
-        worldNode.addChild(enemy)
+//        worldNode.addChild(enemy)
         
 //        if (started == true) {
 //            enemy.movement()
@@ -441,8 +443,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                                                 dy: destY)
         // TODO: enemy moves in rotation direciton?
         if started == true {
-        enemy.position = CGPoint(x: enemy.position.x + cos(enemy.zRotation) * 10,
-                                 y: enemy.position.y + sin(enemy.zRotation) * 10)
+//        enemy.position = CGPoint(x: enemy.position.x + cos(enemy.zRotation) * 10,
+//                                 y: enemy.position.y + sin(enemy.zRotation) * 10)
         }
     }
 }
