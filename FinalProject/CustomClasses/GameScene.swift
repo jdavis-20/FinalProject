@@ -21,6 +21,7 @@ var inGameMenu =  Menu(screenHeight: 375,
                        screenWidth: 667)
 var itemPopup = Popup(image: "popup", type: "item", worldNode: worldNode)
 var optionsPopup = Popup(image: "popup", type: "options", worldNode: worldNode)
+var charSelPopup = Popup(image: "popup", type: "charsel", worldNode: worldNode)
 
 // orientation
 var preferredTilt: Double?
@@ -29,13 +30,16 @@ var destY: CGFloat = 0.0
 
 // game state values
 var started = false
+
 public var playerHealth: Int = 10
 var playerAlive = true
 var playerYDirection = "up"
 var playerXDirection = "still"
+
 var menuOut = true
 var itemPopupOut = false
 var optionsMenuOut = true
+var charSelOut = true
 
 // movement and animation
 let path = UIBezierPath()
@@ -44,13 +48,18 @@ let towards = SKAction.setTexture(SKTexture(imageNamed: "RedFront"))
 
 
 //  this is the superclass to all game levels----------------------------------------------------------------------------------
-// it contains fundamental mechanics and anything that needs to persist across levels----------------------------------------
+// it contains fundamental mechanics and nodes that need to persist across levels----------------------------------------
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
 
     func startGame(){
-        // started variable triggers when start button is pressed, sets tilt
+        // started variable sets tilt and other attributes, signals gameplay start
         started = true
+        charSelPopup.invisible()
+        worldNode.isPaused = false
+        physicsWorld.speed = 1
+        inGameMenu.isPaused = false
+        
         // print(inGameMenu.position)
         
         // TODO: vibration response
@@ -87,7 +96,28 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // camera!.run(zoomOut)
         
         // only nodes that are children of worldNode will be paused
+        // this is so menus still work after they are opened
+        preferredTilt = nil
         addChild(worldNode)
+        started = false
+        
+        // creates character select popup at the start of the level
+        camera!.addChild(charSelPopup)
+        charSelPopup.visible()
+        charSelOut = true
+        worldNode.isPaused = true
+        inGameMenu.isPaused = true
+        physicsWorld.speed = 0
+        
+        // set tilt and start moving
+        let startButton = Button(defaultButtonImage: "button",
+                                 activeButtonImage: "button_active",
+                                 buttonAction: startGame,
+                                 label: "start")
+        startButton.position = CGPoint(x: 0,
+                                       y: (frame.size.height / 4))
+        startButton.zPosition = 3
+        charSelPopup.addChild(startButton)
         
         //menu setup
         inGameMenu = Menu(screenHeight: frame.size.height,
@@ -95,17 +125,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         inGameMenu.position = CGPoint(x: ((frame.size.width / 3) * 2), y: 0)
         camera!.addChild(inGameMenu)
         inGameMenu.zPosition = 1
+        
         // button returning to main menu
         let returnButton = Button(defaultButtonImage: "button",
                                     activeButtonImage: "button_active",
-                                    buttonAction: returnToMenu)
+                                    buttonAction: returnToMenu,
+                                    label: "main menu")
         returnButton.position = CGPoint(x: 0,
-                                        y: 0)
+                                        y: -40)
         inGameMenu.addChild(returnButton)
+        
         // button to accesss options
         let optionButton = Button(defaultButtonImage: "button",
                                   activeButtonImage: "button_active",
-                                  buttonAction: options)
+                                  buttonAction: options,
+                                  label: "options")
         optionButton.position = CGPoint(x: 0,
                                         y: 40)
         inGameMenu.addChild(optionButton)
@@ -126,15 +160,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // physics contact delegate
         physicsWorld.contactDelegate = self
         
-        // start gameplay within the level button
-        let startButton = Button(defaultButtonImage: "button",
-                                 activeButtonImage: "button_active",
-                                 buttonAction: startGame)
-        startButton.position = CGPoint(x: 0,
-                                       y: (frame.size.height / 4))
-        addChild(startButton)
-
-        // runs through all nodes in the scene, finds those with a specific name and sets the physics for them as walls
+        // finds nodes with a specific name and sets the physics for them as walls
         scene?.enumerateChildNodes(withName: "MazeWall") {
             (node, stop) in
             let mazeNode = node as? MazeWall
@@ -198,7 +224,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     if (data.acceleration.y > 0.06 ||
                         data.acceleration.y < -0.06) {
                         
-                        destX = CGFloat((data.acceleration.y) * 500) // left and right speed
+                        destX = CGFloat((data.acceleration.y) * 600) // left and right speed
                         // RIGHT
                         if (data.acceleration.y > 0.06){
                             playerXDirection = "right"
@@ -221,12 +247,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         
                         // UP
                         if ((-data.acceleration.x + preferredTilt!) > 0.06) {
-                            destY = CGFloat((-data.acceleration.x + preferredTilt!) * 500) // up speed
+                            destY = CGFloat((-data.acceleration.x + preferredTilt!) * 600) // up speed
                             playerYDirection = "up"
                         }
                         // DOWN
                         if ((-data.acceleration.x + preferredTilt!) < -0.06) {
-                            destY = CGFloat((-data.acceleration.x + preferredTilt!) * 650) // down speed
+                            destY = CGFloat((-data.acceleration.x + preferredTilt!) * 800) // down speed
                             //(this is faster because tilting down moves the screen out of the player's view
                             playerYDirection = "down"
                         }
@@ -257,7 +283,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                                           duration: 0.5)
         let leaveAction = SKAction.moveTo(x: ((frame.size.width / 3) * 2),
                                           duration: 0.5)
-        if (inGameMenu.isPaused == false) {
+        if (inGameMenu.isPaused == false) && (started == true) {
             if sender.direction == .left {
                     print("left swipe")
                     inGameMenu.run(enterAction)
@@ -324,7 +350,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 itemPopupOut = true
                 itemPopup.itemName.text = aName
                 itemPopup.visible()
-//                worldNode.isPaused = true
                 physicsWorld.speed = 0
             }
             if ((aName == "player") && (bNode! is Item)) {
@@ -334,7 +359,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 itemPopupOut = true
                 itemPopup.itemName.text = bName
                 itemPopup.visible()
-//                worldNode.isPaused = true
                 physicsWorld.speed = 0
             }
             
@@ -356,16 +380,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
         for touch in touches {
             let location = touch.location(in: self)
-        
-            if !(optionsPopup.popupNode.contains(location)) {
-                if optionsMenuOut == true {
+            
+            if optionsMenuOut == true {
+                if !(optionsPopup.popupNode.contains(location)) {
                     optionsMenuOut = false
                     optionsPopup.invisible()
                     inGameMenu.isPaused = false
                 }
             }
-            if !(itemPopup.popupNode.contains(location)) {
-                if itemPopupOut == true {
+            
+           
+            if itemPopupOut == true {
+                if !(itemPopup.popupNode.contains(location)) {
                     itemPopupOut = false;
                     itemPopup.invisible();
                     physicsWorld.speed = 1
@@ -414,7 +440,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         player.physicsBody!.velocity = CGVector(dx: destX,
                                                 dy: destY)
         // TODO: enemy moves in rotation direciton?
+        if started == true {
         enemy.position = CGPoint(x: enemy.position.x + cos(enemy.zRotation) * 10,
                                  y: enemy.position.y + sin(enemy.zRotation) * 10)
+        }
     }
 }

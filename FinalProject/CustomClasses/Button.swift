@@ -11,22 +11,31 @@ import SpriteKit
 class Button: SKNode {
     let defaultButton: SKSpriteNode
     let activeButton: SKSpriteNode
+    var buttonLabel = SKLabelNode()
     var action: () -> ()
     
     //takes a default and active version of the button
     init(defaultButtonImage: String,
          activeButtonImage: String,
-         buttonAction: @escaping () -> ()) {
+         buttonAction: @escaping () -> (),
+         label: String) {
+        
         defaultButton = SKSpriteNode(imageNamed: defaultButtonImage)
         activeButton = SKSpriteNode(imageNamed: activeButtonImage)
         activeButton.isHidden = true
         action = buttonAction
+        buttonLabel.text = label
+        buttonLabel.fontColor = .black
+        buttonLabel.verticalAlignmentMode = .center
+        buttonLabel.zPosition = 2
         
         super.init()
         
         isUserInteractionEnabled = true
         addChild(defaultButton)
         addChild(activeButton)
+        addChild(buttonLabel)
+        self.name = "button"
     }
     
     required init(coder aDecoder: NSCoder) {
