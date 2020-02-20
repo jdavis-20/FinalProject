@@ -21,22 +21,22 @@ class Enemy: SKNode {
         self.run(followPath)
     }
     
-    init(image: String, position: CGPoint) {
+    init(image: String) {
         enemyNode = SKSpriteNode(imageNamed: image)
-        enemyNode.name = "enemy"
-        enemyNode.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: enemyNode.size.width,
-                                                                  height: enemyNode.size.height))
-        enemyNode.physicsBody?.affectedByGravity = false
-        enemyNode.physicsBody?.allowsRotation = false
-        enemyNode.physicsBody?.isDynamic = false
-        enemyNode.physicsBody?.contactTestBitMask = 0x00000001
-        enemyNode.position = position
         
         path.move(to: CGPoint(x: -50, y: 0))
         path.addLine(to: CGPoint(x: 50, y: 0))
         path.addLine(to: CGPoint(x: -50, y: 0))
         
         super.init()
+        
+        self.name = "enemy"
+        self.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: enemyNode.size.width,
+                                                             height: enemyNode.size.height))
+        self.physicsBody?.affectedByGravity = false
+        self.physicsBody?.allowsRotation = false
+        self.physicsBody?.isDynamic = true
+        self.physicsBody?.contactTestBitMask = 0x00000001
         
         self.addChild(enemyNode)
     }

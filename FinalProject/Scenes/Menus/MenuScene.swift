@@ -34,7 +34,6 @@ class MenuScene: SKScene {
         //button triggers actual transition
         let playButton = Button(defaultButtonImage: "play",
                                  activeButtonImage: "play",
-//                                 buttonAction: levelSelect,
                                  label: "")
         playButton.action = levelSelect
         playButton.position = CGPoint(x: (frame.size.width / 2),

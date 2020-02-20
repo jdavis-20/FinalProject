@@ -64,7 +64,6 @@ class LevelSelectScene : SKScene {
         
         let l1Button = Button(defaultButtonImage: "yel",
                                  activeButtonImage: "yell",
-//                                 buttonAction: playL1,
                                  label: "")
         l1Button.action = playL1
         l1Button.setScale(0.4)
@@ -74,7 +73,6 @@ class LevelSelectScene : SKScene {
         
         let l2Button = Button(defaultButtonImage: "blu",
                               activeButtonImage: "blul",
-//                              buttonAction: playL2,
                               label: "")
         l2Button.action = playL2
         l2Button.setScale(0.4)
@@ -84,7 +82,6 @@ class LevelSelectScene : SKScene {
         
         let l3Button = Button(defaultButtonImage: "pur",
                               activeButtonImage: "purl",
-//                              buttonAction: playL3,
                               label: "")
         l3Button.action = playL3
         l3Button.setScale(0.4)
@@ -94,7 +91,6 @@ class LevelSelectScene : SKScene {
         
         let l4Button = Button(defaultButtonImage: "red",
                               activeButtonImage: "redl",
-//                              buttonAction: playL4,
                               label: "")
         l4Button.action = playL4
         l4Button.setScale(0.4)

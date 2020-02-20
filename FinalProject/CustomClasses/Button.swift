@@ -17,7 +17,6 @@ class Button: SKNode {
     //takes a default and active version of the button
     init(defaultButtonImage: String,
          activeButtonImage: String,
-//         buttonAction: @escaping () -> (),
          label: String) {
         
         defaultButton = SKSpriteNode(imageNamed: defaultButtonImage)
