@@ -12,18 +12,18 @@ class Button: SKNode {
     let defaultButton: SKSpriteNode
     let activeButton: SKSpriteNode
     var buttonLabel = SKLabelNode()
-    var action: () -> ()
+    var action: (() -> ())?
     
     //takes a default and active version of the button
     init(defaultButtonImage: String,
          activeButtonImage: String,
-         buttonAction: @escaping () -> (),
+//         buttonAction: @escaping () -> (),
          label: String) {
         
         defaultButton = SKSpriteNode(imageNamed: defaultButtonImage)
         activeButton = SKSpriteNode(imageNamed: activeButtonImage)
         activeButton.isHidden = true
-        action = buttonAction
+        action = nil
         buttonLabel.text = label
         buttonLabel.fontColor = .black
         buttonLabel.verticalAlignmentMode = .center
@@ -69,7 +69,7 @@ class Button: SKNode {
             let location = touch.location(in: self)
             
             if defaultButton.contains(location) {
-                action()
+                action!()
             }
             
             activeButton.isHidden = true

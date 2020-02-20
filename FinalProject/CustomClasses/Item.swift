@@ -17,7 +17,7 @@ class Item: SKNode {
         
         super.init()
         
-        self.name = "item" // will have to make unique to items
+        self.name = "itemname" // will have to make unique to items
         
         self.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: itemSprite.size.width,
                                                                    height: itemSprite.size.height))

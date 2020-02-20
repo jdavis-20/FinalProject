@@ -33,6 +33,7 @@ var destY: CGFloat = 0.0
 // game state values
 var started = false
 
+var character = ""
 public var playerHealth: Int = 10
 var playerAlive = true
 var playerYDirection = "up"
@@ -114,10 +115,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // set tilt and start moving
         let startButton = Button(defaultButtonImage: "button",
                                  activeButtonImage: "button_active",
-                                 buttonAction: startGame,
+//                                 buttonAction: startGame,
                                  label: "start")
+        startButton.action = startGame
         startButton.position = CGPoint(x: 0,
-                                       y: 0)
+                                       y: -80)
         startButton.zPosition = 3
         charSelPopup.addChild(startButton)
         
@@ -131,8 +133,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // button returning to main menu
         let returnButton = Button(defaultButtonImage: "button",
                                     activeButtonImage: "button_active",
-                                    buttonAction: returnToMenu,
+//                                    buttonAction: returnToMenu,
                                     label: "main menu")
+        returnButton.action = returnToMenu
         returnButton.position = CGPoint(x: 0,
                                         y: -40)
         inGameMenu.addChild(returnButton)
@@ -140,8 +143,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // button to accesss options
         let optionButton = Button(defaultButtonImage: "button",
                                   activeButtonImage: "button_active",
-                                  buttonAction: options,
+//                                  buttonAction: options,
                                   label: "options")
+        optionButton.action = options
         optionButton.position = CGPoint(x: 0,
                                         y: 40)
         inGameMenu.addChild(optionButton)

@@ -13,6 +13,23 @@ class Popup: SKNode {
     let popupNode: SKSpriteNode
     var label = SKLabelNode()
     var itemName = SKLabelNode()
+    var character: String
+    var char1button: Button
+    var char2button: Button
+    var char3button: Button
+
+    func char1() {
+        character = "char1"
+        print("selected character 1")
+    }
+    func char2() {
+        character = "char2"
+        print("selected character 2")
+    }
+    func char3() {
+        character = "char3"
+        print("selected character 3")
+    }
     
     init(image: String, type: String, worldNode: SKNode) {
         
@@ -26,7 +43,29 @@ class Popup: SKNode {
         popupNode.position = CGPoint(x: 0, y: 0)
         popupNode.alpha = 0.8
         
+        character = ""
+
+        char1button = Button(defaultButtonImage: "button",
+                             activeButtonImage: "button_active",
+                             label: "Char1")
+        char1button.position = CGPoint(x: -popupNode.frame.size.width/3, y: 0)
+        char1button.zPosition = 3
+        char2button = Button(defaultButtonImage: "button",
+                             activeButtonImage: "button_active",
+                             label: "Char2")
+        char2button.position = CGPoint(x: 0, y: 0)
+        char2button.zPosition = 3
+        char3button = Button(defaultButtonImage: "button",
+                             activeButtonImage: "button_active",
+                             label: "Char3")
+        char3button.position = CGPoint(x: popupNode.frame.size.width/3, y: 0)
+        char3button.zPosition = 3
+        
         super.init()
+
+        char1button.action = char1
+        char2button.action = char2
+        char3button.action = char3
         
         self.addChild(popupNode)
         self.addChild(label)
@@ -39,7 +78,7 @@ class Popup: SKNode {
             label.text = "lose"
             
         case "item":
-            label.text = "item"
+            label.text = "got item"
             self.addChild(itemName)
             
         case "options":
@@ -47,6 +86,9 @@ class Popup: SKNode {
         
         case "charsel":
             label.text = "character select"
+            self.addChild(char1button)
+            self.addChild(char2button)
+            self.addChild(char3button)
             
         default:
             print("no valid popup type provided")
@@ -70,8 +112,10 @@ class Popup: SKNode {
         itemName.isHidden = true
         worldNode.isPaused = false
         
-        if let child = self.childNode(withName: "button") {
-            child.removeFromParent()
+        for _ in 1...4 {
+            if let child = self.childNode(withName: "button") {
+                child.removeFromParent()
+            }
         }
     }
     

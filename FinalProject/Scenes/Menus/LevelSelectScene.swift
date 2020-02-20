@@ -64,8 +64,9 @@ class LevelSelectScene : SKScene {
         
         let l1Button = Button(defaultButtonImage: "yel",
                                  activeButtonImage: "yell",
-                                 buttonAction: playL1,
+//                                 buttonAction: playL1,
                                  label: "")
+        l1Button.action = playL1
         l1Button.setScale(0.4)
         l1Button.position = CGPoint(x: ((-frame.size.width/2) + 100),
                                     y: ((frame.size.height/2) - 100))
@@ -73,8 +74,9 @@ class LevelSelectScene : SKScene {
         
         let l2Button = Button(defaultButtonImage: "blu",
                               activeButtonImage: "blul",
-                              buttonAction: playL2,
+//                              buttonAction: playL2,
                               label: "")
+        l2Button.action = playL2
         l2Button.setScale(0.4)
         l2Button.position = CGPoint(x: (-frame.size.width/16),
                                     y: ((-frame.size.height/2) + 110))
@@ -82,8 +84,9 @@ class LevelSelectScene : SKScene {
         
         let l3Button = Button(defaultButtonImage: "pur",
                               activeButtonImage: "purl",
-                              buttonAction: playL3,
+//                              buttonAction: playL3,
                               label: "")
+        l3Button.action = playL3
         l3Button.setScale(0.4)
         l3Button.position = CGPoint(x: (frame.size.width * (1/8)),
                                     y: (frame.size.height/2) - 60)
@@ -91,8 +94,9 @@ class LevelSelectScene : SKScene {
         
         let l4Button = Button(defaultButtonImage: "red",
                               activeButtonImage: "redl",
-                              buttonAction: playL4,
+//                              buttonAction: playL4,
                               label: "")
+        l4Button.action = playL4
         l4Button.setScale(0.4)
         l4Button.position = CGPoint(x: ((frame.size.width/2) - 90),
                                     y: 0)
