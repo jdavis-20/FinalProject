@@ -16,7 +16,7 @@ var worldNode = SKNode()
 var camera = SKCameraNode()
 var manager = CMMotionManager()
 var player = SKSpriteNode()
-let enemy = Enemy(image: "enemy")
+var enemy: Enemy?
 
 // menus and popups
 var inGameMenu =  Menu(screenHeight: 375,
@@ -40,6 +40,10 @@ var playerYDirection = "up"
 var playerXDirection = "still"
 
 var enemyRayFirst: SKPhysicsBody?
+var enemyRayUp: SKPhysicsBody?
+var enemyRayDown: SKPhysicsBody?
+var enemyRayLeft: SKPhysicsBody?
+var enemyRayRight: SKPhysicsBody?
 
 var menuOut = true
 var itemPopupOut = false
@@ -204,8 +208,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // enemy---------------------------------------------------------------------------------------------------------
         
 
-        enemy.position = CGPoint(x: frame.size.width/3, y: frame.size.height/2.5)
-        worldNode.addChild(enemy)
+        enemy = Enemy(image: "enemy", player: player, scene: self)
+        enemy?.position = CGPoint(x: frame.size.width/3, y: frame.size.height/2.5)
+        worldNode.addChild(enemy!)
         
 //        if (started == true) {
 //            enemy.movement()
@@ -453,38 +458,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                                                 dy: destY)
         // TODO: enemy moves in rotation direciton?
         if started == true {
+            enemy!.pathfinding()
             
-            enemyRayFirst = self.physicsWorld.body(alongRayStart: enemy.position, end: player.position)
-            
-            if enemyRayFirst?.node?.name == "player" {
-                print("raycast successful")
-                if (enemy.position.x - player.position.x) > 5 {
-                    print("enemy go left")
-                    enemy.physicsBody?.velocity.dx = CGFloat(-100)
-                }
-                if (player.position.x - enemy.position.x) > 5 {
-                    enemy.physicsBody?.velocity.dx = CGFloat(100)
-                    print("enemy go right")
-                }
-                if ((enemy.position.x - player.position.x) < 5) && ((player.position.x - enemy.position.x) < 5) {
-                    enemy.physicsBody?.velocity.dx = CGFloat(0)
-                }
-                
-                if (enemy.position.y - player.position.y) > 5 {
-                    enemy.physicsBody?.velocity.dy = CGFloat(-100)
-                    print("enemy go down")
-                }
-                if (player.position.y - enemy.position.y) > 5 {
-                    enemy.physicsBody?.velocity.dy = CGFloat(100)
-                    print("enemy go up")
-                }
-                if ((enemy.position.y - player.position.y) < 5) && ((player.position.y - enemy.position.y) < 5) {
-                    enemy.physicsBody?.velocity.dy = CGFloat(0)
-                }
-            }
-            else {
-                enemy.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
-            }
 //        enemy.position = CGPoint(x: enemy.position.x + cos(enemy.zRotation) * 10,
 //                                 y: enemy.position.y + sin(enemy.zRotation) * 10)
         }
