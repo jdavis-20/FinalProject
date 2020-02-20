@@ -70,28 +70,28 @@ class Popup: SKNode {
         self.addChild(popupNode)
         self.addChild(label)
         
-        switch type {
-        case "win":
+        if type == "win" {
             label.text = "win"
+        }
             
-        case "lose":
+        if type == "lose"{
             label.text = "lose"
+        }
             
-        case "item":
+        if type == "item"{
             label.text = "got item"
             self.addChild(itemName)
+        }
             
-        case "options":
+        if type == "options"{
             label.text = "options"
+        }
         
-        case "charsel":
+        if type == "charsel"{
             label.text = "character select"
             self.addChild(char1button)
             self.addChild(char2button)
             self.addChild(char3button)
-            
-        default:
-            print("no valid popup type provided")
         }
         
         isUserInteractionEnabled = true
@@ -103,7 +103,9 @@ class Popup: SKNode {
         itemName.isHidden = false
         worldNode.isPaused = true
         
-        self.childNode(withName: "button")?.isHidden = false
+        for child in self.children {
+            child.isHidden = false
+        }
     }
     
     func invisible() {
@@ -112,10 +114,8 @@ class Popup: SKNode {
         itemName.isHidden = true
         worldNode.isPaused = false
         
-        for _ in 1...4 {
-            if let child = self.childNode(withName: "button") {
-                child.removeFromParent()
-            }
+        for child in self.children {
+            child.isHidden = true
         }
     }
     

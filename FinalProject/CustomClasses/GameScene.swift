@@ -78,7 +78,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let menuScene = SKScene(fileNamed: "MenuScene")
         let transition: SKTransition = SKTransition.fade(withDuration: 1)
         self.view?.presentScene(menuScene!, transition: transition)
+
         worldNode.removeAllChildren()
+
+        camera!.removeAllChildren()
+        
         self.removeAllChildren()
         self.removeAllActions()
     }
