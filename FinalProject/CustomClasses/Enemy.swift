@@ -46,23 +46,36 @@ class Enemy: SKNode {
         self.addChild(enemyNode)
     }
     
+    func left() {
+        enemy!.physicsBody?.velocity = CGVector(dx: -100, dy: 0)
+    }
+    func right() {
+        enemy!.physicsBody?.velocity = CGVector(dx: 100, dy: 0)
+    }
+    func up() {
+        enemy!.physicsBody?.velocity = CGVector(dx: 0, dy: 100)
+    }
+    func down() {
+        enemy!.physicsBody?.velocity = CGVector(dx: 0, dy: -100)
+    }
+    
     func pathfinding() {
         var enemyRayPlayer = scene?.physicsWorld.body(alongRayStart: enemy!.position, end: player.position)
         
         var enemyRayUp = scene?.physicsWorld.body(alongRayStart: enemy!.position,
                                                     end: CGPoint(x: enemy!.position.x,
-                                                                 y: enemy!.position.y + 100))
+                                                                 y: enemy!.position.y + 80))
         
         var enemyRayDown = scene?.physicsWorld.body(alongRayStart: enemy!.position,
                                                        end: CGPoint(x: enemy!.position.x,
-                                                                    y: enemy!.position.y - 100))
+                                                                    y: enemy!.position.y - 80))
         
         var enemyRayLeft = scene?.physicsWorld.body(alongRayStart: enemy!.position,
-                                                       end: CGPoint(x: enemy!.position.x - 100,
+                                                       end: CGPoint(x: enemy!.position.x - 80,
                                                                     y: enemy!.position.y))
         
         var enemyRayRight = scene?.physicsWorld.body(alongRayStart: enemy!.position,
-                                                        end: CGPoint(x: enemy!.position.x + 100,
+                                                        end: CGPoint(x: enemy!.position.x + 80,
                                                                      y: enemy!.position.y))
         
 //        let rightline = SKShapeNode()
@@ -147,137 +160,137 @@ class Enemy: SKNode {
 //                print("ENEMY: wall right")
 //            }
             
-            // if walls above/below
-            
-            
-            if (enemyRayUp?.node?.name == "MazeWall") && (enemyRayDown?.node?.name != "MazeWall") &&
-                (enemyRayRight?.node?.name != "MazeWall") && (enemyRayLeft?.node?.name != "MazeWall") {
-                if number3 == 0 {
-                    print("ENEMY: 3 random right")
-                    enemy!.physicsBody?.velocity = CGVector(dx: 100, dy: 0)
-                }
-                if number3 == 1 {
-                    print("ENEMY: 3 random left")
-                    enemy!.physicsBody?.velocity = CGVector(dx: -100, dy: 0)
-                }
-                if number3 == 2 {
-                    print("ENEMY: 3 random down")
-                    enemy!.physicsBody?.velocity = CGVector(dx: 0, dy: -100)
-                }
-            }
-            if (enemyRayDown?.node?.name == "MazeWall") && (enemyRayUp?.node?.name != "MazeWall") &&
-                (enemyRayRight?.node?.name != "MazeWall") && (enemyRayLeft?.node?.name != "MazeWall") {
-                if number3 == 0 {
-                    print("ENEMY: 3 random right")
-                    enemy!.physicsBody?.velocity = CGVector(dx: 100, dy: 0)
-                }
-                if number3 == 1 {
-                    print("ENEMY: 3 random left")
-                    enemy!.physicsBody?.velocity = CGVector(dx: -100, dy: 0)
-                }
-                if number3 == 2 {
-                    print("ENEMY: 3 random up")
-                    enemy!.physicsBody?.velocity = CGVector(dx: 0, dy: 100)
-                }
-            }
-            if (enemyRayLeft?.node?.name == "MazeWall") && (enemyRayDown?.node?.name != "MazeWall") &&
-                (enemyRayRight?.node?.name != "MazeWall") && (enemyRayUp?.node?.name != "MazeWall") {
-                if number3 == 0 {
-                    print("ENEMY: 3 random right")
-                    enemy!.physicsBody?.velocity = CGVector(dx: 100, dy: 0)
-                }
-                if number3 == 1 {
-                    print("ENEMY: 3 random down")
-                    enemy!.physicsBody?.velocity = CGVector(dx: 0, dy: -100)
-                }
-                if number3 == 2 {
-                    print("ENEMY: 3 random up")
-                    enemy!.physicsBody?.velocity = CGVector(dx: 0, dy: 100)
-                }
-            }
-            if (enemyRayRight?.node?.name == "MazeWall") && (enemyRayDown?.node?.name != "MazeWall") &&
-                (enemyRayUp?.node?.name != "MazeWall") && (enemyRayLeft?.node?.name != "MazeWall") {
-                if number3 == 0 {
-                    print("ENEMY: 3 random left")
-                    enemy!.physicsBody?.velocity = CGVector(dx: -100, dy: 0)
-                }
-                if number3 == 1 {
-                    print("ENEMY: 3 random down")
-                    enemy!.physicsBody?.velocity = CGVector(dx: 0, dy: -100)
-                }
-                if number3 == 2 {
-                    print("ENEMY: 3 random up")
-                    enemy!.physicsBody?.velocity = CGVector(dx: 0, dy: 100)
-                }
-            }
-            
-            if (enemyRayUp?.node?.name == "MazeWall") && (enemyRayDown?.node?.name == "MazeWall") {
-                // if wall left go right
-                if (enemyRayLeft?.node?.name == "MazeWall") {
-                    print("ENEMY: undisputed right")
-                    enemy!.physicsBody?.velocity = CGVector(dx: 100, dy: 0)
-                }
-                // if wall right go left
-                if (enemyRayRight?.node?.name == "MazeWall") {
-                    print("ENEMY: undisputed left")
-                    enemy!.physicsBody?.velocity = CGVector(dx: -100, dy: 0)
-                }
-                //if neither pick random
-                if (enemyRayRight?.node?.name != "MazeWall") && (enemyRayLeft?.node?.name != "MazeWall") {
-                    if number2 == 0 {
-                        print("ENEMY: 2 random right")
-                        enemy!.physicsBody?.velocity = CGVector(dx: 100, dy: 0)
-                    }
-                    if number2 == 1 {
-                        print("ENEMY: 2 random left")
-                        enemy!.physicsBody?.velocity = CGVector(dx: -100, dy: 0)
-                    }
-                }
-            }
-            
-            // if left/right go up/down
-            if (enemyRayLeft?.node?.name == "MazeWall") && (enemyRayRight?.node?.name == "MazeWall") {
-                // if wall up go down
-                if (enemyRayUp?.node?.name == "MazeWall") {
-                    enemy!.physicsBody?.velocity = CGVector(dx: 0, dy: -100)
-                    print("ENEMY: undisputed down")
-                }
-                // if wall down go up
-                if (enemyRayDown?.node?.name == "MazeWall") {
-                    print("ENEMY: undisputed up")
-                    enemy!.physicsBody?.velocity = CGVector(dx: 0, dy: 100)
-                }
-                //if neither pick random
-                if (enemyRayUp?.node?.name != "MazeWall") && (enemyRayDown?.node?.name != "MazeWall") {
-                    if number2 == 0 {
-                        print("ENEMY: 2 random down")
-                        enemy!.physicsBody?.velocity = CGVector(dx: 0, dy: -100)
-                    }
-                    if number2 == 1 {
-                        print("ENEMY: 2 random up")
-                        enemy!.physicsBody?.velocity = CGVector(dx: 0, dy: 100)
-                    }
-                }
-            }
             
             // if walls in 0 directions pick random
             if (enemyRayUp?.node?.name != "MazeWall") && (enemyRayDown?.node?.name != "MazeWall") &&
                 (enemyRayRight?.node?.name != "MazeWall") && (enemyRayLeft?.node?.name != "MazeWall") {
                 if number4 == 0 {
                     print("ENEMY: 4 random down")
-                    enemy!.physicsBody?.velocity = CGVector(dx: 0, dy: -100)
+                    down()
                 }
                 if number4 == 1 {
                     print("ENEMY: 4 random up")
-                    enemy!.physicsBody?.velocity = CGVector(dx: 0, dy: 100)
+                    up()
                 }
                 if number4 == 2 {
                     print("ENEMY: 4 random right")
-                    enemy!.physicsBody?.velocity = CGVector(dx: 100, dy: 0)
+                    right()
                 }
                 if number4 == 3 {
                     print("ENEMY: 4 random left")
-                    enemy!.physicsBody?.velocity = CGVector(dx: -100, dy: 0)
+                    left()
+                }
+            }
+            
+            // if wall in 1 direction pick random from other 3
+            if (enemyRayUp?.node?.name == "MazeWall") && (enemyRayDown?.node?.name != "MazeWall") &&
+                (enemyRayRight?.node?.name != "MazeWall") && (enemyRayLeft?.node?.name != "MazeWall") {
+                if number3 == 0 {
+                    print("ENEMY: 3 random right")
+                    right()
+                }
+                if number3 == 1 {
+                    print("ENEMY: 3 random left")
+                    left()
+                }
+                if number3 == 2 {
+                    print("ENEMY: 3 random down")
+                    down()
+                }
+            }
+            if (enemyRayDown?.node?.name == "MazeWall") && (enemyRayUp?.node?.name != "MazeWall") &&
+                (enemyRayRight?.node?.name != "MazeWall") && (enemyRayLeft?.node?.name != "MazeWall") {
+                if number3 == 0 {
+                    print("ENEMY: 3 random right")
+                    right()
+                }
+                if number3 == 1 {
+                    print("ENEMY: 3 random left")
+                    left()
+                }
+                if number3 == 2 {
+                    print("ENEMY: 3 random up")
+                    up()
+                }
+            }
+            if (enemyRayLeft?.node?.name == "MazeWall") && (enemyRayDown?.node?.name != "MazeWall") &&
+                (enemyRayRight?.node?.name != "MazeWall") && (enemyRayUp?.node?.name != "MazeWall") {
+                if number3 == 0 {
+                    print("ENEMY: 3 random right")
+                    right()
+                }
+                if number3 == 1 {
+                    print("ENEMY: 3 random down")
+                    down()
+                }
+                if number3 == 2 {
+                    print("ENEMY: 3 random up")
+                    up()
+                }
+            }
+            if (enemyRayRight?.node?.name == "MazeWall") && (enemyRayDown?.node?.name != "MazeWall") &&
+                (enemyRayUp?.node?.name != "MazeWall") && (enemyRayLeft?.node?.name != "MazeWall") {
+                if number3 == 0 {
+                    print("ENEMY: 3 random left")
+                    left()
+                }
+                if number3 == 1 {
+                    print("ENEMY: 3 random down")
+                    down()
+                }
+                if number3 == 2 {
+                    print("ENEMY: 3 random up")
+                    up()
+                }
+            }
+            
+            // if above&below go left/right
+            if (enemyRayUp?.node?.name == "MazeWall") && (enemyRayDown?.node?.name == "MazeWall") {
+                // if wall left go right
+                if (enemyRayLeft?.node?.name == "MazeWall") {
+                    print("ENEMY: undisputed right")
+                    right()
+                }
+                // if wall right go left
+                if (enemyRayRight?.node?.name == "MazeWall") {
+                    print("ENEMY: undisputed left")
+                    left()
+                }
+                //if neither pick random
+                if (enemyRayRight?.node?.name != "MazeWall") && (enemyRayLeft?.node?.name != "MazeWall") {
+                    if number2 == 0 {
+                        print("ENEMY: 2 random right")
+                        right()
+                    }
+                    if number2 == 1 {
+                        print("ENEMY: 2 random left")
+                        left()
+                    }
+                }
+            }
+            
+            // if left&right go up/down
+            if (enemyRayLeft?.node?.name == "MazeWall") && (enemyRayRight?.node?.name == "MazeWall") {
+                // if wall up go down
+                if (enemyRayUp?.node?.name == "MazeWall") {
+                    down()
+                    print("ENEMY: undisputed down")
+                }
+                // if wall down go up
+                if (enemyRayDown?.node?.name == "MazeWall") {
+                    print("ENEMY: undisputed up")
+                    up()
+                }
+                //if neither pick random
+                if (enemyRayUp?.node?.name != "MazeWall") && (enemyRayDown?.node?.name != "MazeWall") {
+                    if number2 == 0 {
+                        print("ENEMY: 2 random down")
+                        down()
+                    }
+                    if number2 == 1 {
+                        print("ENEMY: 2 random up")
+                        up()
+                    }
                 }
             }
         }
