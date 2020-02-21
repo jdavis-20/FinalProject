@@ -182,6 +182,7 @@ class Enemy: SKNode {
 //                print("ENEMY: wall right")
 //            }
             
+            // TODO: need situations up/right, up/left, down/right, down/left
             
             // if walls in 0 directions pick random
             // A4
@@ -227,7 +228,7 @@ class Enemy: SKNode {
             //A3
             if (nodeAbove == "MazeWall") && (nodeBelow != "MazeWall") &&
                 (nodeRight != "MazeWall") && (nodeLeft != "MazeWall") {
-                if (direction == "up" || direction == "none") {
+//                if (direction == "up" || direction == "none") {
                     if number3 == 0 {
                         print("ENEMY: A3 random right")
                         right()
@@ -240,24 +241,24 @@ class Enemy: SKNode {
                         print("ENEMY: A3 random down")
                         down()
                     }
-                }
-                if (direction == "down") {
-                    print("ENEMY: A3 continue down")
-                    down()
-                }
-                if direction == "left" {
-                    print("ENEMY: A3 continue left")
-                    left()
-                }
-                if direction == "right" {
-                    print("ENEMY: A3 continue right")
-                    right()
-                }
+//                }
+//                if (direction == "down") {
+//                    print("ENEMY: A3 continue down")
+//                    down()
+//                }
+//                if direction == "left" {
+//                    print("ENEMY: A3 continue left")
+//                    left()
+//                }
+//                if direction == "right" {
+//                    print("ENEMY: A3 continue right")
+//                    right()
+//                }
             }
             // B3
             if (nodeBelow == "MazeWall") && (nodeAbove != "MazeWall") &&
                 (nodeRight != "MazeWall") && (nodeLeft != "MazeWall") {
-                if (direction == "down" || direction == "none") {
+//                if (direction == "down" || direction == "none") {
                     if number3 == 0 {
                         print("ENEMY: B3 random right")
                         right()
@@ -270,24 +271,24 @@ class Enemy: SKNode {
                         print("ENEMY: B3 random up")
                         up()
                     }
-                }
-                if (direction == "up") {
-                    print("ENEMY: B3 continue up")
-                    up()
-                }
-                if direction == "left" {
-                    print("ENEMY: B3 continue left")
-                    left()
-                }
-                if direction == "right" {
-                    print("ENEMY: B3 continue right")
-                    right()
-                }
+//                }
+//                if (direction == "up") {
+//                    print("ENEMY: B3 continue up")
+//                    up()
+//                }
+//                if direction == "left" {
+//                    print("ENEMY: B3 continue left")
+//                    left()
+//                }
+//                if direction == "right" {
+//                    print("ENEMY: B3 continue right")
+//                    right()
+//                }
             }
             // C3
             if (nodeLeft == "MazeWall") && (nodeBelow != "MazeWall") &&
                 (nodeRight != "MazeWall") && (nodeAbove != "MazeWall") {
-                if (direction == "left" || direction == "none") {
+//                if (direction == "left" || direction == "none") {
                     if number3 == 0 {
                         print("ENEMY: C3 random right")
                         right()
@@ -300,24 +301,24 @@ class Enemy: SKNode {
                         print("ENEMY: C3 random up")
                         up()
                     }
-                }
-                if (direction == "down") {
-                    print("ENEMY: C3 continue down")
-                    down()
-                }
-                if direction == "up" {
-                    print("ENEMY: C3 continue up")
-                    up()
-                }
-                if direction == "right" {
-                    print("ENEMY: C3 continue right")
-                    right()
-                }
+//                }
+//                if (direction == "down") {
+//                    print("ENEMY: C3 continue down")
+//                    down()
+//                }
+//                if direction == "up" {
+//                    print("ENEMY: C3 continue up")
+//                    up()
+//                }
+//                if direction == "right" {
+//                    print("ENEMY: C3 continue right")
+//                    right()
+//                }
             }
             // D3
             if (nodeRight == "MazeWall") && (nodeBelow != "MazeWall") &&
                 (nodeAbove != "MazeWall") && (nodeLeft != "MazeWall") {
-                if (direction == "right"  || direction == "none") {
+//                if (direction == "right"  || direction == "none") {
                     if number3 == 0 {
                         print("ENEMY: D3 random left")
                         left()
@@ -330,19 +331,19 @@ class Enemy: SKNode {
                         print("ENEMY: D3 random up")
                         up()
                     }
-                }
-                if (direction == "down") {
-                    print("ENEMY: D3 continue down")
-                    down()
-                }
-                if direction == "left" {
-                    print("ENEMY: D3 continue left")
-                    left()
-                }
-                if direction == "up" {
-                    print("ENEMY: D3 continue up")
-                    up()
-                }
+//                }
+//                if (direction == "down") {
+//                    print("ENEMY: D3 continue down")
+//                    down()
+//                }
+//                if direction == "left" {
+//                    print("ENEMY: D3 continue left")
+//                    left()
+//                }
+//                if direction == "up" {
+//                    print("ENEMY: D3 continue up")
+//                    up()
+//                }
             }
             
             // if above&below go left/right
@@ -418,6 +419,94 @@ class Enemy: SKNode {
                         print("ENEMY: B2 continue down")
                         down()
                     }
+                }
+            }
+            // if up&right go down/left
+            if (nodeAbove == "MazeWall") && (nodeRight == "MazeWall") {
+                    // C2
+                    if (direction == "up" || direction == "right" || direction == "none") {
+                            if number2 == 0 {
+                                print("ENEMY: C2 random left")
+                                left()
+                            }
+                            if number2 == 1 {
+                                print("ENEMY: C2 random down")
+                                down()
+                            }
+                    }
+                    if direction == "down" {
+                        print("ENEMY: C2 continue down")
+                        down()
+                    }
+                    if direction == "left" {
+                        print("ENEMY: C2 continue left")
+                        left()
+                    }
+                }
+            // if up&left go down/right
+            if (nodeAbove == "MazeWall") && (nodeLeft == "MazeWall") {
+                // D2
+                if (direction == "up" || direction == "left" || direction == "none") {
+                        if number2 == 0 {
+                            print("ENEMY: D2 random right")
+                            right()
+                        }
+                        if number2 == 1 {
+                            print("ENEMY: D2 random down")
+                            down()
+                        }
+                }
+                if direction == "down" {
+                    print("ENEMY: D2 continue down")
+                    down()
+                }
+                if direction == "right" {
+                    print("ENEMY: D2 continue right")
+                    right()
+                }
+            }
+            // if down&left go up/right
+            if (nodeBelow == "MazeWall") && (nodeLeft == "MazeWall") {
+                // E2
+                if (direction == "down" || direction == "left" || direction == "none") {
+                    if number2 == 0 {
+                        print("ENEMY: E2 random right")
+                        right()
+                    }
+                    if number2 == 1 {
+                        print("ENEMY: E2 random up")
+                        up()
+                    }
+                }
+                if direction == "up" {
+                    print("ENEMY: E2 continue up")
+                    up()
+                }
+                if direction == "right" {
+                    print("ENEMY: E2 continue right")
+                    right()
+                }
+            }
+            // if down&right go up/left
+            if (nodeBelow == "MazeWall") && (nodeRight == "MazeWall") {
+                // F2
+                if (direction == "down" || direction == "right" || direction == "none") {
+                    if number2 == 0 {
+                        print("ENEMY: F2 random left")
+                        left()
+                    }
+                    if number2 == 1 {
+                        print("ENEMY: F2 random up")
+                        up()
+                    }
+                }
+                if direction == "up" {
+                    print("ENEMY: F2 continue up")
+                    up()
+                }
+                if direction == "left" {
+                    print("ENEMY: F2 continue left")
+                    left()
                 }
             }
         }

@@ -105,7 +105,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func didMove(to view: SKView) {
         // This was to see where the menu was in the overall view, leaving for potential future use
-         let zoomOut = SKAction.scale(by: 2, duration: 1)
+         let zoomOut = SKAction.scale(by: 3, duration: 1)
          camera!.run(zoomOut)
         
         // only nodes that are children of worldNode will be paused
@@ -209,7 +209,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
 
         enemy = Enemy(image: "enemy", player: player, scene: self)
-        enemy?.position = CGPoint(x: frame.size.width/3, y: frame.size.height/1.5)
+        enemy?.position = CGPoint(x: frame.size.width/3, y: frame.size.height)
         worldNode.addChild(enemy!)
         
 //        if (started == true) {
