@@ -80,7 +80,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     //button on the in-game menu-------------------------------------------------------
     
     func returnToMenu(){
-        print("main menu button pressed")
+        print("MENU: main menu button pressed")
         let menuScene = SKScene(fileNamed: "MenuScene")
         let transition: SKTransition = SKTransition.fade(withDuration: 1)
         self.view?.presentScene(menuScene!, transition: transition)
@@ -94,7 +94,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func options(){
-        print("options button pressed")
+        print("MENU: options button pressed")
         physicsWorld.speed = 0
         optionsPopup.visible()
         inGameMenu.isPaused = true
@@ -105,8 +105,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func didMove(to view: SKView) {
         // This was to see where the menu was in the overall view, leaving for potential future use
-        // let zoomOut = SKAction.scale(by: 2, duration: 1)
-        // camera!.run(zoomOut)
+         let zoomOut = SKAction.scale(by: 2, duration: 1)
+         camera!.run(zoomOut)
         
         // only nodes that are children of worldNode will be paused
         // this is so menus still work after they are opened
@@ -209,7 +209,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
 
         enemy = Enemy(image: "enemy", player: player, scene: self)
-        enemy?.position = CGPoint(x: frame.size.width/3, y: frame.size.height/2.5)
+        enemy?.position = CGPoint(x: frame.size.width/3, y: frame.size.height/1.5)
         worldNode.addChild(enemy!)
         
 //        if (started == true) {
@@ -233,7 +233,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 //records tilt along x axis once, when start button is pressed
                 if (preferredTilt == nil) && (started == true) {
                     preferredTilt = data.acceleration.x
-                    print("Preferred tilt angle is \(Int(preferredTilt! * 90))°")
+                    print("INIT: Preferred tilt angle is \(Int(preferredTilt! * 90))°")
                     //0° is flat, 90° is vertical
                 }
                 
@@ -302,14 +302,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                                           duration: 0.5)
         if (inGameMenu.isPaused == false) && (started == true) {
             if sender.direction == .left {
-                    print("left swipe")
+                print("MENU: left swipe")
                     inGameMenu.run(enterAction)
                     worldNode.isPaused = true
                     physicsWorld.speed = 0
                     menuOut = true
             }
             if sender.direction == .right{
-                    print("right swipe")
+                print("MENU: right swipe")
                     inGameMenu.run(leaveAction)
                     worldNode.isPaused = false
                     physicsWorld.speed = 1
@@ -352,16 +352,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if ((bName == "player") && (aName == "enemy")) ||
                 ((bName == "enemy") && (aName == "player")) {
                 playerHealth -= 1
-                print("player touched enemy")
+                print("COLLISION: player touched enemy")
                 //death condition (may need to be moved later)
                 if playerHealth <= 0 {
                     playerAlive = false
-                    print("player died")
+                    print("COLLISION: player died")
                 }
             }
             // item collision (currently can be initiated by either body, because items may move)
             if ((bName == "player") && (aNode! is Item)) {
-                print("item collision")
+                print("COLLISION: item")
                 aNode!.removeFromParent()
                 
                 itemPopupOut = true
@@ -370,7 +370,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 physicsWorld.speed = 0
             }
             if ((aName == "player") && (bNode! is Item)) {
-                print("item collision")
+                print("COLLSION: item")
                 bNode!.removeFromParent()
                 
                 itemPopupOut = true

@@ -11,11 +11,13 @@ import SpriteKit
 class Enemy: SKNode {
     
     let enemyNode: SKSpriteNode
-    let number2 = Int(arc4random_uniform(2))
-    let number3 = Int(arc4random_uniform(3))
-    let number4 = Int(arc4random_uniform(4))
+   
     let range: CGFloat = 100
     var direction = "none"
+    var timer = Timer()
+    var number2 = Int(arc4random_uniform(2))
+    var number3 = Int(arc4random_uniform(3))
+    var number4 = Int(arc4random_uniform(4))
 
 
 //    let path = UIBezierPath()
@@ -36,6 +38,13 @@ class Enemy: SKNode {
 //        path.addLine(to: CGPoint(x: -50, y: 0))
         
         super.init()
+        
+        Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { timer in
+            self.number2 = Int(arc4random_uniform(2))
+            self.number3 = Int(arc4random_uniform(3))
+            self.number4 = Int(arc4random_uniform(4))
+            print("ENEMY: var changed: \(self.number2), \(self.number3), \(self.number4)")
+        }
         
         self.name = "enemy"
         self.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: enemyNode.size.width,
@@ -84,41 +93,48 @@ class Enemy: SKNode {
                                                         end: CGPoint(x: enemy!.position.x + range,
                                                                      y: enemy!.position.y))
         
-        let rightline = SKShapeNode()
-        let rightPath = CGMutablePath()
-        rightPath.move(to: CGPoint(x:0, y:0))
-        rightPath.addLine(to: CGPoint(x: 100,
-                                       y: 0))
-        rightline.path = rightPath
-        rightline.strokeColor = SKColor.red
-        addChild(rightline)
-
-        let leftline = SKShapeNode()
-        let leftPath = CGMutablePath()
-        leftPath.move(to: CGPoint(x:0, y:0))
-        leftPath.addLine(to: CGPoint(x: -100,
-                                       y: 0))
-        leftline.path = leftPath
-        leftline.strokeColor = SKColor.red
-        addChild(leftline)
-
-        let upline = SKShapeNode()
-        let upPath = CGMutablePath()
-        upPath.move(to: CGPoint(x:0, y:0))
-        upPath.addLine(to: CGPoint(x: 0,
-                                       y: 100))
-        upline.path = upPath
-        upline.strokeColor = SKColor.red
-        addChild(upline)
-
-        let downline = SKShapeNode()
-        let downPath = CGMutablePath()
-        downPath.move(to: CGPoint(x:0, y:0))
-        downPath.addLine(to: CGPoint(x: 0,
-                                       y: -100))
-        downline.path = downPath
-        downline.strokeColor = SKColor.red
-        addChild(downline)
+        var nodeAbove = enemyRayUp?.node?.name
+        var nodeBelow = enemyRayDown?.node?.name
+        var nodeLeft = enemyRayLeft?.node?.name
+        var nodeRight = enemyRayRight?.node?.name
+        
+//        let rightline = SKShapeNode()
+//        let rightPath = CGMutablePath()
+//        rightPath.move(to: CGPoint(x:0, y:0))
+//        rightPath.addLine(to: CGPoint(x: 100,
+//                                       y: 0))
+//        rightline.path = rightPath
+//        rightline.strokeColor = SKColor.red
+//        addChild(rightline)
+//
+//        let leftline = SKShapeNode()
+//        let leftPath = CGMutablePath()
+//        leftPath.move(to: CGPoint(x:0, y:0))
+//        leftPath.addLine(to: CGPoint(x: -100,
+//                                       y: 0))
+//        leftline.path = leftPath
+//        leftline.strokeColor = SKColor.red
+//        addChild(leftline)
+//
+//        let upline = SKShapeNode()
+//        let upPath = CGMutablePath()
+//        upPath.move(to: CGPoint(x:0, y:0))
+//        upPath.addLine(to: CGPoint(x: 0,
+//                                       y: 100))
+//        upline.path = upPath
+//        upline.strokeColor = SKColor.red
+//        addChild(upline)
+//
+//        let downline = SKShapeNode()
+//        let downPath = CGMutablePath()
+//        downPath.move(to: CGPoint(x:0, y:0))
+//        downPath.addLine(to: CGPoint(x: 0,
+//                                       y: -100))
+//        downline.path = downPath
+//        downline.strokeColor = SKColor.red
+//        addChild(downline)
+        
+        
         
         // enemy detects if player is in sight using raycasting
         // if it is then enemy follows player 
@@ -153,24 +169,24 @@ class Enemy: SKNode {
         else {
             
             // if wall is within 100 units in this direction
-//            if enemyRayUp?.node?.name == "MazeWall" {
+//            if nodeAbove == "MazeWall" {
 //                print("ENEMY: wall above")
 //            }
-//            if enemyRayDown?.node?.name == "MazeWall" {
+//            if nodeBelow == "MazeWall" {
 //                print("ENEMY: wall below")
 //            }
-//            if enemyRayLeft?.node?.name == "MazeWall" {
+//            if nodeLeft == "MazeWall" {
 //                print("ENEMY: wall left")
 //            }
-//            if enemyRayRight?.node?.name == "MazeWall" {
+//            if nodeRight == "MazeWall" {
 //                print("ENEMY: wall right")
 //            }
             
             
             // if walls in 0 directions pick random
             // A4
-            if (enemyRayUp?.node?.name != "MazeWall") && (enemyRayDown?.node?.name != "MazeWall") &&
-                (enemyRayRight?.node?.name != "MazeWall") && (enemyRayLeft?.node?.name != "MazeWall") {
+            if (nodeAbove != "MazeWall") && (nodeBelow != "MazeWall") &&
+                (nodeRight != "MazeWall") && (nodeLeft != "MazeWall") {
                 if direction == "none" {
                     if number4 == 0 {
                         print("ENEMY: A4 random down")
@@ -209,8 +225,8 @@ class Enemy: SKNode {
             
             // if wall in 1 direction pick random from other 3
             //A3
-            if (enemyRayUp?.node?.name == "MazeWall") && (enemyRayDown?.node?.name != "MazeWall") &&
-                (enemyRayRight?.node?.name != "MazeWall") && (enemyRayLeft?.node?.name != "MazeWall") {
+            if (nodeAbove == "MazeWall") && (nodeBelow != "MazeWall") &&
+                (nodeRight != "MazeWall") && (nodeLeft != "MazeWall") {
                 if (direction == "up" || direction == "none") {
                     if number3 == 0 {
                         print("ENEMY: A3 random right")
@@ -225,10 +241,22 @@ class Enemy: SKNode {
                         down()
                     }
                 }
+                if (direction == "down") {
+                    print("ENEMY: A3 continue down")
+                    down()
+                }
+                if direction == "left" {
+                    print("ENEMY: A3 continue left")
+                    left()
+                }
+                if direction == "right" {
+                    print("ENEMY: A3 continue right")
+                    right()
+                }
             }
             // B3
-            if (enemyRayDown?.node?.name == "MazeWall") && (enemyRayUp?.node?.name != "MazeWall") &&
-                (enemyRayRight?.node?.name != "MazeWall") && (enemyRayLeft?.node?.name != "MazeWall") {
+            if (nodeBelow == "MazeWall") && (nodeAbove != "MazeWall") &&
+                (nodeRight != "MazeWall") && (nodeLeft != "MazeWall") {
                 if (direction == "down" || direction == "none") {
                     if number3 == 0 {
                         print("ENEMY: B3 random right")
@@ -243,10 +271,22 @@ class Enemy: SKNode {
                         up()
                     }
                 }
+                if (direction == "up") {
+                    print("ENEMY: B3 continue up")
+                    up()
+                }
+                if direction == "left" {
+                    print("ENEMY: B3 continue left")
+                    left()
+                }
+                if direction == "right" {
+                    print("ENEMY: B3 continue right")
+                    right()
+                }
             }
             // C3
-            if (enemyRayLeft?.node?.name == "MazeWall") && (enemyRayDown?.node?.name != "MazeWall") &&
-                (enemyRayRight?.node?.name != "MazeWall") && (enemyRayUp?.node?.name != "MazeWall") {
+            if (nodeLeft == "MazeWall") && (nodeBelow != "MazeWall") &&
+                (nodeRight != "MazeWall") && (nodeAbove != "MazeWall") {
                 if (direction == "left" || direction == "none") {
                     if number3 == 0 {
                         print("ENEMY: C3 random right")
@@ -261,10 +301,22 @@ class Enemy: SKNode {
                         up()
                     }
                 }
+                if (direction == "down") {
+                    print("ENEMY: C3 continue down")
+                    down()
+                }
+                if direction == "up" {
+                    print("ENEMY: C3 continue up")
+                    up()
+                }
+                if direction == "right" {
+                    print("ENEMY: C3 continue right")
+                    right()
+                }
             }
             // D3
-            if (enemyRayRight?.node?.name == "MazeWall") && (enemyRayDown?.node?.name != "MazeWall") &&
-                (enemyRayUp?.node?.name != "MazeWall") && (enemyRayLeft?.node?.name != "MazeWall") {
+            if (nodeRight == "MazeWall") && (nodeBelow != "MazeWall") &&
+                (nodeAbove != "MazeWall") && (nodeLeft != "MazeWall") {
                 if (direction == "right"  || direction == "none") {
                     if number3 == 0 {
                         print("ENEMY: D3 random left")
@@ -279,60 +331,92 @@ class Enemy: SKNode {
                         up()
                     }
                 }
+                if (direction == "down") {
+                    print("ENEMY: D3 continue down")
+                    down()
+                }
+                if direction == "left" {
+                    print("ENEMY: D3 continue left")
+                    left()
+                }
+                if direction == "up" {
+                    print("ENEMY: D3 continue up")
+                    up()
+                }
             }
             
             // if above&below go left/right
-            if (enemyRayUp?.node?.name == "MazeWall") && (enemyRayDown?.node?.name == "MazeWall") {
+            if (nodeAbove == "MazeWall") && (nodeBelow == "MazeWall") {
                 if (direction == "up" || direction == "down" || direction == "none") {
                     // if wall left go right
-                    if (enemyRayLeft?.node?.name == "MazeWall") {
+                    if (nodeLeft == "MazeWall") {
                         print("ENEMY: undisputed right")
                         right()
                     }
                     // if wall right go left
-                    if (enemyRayRight?.node?.name == "MazeWall") {
+                    if (nodeRight == "MazeWall") {
                         print("ENEMY: undisputed left")
                         left()
                     }
                     // if neither pick random
                     // A2
-                    if (enemyRayRight?.node?.name != "MazeWall") && (enemyRayLeft?.node?.name != "MazeWall") {
-                        if number2 == 0 {
-                            print("ENEMY: A2 random right")
-                            right()
+                    if (direction == "up" || direction == "down" || direction == "none") {
+                        if (nodeRight != "MazeWall") && (nodeLeft != "MazeWall") {
+                            if number2 == 0 {
+                                print("ENEMY: A2 random right")
+                                right()
+                            }
+                            if number2 == 1 {
+                                print("ENEMY: A2 random left")
+                                left()
+                            }
                         }
-                        if number2 == 1 {
-                            print("ENEMY: A2 random left")
-                            left()
-                        }
+                    }
+                    if direction == "left" {
+                        print("ENEMY: A2 continue left")
+                        left()
+                    }
+                    if direction == "right" {
+                        print("ENEMY: A2 continue right")
+                        right()
                     }
                 }
             }
             
             // if left&right go up/down
-            if (enemyRayLeft?.node?.name == "MazeWall") && (enemyRayRight?.node?.name == "MazeWall") {
+            if (nodeLeft == "MazeWall") && (nodeRight == "MazeWall") {
                 if (direction == "left" || direction == "right" || direction == "none") {
                     // if wall up go down
-                    if (enemyRayUp?.node?.name == "MazeWall") {
+                    if (nodeAbove == "MazeWall") {
                         down()
                         print("ENEMY: undisputed down")
                     }
                     // if wall down go up
-                    if (enemyRayDown?.node?.name == "MazeWall") {
+                    if (nodeBelow == "MazeWall") {
                         print("ENEMY: undisputed up")
                         up()
                     }
                     //if neither pick random
                     // B2
-                    if (enemyRayUp?.node?.name != "MazeWall") && (enemyRayDown?.node?.name != "MazeWall") {
-                        if number2 == 0 {
-                            print("ENEMY: B2 random down")
-                            down()
+                    if (direction == "left" || direction == "right" || direction == "none") {
+                        if (nodeAbove != "MazeWall") && (nodeBelow != "MazeWall") {
+                            if number2 == 0 {
+                                print("ENEMY: B2 random down")
+                                down()
+                            }
+                            if number2 == 1 {
+                                print("ENEMY: B2 random up")
+                                up()
+                            }
                         }
-                        if number2 == 1 {
-                            print("ENEMY: B2 random up")
-                            up()
-                        }
+                    }
+                    if direction == "up" {
+                        print("ENEMY: B2 continue up")
+                        up()
+                    }
+                    if direction == "down" {
+                        print("ENEMY: B2 continue down")
+                        down()
                     }
                 }
             }

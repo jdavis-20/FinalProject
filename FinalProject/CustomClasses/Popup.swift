@@ -20,15 +20,15 @@ class Popup: SKNode {
 
     func char1() {
         character = "char1"
-        print("selected character 1")
+        print("POPUP: selected character 1")
     }
     func char2() {
         character = "char2"
-        print("selected character 2")
+        print("POPUP: selected character 2")
     }
     func char3() {
         character = "char3"
-        print("selected character 3")
+        print("POPUP: selected character 3")
     }
     
     init(image: String, type: String, worldNode: SKNode) {

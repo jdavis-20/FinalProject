@@ -23,7 +23,7 @@ class LevelSelectScene : SKScene {
         levelSelectCamera.position = CGPoint(x: 0,
                                              y: 0)
         
-        print(frame.size)
+        print("INIT: \(frame.size)")
         
         //setting scenes as variables
         var l1scene = SKScene(fileNamed: "Level1Scene")
