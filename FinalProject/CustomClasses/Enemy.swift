@@ -9,6 +9,22 @@
 import SpriteKit
 
 class Enemy: SKSpriteNode {
+    
+    let range: CGFloat = 100
+    var timer = Timer()
+    var number2 = Int(arc4random_uniform(2))
+    var number3 = Int(arc4random_uniform(3))
+    var number4 = Int(arc4random_uniform(4))
+    var direction = "none"
+    var idleSpeed = 100
+    var state = "none"
+    // state options are
+    // open - no walls,
+    // wall - 1 wall,
+    // corridor - 2 walls parallel,
+    // corner - 2 walls perpendicular,
+    // box - 3 walls
+    
     func enemyInit() {
         self.name = "enemy"
         self.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: self.frame.size.width,
@@ -21,42 +37,28 @@ class Enemy: SKSpriteNode {
         }
     
     func pathfinding(playerNode: SKSpriteNode, currentScene: SKScene) {
-        let range: CGFloat = 100
-        var direction = "none"
-        var timer = Timer()
-        var number2 = Int(arc4random_uniform(2))
-        var number3 = Int(arc4random_uniform(3))
-        var number4 = Int(arc4random_uniform(4))
-        var state = "none"
-        var speed = 100
-        // state options are
-        // open - no walls,
-        // wall - 1 wall,
-        // corridor - 2 walls parallel,
-        // corner - 2 walls perpendicular,
-        // box - 3 walls
         
         Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { timer in
-            number2 = Int(arc4random_uniform(2))
-            number3 = Int(arc4random_uniform(3))
-            number4 = Int(arc4random_uniform(4))
+            self.number2 = Int(arc4random_uniform(2))
+            self.number3 = Int(arc4random_uniform(3))
+            self.number4 = Int(arc4random_uniform(4))
 //            print("ENEMY: var changed: \(self.number2), \(self.number3), \(self.number4)")
         }
         
         func left() {
-            self.physicsBody?.velocity = CGVector(dx: -speed, dy: 0)
+            self.physicsBody?.velocity = CGVector(dx: -idleSpeed, dy: 0)
             direction = "left"
         }
         func right() {
-            self.physicsBody?.velocity = CGVector(dx: speed, dy: 0)
+            self.physicsBody?.velocity = CGVector(dx: idleSpeed, dy: 0)
             direction = "right"
         }
         func up() {
-            self.physicsBody?.velocity = CGVector(dx: 0, dy: speed)
+            self.physicsBody?.velocity = CGVector(dx: 0, dy: idleSpeed)
             direction = "up"
         }
         func down() {
-            self.physicsBody?.velocity = CGVector(dx: 0, dy: -speed)
+            self.physicsBody?.velocity = CGVector(dx: 0, dy: -idleSpeed)
             direction = "down"
         }
         
