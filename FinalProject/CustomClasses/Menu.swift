@@ -14,8 +14,8 @@ class Menu: SKShapeNode {
     let enterPath = UIBezierPath()
     let leavePath = UIBezierPath()
     
-    init(/*position: String, */screenHeight: CGFloat,
-                               screenWidth: CGFloat) {
+    init(screenHeight: CGFloat,
+         screenWidth: CGFloat) {
         menuRect = SKShapeNode(rectOf: CGSize(width: 0,
                                               height: 0))
         menuRect.name = "menu"

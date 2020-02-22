@@ -16,7 +16,6 @@ var worldNode = SKNode()
 var camera = SKCameraNode()
 var manager = CMMotionManager()
 var player = SKSpriteNode()
-var enemy: Enemy?
 
 // menus and popups
 var inGameMenu =  Menu(screenHeight: 375,
@@ -41,12 +40,7 @@ var healthLabel = SKLabelNode(text: String(10))
 var playerAlive = true
 var playerYDirection = "up"
 var playerXDirection = "still"
-
-var enemyRayFirst: SKPhysicsBody?
-var enemyRayUp: SKPhysicsBody?
-var enemyRayDown: SKPhysicsBody?
-var enemyRayLeft: SKPhysicsBody?
-var enemyRayRight: SKPhysicsBody?
+var enemyInit = false
 
 var menuOut = true
 var itemPopupOut = false
@@ -111,6 +105,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // This was to see where the menu was in the overall view, leaving for potential future use
 //         let zoomOut = SKAction.scale(by: 3, duration: 1)
 //         camera!.run(zoomOut)
+        camera!.setScale(4)
         
         // only nodes that are children of worldNode will be paused
         // this is so menus still work after they are opened
@@ -214,18 +209,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         // enemy---------------------------------------------------------------------------------------------------------
         
-
-        enemy = Enemy(image: "enemy", player: player, scene: self)
-        enemy?.position = CGPoint(x: frame.size.width/3, y: frame.size.height)
-        worldNode.addChild(enemy!)
-        
-//        if (started == true) {
-//            enemy.movement()
-//        }
-        
-
-
-        
+        scene?.enumerateChildNodes(withName: "enemy") {
+            (node, stop) in
+            let enemy = node as? Enemy
+            enemy?.enemyInit()
+        }
         
         // accelerometer data--------------------------------------------------------------------------------------------
         
@@ -356,8 +344,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
             
             // player touches an enemy (can be initiated by either body)
-            if ((bName == "player") && (aName == "enemy")) ||
-                ((bName == "enemy") && (aName == "player")) {
+            if ((bName == "player") && (aNode is Enemy)) ||
+                ((bNode is Enemy) && (aName == "player")) {
                 playerHealth -= 1
                 print("COLLISION: player touched enemy, health = \(playerHealth)")
                 //death condition (may need to be moved later)
@@ -365,13 +353,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     playerAlive = false
                     print("COLLISION: player died")
                     
-                    camera!.addChild(losePopup)
-                    losePopup.visible()
-                    physicsWorld.speed = 0
-                    inGameMenu.isPaused = true
+//                    camera!.addChild(losePopup)
+//                    losePopup.visible()
+//                    physicsWorld.speed = 0
+//                    inGameMenu.isPaused = true
                 }
                 
-                let rebound = 300
+                let rebound = 50 // was 300
                 let goLeft = SKAction.applyImpulse(CGVector(dx: -rebound, dy: 0), duration: 0.1)
                 let goRight = SKAction.applyImpulse(CGVector(dx: rebound, dy: 0), duration: 0.1)
                 let goUp = SKAction.applyImpulse(CGVector(dx: 0, dy: rebound), duration: 0.1)
@@ -379,27 +367,27 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 
                 // enemy & player will only bounce off of each other vertical or horizontal,
                 // based off of whether the difference in y position or x position is greater
-                if (abs(enemy!.position.x - player.position.x) > abs(enemy!.position.y - player.position.y)) {
-                    if (enemy!.position.x < player.position.x) {
-                        enemy!.run(goLeft)
-                        player.run(goRight)
+                if (abs(aNode!.position.x - bNode!.position.x) > abs(aNode!.position.y - bNode!.position.y)) {
+                    if (aNode!.position.x < bNode!.position.x) {
+                        aNode!.run(goLeft)
+                        bNode!.run(goRight)
                         print("ENEMY: rebound left")
                     }
-                    if (enemy!.position.x > player.position.x) {
-                        enemy!.run(goRight)
-                        player.run(goLeft)
+                    if (aNode!.position.x > bNode!.position.x) {
+                        aNode!.run(goRight)
+                        bNode!.run(goLeft)
                         print("ENEMY: rebound right")
                     }
                 }
-                if (abs(enemy!.position.y - player.position.y) > abs(enemy!.position.x - player.position.x)) {
-                    if (enemy!.position.y < player.position.y) {
-                        enemy!.run(goDown)
-                        player.run(goUp)
+                if (abs(aNode!.position.y - bNode!.position.y) > abs(aNode!.position.x - bNode!.position.x)) {
+                    if (aNode!.position.y < bNode!.position.y) {
+                        aNode!.run(goDown)
+                        bNode!.run(goUp)
                         print("ENEMY: rebound down")
                     }
-                    if (enemy!.position.y > player.position.y) {
-                        enemy!.run(goUp)
-                        player.run(goDown)
+                    if (aNode!.position.y > bNode!.position.y) {
+                        aNode!.run(goUp)
+                        bNode!.run(goDown)
                         print("ENEMY: rebound up")
                     }
                 }
@@ -422,14 +410,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 itemPopup.itemName.text = bName
                 itemPopup.visible()
                 physicsWorld.speed = 0
-            }
-            
-            // TODO: trying enemy movement stuff
-            if (aName == "wall" && bName == "enemy") {
-                bNode?.zRotation = .pi
-            }
-            if (aName == "enemy" && bName == "wall") {
-                aNode?.zRotation = .pi
             }
         }
     }
@@ -503,12 +483,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // player movement based on tilt
         player.physicsBody!.velocity = CGVector(dx: destX,
                                                 dy: destY)
-        // TODO: enemy moves in rotation direciton?
+
         if started == true {
-            enemy!.pathfinding()
-            
-//        enemy.position = CGPoint(x: enemy.position.x + cos(enemy.zRotation) * 10,
-//                                 y: enemy.position.y + sin(enemy.zRotation) * 10)
+            scene?.enumerateChildNodes(withName: "enemy") {
+                (node, stop) in
+                let enemy = node as? Enemy
+                enemy?.pathfinding(playerNode: player, currentScene: self)
+            }
         }
     }
 }

@@ -107,7 +107,6 @@ class Popup: SKNode {
             child.isHidden = false
         }
     }
-    
     func invisible() {
         popupNode.isHidden = true
         label.isHidden = true
