@@ -356,11 +356,37 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if ((bName == "player") && (aName == "enemy")) ||
                 ((bName == "enemy") && (aName == "player")) {
                 playerHealth -= 1
-                print("COLLISION: player touched enemy")
+                print("COLLISION: player touched enemy, health = \(playerHealth)")
                 //death condition (may need to be moved later)
                 if playerHealth <= 0 {
                     playerAlive = false
                     print("COLLISION: player died")
+                }
+                
+                let goLeft = SKAction.moveBy(x: -40, y: 0, duration: 0.1)
+                let goRight = SKAction.moveBy(x: 40, y: 0, duration: 0.1)
+                let goUp = SKAction.moveBy(x: 0, y: 40, duration: 0.1)
+                let goDown = SKAction.moveBy(x: 0, y: -40, duration: 0.1)
+                
+                if (abs(enemy!.position.x - player.position.x) > abs(enemy!.position.y - player.position.y)) {
+                    if (enemy!.position.x < player.position.x) {
+                        enemy!.run(goLeft)
+                        print("ENEMY: rebound left")
+                    }
+                    if (enemy!.position.x > player.position.x) {
+                        enemy!.run(goRight)
+                        print("ENEMY: rebound right")
+                    }
+                }
+                if (abs(enemy!.position.y - player.position.y) > abs(enemy!.position.x - player.position.x)) {
+                    if (enemy!.position.y < player.position.y) {
+                        enemy!.run(goDown)
+                        print("ENEMY: rebound down")
+                    }
+                    if (enemy!.position.y > player.position.y) {
+                        enemy!.run(goUp)
+                        print("ENEMY: rebound up")
+                    }
                 }
             }
             // item collision (currently can be initiated by either body, because items may move)

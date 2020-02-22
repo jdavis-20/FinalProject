@@ -50,7 +50,7 @@ class Enemy: SKNode {
             self.number2 = Int(arc4random_uniform(2))
             self.number3 = Int(arc4random_uniform(3))
             self.number4 = Int(arc4random_uniform(4))
-            print("ENEMY: var changed: \(self.number2), \(self.number3), \(self.number4)")
+            //print("ENEMY: var changed: \(self.number2), \(self.number3), \(self.number4)")
         }
         
         self.name = "enemy"
@@ -60,6 +60,7 @@ class Enemy: SKNode {
         self.physicsBody?.allowsRotation = false
         self.physicsBody?.isDynamic = true
         self.physicsBody?.contactTestBitMask = 0x00000001
+        self.physicsBody?.restitution = 1
         
         self.addChild(enemyNode)
     }
@@ -146,26 +147,26 @@ class Enemy: SKNode {
         // enemy detects if player is in sight using raycasting
         // if it is then enemy follows player 
         if enemyRayPlayer?.node == player {
-            print("ENEMY: raycast detected player")
+            //print("ENEMY: raycast detected player")
             if (enemy!.position.x - player.position.x) > 3 {
-                print("ENEMY: follow left")
-                enemy!.physicsBody?.velocity.dx = CGFloat(-100)
+                //print("ENEMY: follow left")
+                enemy!.physicsBody?.velocity.dx = CGFloat(-80)
             }
             if (player.position.x - enemy!.position.x) > 3 {
-                enemy!.physicsBody?.velocity.dx = CGFloat(100)
-                print("ENEMY: follow right")
+                enemy!.physicsBody?.velocity.dx = CGFloat(80)
+                //print("ENEMY: follow right")
             }
             if ((enemy!.position.x - player.position.x) < 3) && ((player.position.x - enemy!.position.x) < 3) {
                 enemy!.physicsBody?.velocity.dx = CGFloat(0)
             }
             
             if (enemy!.position.y - player.position.y) > 3 {
-                enemy!.physicsBody?.velocity.dy = CGFloat(-100)
-                print("ENEMY: follow down")
+                enemy!.physicsBody?.velocity.dy = CGFloat(-80)
+                //print("ENEMY: follow down")
             }
             if (player.position.y - enemy!.position.y) > 3 {
-                enemy!.physicsBody?.velocity.dy = CGFloat(100)
-                print("ENEMY: follow up")
+                enemy!.physicsBody?.velocity.dy = CGFloat(80)
+                //print("ENEMY: follow up")
             }
             if ((enemy!.position.y - player.position.y) < 3) && ((player.position.y - enemy!.position.y) < 3) {
                 enemy!.physicsBody?.velocity.dy = CGFloat(0)
@@ -177,16 +178,16 @@ class Enemy: SKNode {
             
             // if wall is within 100 units in this direction
 //            if nodeAbove == "MazeWall" {
-//                print("ENEMY: wall above")
+//                //print("ENEMY: wall above")
 //            }
 //            if nodeBelow == "MazeWall" {
-//                print("ENEMY: wall below")
+//                //print("ENEMY: wall below")
 //            }
 //            if nodeLeft == "MazeWall" {
-//                print("ENEMY: wall left")
+//                //print("ENEMY: wall left")
 //            }
 //            if nodeRight == "MazeWall" {
-//                print("ENEMY: wall right")
+//                //print("ENEMY: wall right")
 //            }
             
             // if going towards wall, pick random from other 3
@@ -196,33 +197,33 @@ class Enemy: SKNode {
                 (nodeRight != "MazeWall") && (nodeLeft != "MazeWall") {
 //                if (direction == "up" || direction == "none") {
                     if number3 == 0 {
-                        print("ENEMY: A3 random right")
+                        //print("ENEMY: A3 random right")
                         right()
                         state = "wall"
                     }
                     if number3 == 1 {
-                        print("ENEMY: A3 random left")
+                        //print("ENEMY: A3 random left")
                         left()
                         state = "wall"
                     }
                     if number3 == 2 {
-                        print("ENEMY: A3 random down")
+                        //print("ENEMY: A3 random down")
                         down()
                         state = "wall"
                     }
 //                }
 //                if (direction == "down") {
-//                    print("ENEMY: A3 continue down")
+//                    //print("ENEMY: A3 continue down")
 //                    down()
 //                    state = "wall"
 //                }
 //                if direction == "left" {
-//                    print("ENEMY: A3 continue left")
+//                    //print("ENEMY: A3 continue left")
 //                    left()
 //                    state = "wall"
 //                }
 //                if direction == "right" {
-//                    print("ENEMY: A3 continue right")
+//                    //print("ENEMY: A3 continue right")
 //                    right()
 //                    state = "wall"
 //                }
@@ -232,33 +233,33 @@ class Enemy: SKNode {
                 (nodeRight != "MazeWall") && (nodeLeft != "MazeWall") {
 //                if (direction == "down" || direction == "none") {
                     if number3 == 0 {
-                        print("ENEMY: B3 random right")
+                        //print("ENEMY: B3 random right")
                         right()
                         state = "wall"
                     }
                     if number3 == 1 {
-                        print("ENEMY: B3 random left")
+                        //print("ENEMY: B3 random left")
                         left()
                         state = "wall"
                     }
                     if number3 == 2 {
-                        print("ENEMY: B3 random up")
+                        //print("ENEMY: B3 random up")
                         up()
                         state = "wall"
                     }
 //                }
 //                if (direction == "up") {
-//                    print("ENEMY: B3 continue up")
+//                    //print("ENEMY: B3 continue up")
 //                    up()
 //                     state = "wall"
 //                }
 //                if direction == "left" {
-//                    print("ENEMY: B3 continue left")
+//                    //print("ENEMY: B3 continue left")
 //                    left()
 //                    state = "wall"
 //                }
 //                if direction == "right" {
-//                    print("ENEMY: B3 continue right")
+//                    //print("ENEMY: B3 continue right")
 //                    right()
 //                    state = "wall"
 //                }
@@ -268,33 +269,33 @@ class Enemy: SKNode {
                 (nodeRight != "MazeWall") && (nodeAbove != "MazeWall") {
 //                if (direction == "left" || direction == "none") {
                     if number3 == 0 {
-                        print("ENEMY: C3 random right")
+                        //print("ENEMY: C3 random right")
                         right()
                         state = "wall"
                     }
                     if number3 == 1 {
-                        print("ENEMY: C3 random down")
+                        //print("ENEMY: C3 random down")
                         down()
                         state = "wall"
                     }
                     if number3 == 2 {
-                        print("ENEMY: C3 random up")
+                        //print("ENEMY: C3 random up")
                         up()
                         state = "wall"
                     }
 //                }
 //                if (direction == "down") {
-//                    print("ENEMY: C3 continue down")
+//                    //print("ENEMY: C3 continue down")
 //                    down()
 //                    state = "wall"
 //                }
 //                if direction == "up" {
-//                    print("ENEMY: C3 continue up")
+//                    //print("ENEMY: C3 continue up")
 //                    up()
 //                    state = "wall"
 //                }
 //                if direction == "right" {
-//                    print("ENEMY: C3 continue right")
+//                    //print("ENEMY: C3 continue right")
 //                    right()
 //                    state = "wall"
 //                }
@@ -304,33 +305,33 @@ class Enemy: SKNode {
                 (nodeAbove != "MazeWall") && (nodeLeft != "MazeWall") {
 //                if (direction == "right"  || direction == "none") {
                     if number3 == 0 {
-                        print("ENEMY: D3 random left")
+                        //print("ENEMY: D3 random left")
                         left()
                         state = "wall"
                     }
                     if number3 == 1 {
-                        print("ENEMY: D3 random down")
+                        //print("ENEMY: D3 random down")
                         down()
                         state = "wall"
                     }
                     if number3 == 2 {
-                        print("ENEMY: D3 random up")
+                        //print("ENEMY: D3 random up")
                         up()
                         state = "wall"
                     }
 //                }
 //                if (direction == "down") {
-//                    print("ENEMY: D3 continue down")
+//                    //print("ENEMY: D3 continue down")
 //                    down()
 //                    state = "wall"
 //                }
 //                if direction == "left" {
-//                    print("ENEMY: D3 continue left")
+//                    //print("ENEMY: D3 continue left")
 //                    left()
 //                    state = "wall"
 //                }
 //                if direction == "up" {
-//                    print("ENEMY: D3 continue up")
+//                    //print("ENEMY: D3 continue up")
 //                    up()
 //                    state = "wall"
 //                }
@@ -341,13 +342,13 @@ class Enemy: SKNode {
                 // BOXED IN
                 // if wall left go right
                 if (nodeLeft == "MazeWall") {
-                    print("ENEMY: undisputed right")
+                    //print("ENEMY: undisputed right")
                     right()
                     state = "box"
                 }
                 // if wall right go left
                 if (nodeRight == "MazeWall") {
-                    print("ENEMY: undisputed left")
+                    //print("ENEMY: undisputed left")
                     left()
                     state = "box"
                 }
@@ -357,24 +358,24 @@ class Enemy: SKNode {
                         // if open pick random
                         // A2
                         if number2 == 0 {
-                            print("ENEMY: A2 random right")
+                            //print("ENEMY: A2 random right")
                             right()
                             state = "corridor"
                         }
                         if number2 == 1 {
-                            print("ENEMY: A2 random left")
+                            //print("ENEMY: A2 random left")
                             left()
                             state = "corridor"
                         }
                     }
                     // A1
                     if direction == "left" {
-                        print("ENEMY: A1 continue left")
+                        //print("ENEMY: A1 continue left")
                         left()
                         state = "corridor"
                     }
                     if direction == "right" {
-                        print("ENEMY: A1 continue right")
+                        //print("ENEMY: A1 continue right")
                         right()
                         state = "corridor"
                     }
@@ -387,12 +388,12 @@ class Enemy: SKNode {
                 // if wall up go down
                 if (nodeAbove == "MazeWall") {
                     down()
-                    print("ENEMY: undisputed down")
+                    //print("ENEMY: undisputed down")
                     state = "box"
                 }
                 // if wall down go up
                 if (nodeBelow == "MazeWall") {
-                    print("ENEMY: undisputed up")
+                    //print("ENEMY: undisputed up")
                     up()
                     state = "box"
                 }
@@ -402,24 +403,24 @@ class Enemy: SKNode {
                         //if open pick random
                         // B2
                         if number2 == 0 {
-                            print("ENEMY: B2 random down")
+                            //print("ENEMY: B2 random down")
                             down()
                             state = "corridor"
                         }
                         if number2 == 1 {
-                            print("ENEMY: B2 random up")
+                            //print("ENEMY: B2 random up")
                             up()
                             state = "corridor"
                         }
                     }
                     // B1
                     if direction == "up" {
-                        print("ENEMY: B1 continue up")
+                        //print("ENEMY: B1 continue up")
                         up()
                         state = "corridor"
                     }
                     if direction == "down" {
-                        print("ENEMY: B1 continue down")
+                        //print("ENEMY: B1 continue down")
                         down()
                         state = "corridor"
                     }
@@ -431,24 +432,24 @@ class Enemy: SKNode {
                     // C2
                     if (direction == "up" || direction == "right" || direction == "none") {
                             if number2 == 0 {
-                                print("ENEMY: C2 random left")
+                                //print("ENEMY: C2 random left")
                                 left()
                                 state = "corner"
                             }
                             if number2 == 1 {
-                                print("ENEMY: C2 random down")
+                                //print("ENEMY: C2 random down")
                                 down()
                                 state = "corner"
                             }
                     }
                     // C1
                     if direction == "down" {
-                        print("ENEMY: C1 continue down")
+                        //print("ENEMY: C1 continue down")
                         down()
                         state = "corner"
                     }
                     if direction == "left" {
-                        print("ENEMY: C1 continue left")
+                        //print("ENEMY: C1 continue left")
                         left()
                         state = "corner"
                     }
@@ -459,24 +460,24 @@ class Enemy: SKNode {
                 // D2
                 if (direction == "up" || direction == "left" || direction == "none") {
                         if number2 == 0 {
-                            print("ENEMY: D2 random right")
+                            //print("ENEMY: D2 random right")
                             right()
                             state = "corner"
                         }
                         if number2 == 1 {
-                            print("ENEMY: D2 random down")
+                            //print("ENEMY: D2 random down")
                             down()
                             state = "corner"
                         }
                 }
                 // D1
                 if direction == "down" {
-                    print("ENEMY: D1 continue down")
+                    //print("ENEMY: D1 continue down")
                     down()
                     state = "corner"
                 }
                 if direction == "right" {
-                    print("ENEMY: D1 continue right")
+                    //print("ENEMY: D1 continue right")
                     right()
                     state = "corner"
                 }
@@ -487,24 +488,24 @@ class Enemy: SKNode {
                 // E2
                 if (direction == "down" || direction == "left" || direction == "none") {
                     if number2 == 0 {
-                        print("ENEMY: E2 random right")
+                        //print("ENEMY: E2 random right")
                         right()
                         state = "corner"
                     }
                     if number2 == 1 {
-                        print("ENEMY: E2 random up")
+                        //print("ENEMY: E2 random up")
                         up()
                         state = "corner"
                     }
                 }
                 // E1
                 if direction == "up" {
-                    print("ENEMY: E1 continue up")
+                    //print("ENEMY: E1 continue up")
                     up()
                     state = "corner"
                 }
                 if direction == "right" {
-                    print("ENEMY: E1 continue right")
+                    //print("ENEMY: E1 continue right")
                     right()
                     state = "corner"
                 }
@@ -515,24 +516,24 @@ class Enemy: SKNode {
                 // F2
                 if (direction == "down" || direction == "right" || direction == "none") {
                     if number2 == 0 {
-                        print("ENEMY: F2 random left")
+                        //print("ENEMY: F2 random left")
                         left()
                         state = "corner"
                     }
                     if number2 == 1 {
-                        print("ENEMY: F2 random up")
+                        //print("ENEMY: F2 random up")
                         up()
                         state = "corner"
                     }
                 }
                 // F1
                 if direction == "up" {
-                    print("ENEMY: F1 continue up")
+                    //print("ENEMY: F1 continue up")
                     up()
                     state = "corner"
                 }
                 if direction == "left" {
-                    print("ENEMY: F1 continue left")
+                    //print("ENEMY: F1 continue left")
                     left()
                     state = "corner"
                 }
@@ -544,43 +545,43 @@ class Enemy: SKNode {
                 (nodeRight != "MazeWall") && (nodeLeft != "MazeWall") {
                 if direction == "none" {
                     if number4 == 0 {
-                        print("ENEMY: A0 random down")
+                        //print("ENEMY: A0 random down")
                         down()
                         state = "open"
                     }
                     if number4 == 1 {
-                        print("ENEMY: A0 random up")
+                        //print("ENEMY: A0 random up")
                         up()
                         state = "open"
                     }
                     if number4 == 2 {
-                        print("ENEMY: A0 random right")
+                        //print("ENEMY: A0 random right")
                         right()
                         state = "open"
                     }
                     if number4 == 3 {
-                        print("ENEMY: A0 random left")
+                        //print("ENEMY: A0 random left")
                         left()
                         state = "open"
                     }
                 }
                 if direction == "up" {
-                    print("ENEMY: A0 continue up")
+                    //print("ENEMY: A0 continue up")
                     up()
                     state = "open"
                 }
                 if direction == "down" {
-                    print("ENEMY: A0 continue down")
+                    //print("ENEMY: A0 continue down")
                     down()
                     state = "open"
                 }
                 if direction == "left" {
-                    print("ENEMY: A0 continue left")
+                    //print("ENEMY: A0 continue left")
                     left()
                     state = "open"
                 }
                 if direction == "right" {
-                    print("ENEMY: A0 continue right")
+                    //print("ENEMY: A0 continue right")
                     right()
                     state = "open"
                 }
