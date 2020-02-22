@@ -24,6 +24,8 @@ var inGameMenu =  Menu(screenHeight: 375,
 var itemPopup = Popup(image: "popup", type: "item", worldNode: worldNode)
 var optionsPopup = Popup(image: "popup", type: "options", worldNode: worldNode)
 var charSelPopup = Popup(image: "popup", type: "charsel", worldNode: worldNode)
+var winPopup = Popup(image: "popup", type: "win", worldNode: worldNode)
+var losePopup = Popup(image: "popup", type: "lose", worldNode: worldNode)
 
 // orientation
 var preferredTilt: Double?
@@ -48,8 +50,10 @@ var enemyRayRight: SKPhysicsBody?
 
 var menuOut = true
 var itemPopupOut = false
-var optionsMenuOut = true
+var optionsPopupOut = true
 var charSelOut = true
+var losePopupOut = false
+var winPopupOut = false
 
 // movement and animation
 let path = UIBezierPath()
@@ -66,7 +70,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // started variable sets tilt and other attributes, signals gameplay start
         started = true
         charSelPopup.invisible()
-        worldNode.isPaused = false
         physicsWorld.speed = 1
         inGameMenu.isPaused = false
         
@@ -99,15 +102,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         physicsWorld.speed = 0
         optionsPopup.visible()
         inGameMenu.isPaused = true
-        optionsMenuOut = true
+        optionsPopupOut = true
     }
     
     //executes when the scene is first loaded------------------------------------------------------------------------------
     
     override func didMove(to view: SKView) {
         // This was to see where the menu was in the overall view, leaving for potential future use
-         let zoomOut = SKAction.scale(by: 3, duration: 1)
-         camera!.run(zoomOut)
+//         let zoomOut = SKAction.scale(by: 3, duration: 1)
+//         camera!.run(zoomOut)
         
         // only nodes that are children of worldNode will be paused
         // this is so menus still work after they are opened
@@ -361,13 +364,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 if playerHealth <= 0 {
                     playerAlive = false
                     print("COLLISION: player died")
+                    
+                    camera!.addChild(losePopup)
+                    losePopup.visible()
+                    physicsWorld.speed = 0
+                    inGameMenu.isPaused = true
                 }
                 
-                let goLeft = SKAction.applyImpulse(CGVector(dx: -500, dy: 0), duration: 0.1)
-                let goRight = SKAction.applyImpulse(CGVector(dx: 500, dy: 0), duration: 0.1)
-                let goUp = SKAction.applyImpulse(CGVector(dx: 0, dy: 500), duration: 0.1)
-                let goDown = SKAction.applyImpulse(CGVector(dx: 0, dy: -500), duration: 0.1)
+                let rebound = 300
+                let goLeft = SKAction.applyImpulse(CGVector(dx: -rebound, dy: 0), duration: 0.1)
+                let goRight = SKAction.applyImpulse(CGVector(dx: rebound, dy: 0), duration: 0.1)
+                let goUp = SKAction.applyImpulse(CGVector(dx: 0, dy: rebound), duration: 0.1)
+                let goDown = SKAction.applyImpulse(CGVector(dx: 0, dy: -rebound), duration: 0.1)
                 
+                // enemy & player will only bounce off of each other vertical or horizontal,
+                // based off of whether the difference in y position or x position is greater
                 if (abs(enemy!.position.x - player.position.x) > abs(enemy!.position.y - player.position.y)) {
                     if (enemy!.position.x < player.position.x) {
                         enemy!.run(goLeft)
@@ -432,9 +443,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         for touch in touches {
             let location = touch.location(in: self)
             
-            if optionsMenuOut == true {
+            if optionsPopupOut == true {
                 if !(optionsPopup.popupNode.contains(location)) {
-                    optionsMenuOut = false
+                    optionsPopupOut = false
                     optionsPopup.invisible()
                     inGameMenu.isPaused = false
                 }

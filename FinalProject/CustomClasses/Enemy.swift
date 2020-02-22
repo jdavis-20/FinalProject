@@ -143,6 +143,7 @@ class Enemy: SKNode {
 //        addChild(downline)
         
         
+        //TODO: implement distance limit on sighting? if so, can do with -if playerposition-enemyposition > distance-
         
         // enemy detects if player is in sight using raycasting
         // if it is then enemy follows player 
