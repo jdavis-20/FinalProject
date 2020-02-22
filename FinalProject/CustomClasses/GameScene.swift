@@ -363,28 +363,32 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     print("COLLISION: player died")
                 }
                 
-                let goLeft = SKAction.moveBy(x: -40, y: 0, duration: 0.1)
-                let goRight = SKAction.moveBy(x: 40, y: 0, duration: 0.1)
-                let goUp = SKAction.moveBy(x: 0, y: 40, duration: 0.1)
-                let goDown = SKAction.moveBy(x: 0, y: -40, duration: 0.1)
+                let goLeft = SKAction.applyImpulse(CGVector(dx: -500, dy: 0), duration: 0.1)
+                let goRight = SKAction.applyImpulse(CGVector(dx: 500, dy: 0), duration: 0.1)
+                let goUp = SKAction.applyImpulse(CGVector(dx: 0, dy: 500), duration: 0.1)
+                let goDown = SKAction.applyImpulse(CGVector(dx: 0, dy: -500), duration: 0.1)
                 
                 if (abs(enemy!.position.x - player.position.x) > abs(enemy!.position.y - player.position.y)) {
                     if (enemy!.position.x < player.position.x) {
                         enemy!.run(goLeft)
+                        player.run(goRight)
                         print("ENEMY: rebound left")
                     }
                     if (enemy!.position.x > player.position.x) {
                         enemy!.run(goRight)
+                        player.run(goLeft)
                         print("ENEMY: rebound right")
                     }
                 }
                 if (abs(enemy!.position.y - player.position.y) > abs(enemy!.position.x - player.position.x)) {
                     if (enemy!.position.y < player.position.y) {
                         enemy!.run(goDown)
+                        player.run(goUp)
                         print("ENEMY: rebound down")
                     }
                     if (enemy!.position.y > player.position.y) {
                         enemy!.run(goUp)
+                        player.run(goDown)
                         print("ENEMY: rebound up")
                     }
                 }
@@ -483,7 +487,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func update(_ currentTime: TimeInterval) {
         
-        healthLabel = SKLabelNode(text: String(playerHealth))
+        healthLabel.text = String(playerHealth)
         
         // player movement based on tilt
         player.physicsBody!.velocity = CGVector(dx: destX,
