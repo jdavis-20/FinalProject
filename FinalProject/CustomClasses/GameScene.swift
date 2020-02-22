@@ -35,6 +35,7 @@ var started = false
 
 var character = ""
 public var playerHealth: Int = 10
+var healthLabel = SKLabelNode(text: String(10))
 var playerAlive = true
 var playerYDirection = "up"
 var playerXDirection = "still"
@@ -131,6 +132,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                                        y: -80)
         startButton.zPosition = 3
         charSelPopup.addChild(startButton)
+        
+        healthLabel.position = CGPoint(x: -frame.size.width/2.2 , y: frame.size.height/2.5)
+        camera!.addChild(healthLabel)
         
         // menu setup
         inGameMenu = Menu(screenHeight: frame.size.height,
@@ -452,6 +456,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // called every frame--------------------------------------------------------------------------------------------------
     
     override func update(_ currentTime: TimeInterval) {
+        
+        healthLabel = SKLabelNode(text: String(playerHealth))
         
         // player movement based on tilt
         player.physicsBody!.velocity = CGVector(dx: destX,

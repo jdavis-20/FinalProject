@@ -18,6 +18,13 @@ class Enemy: SKNode {
     var number2 = Int(arc4random_uniform(2))
     var number3 = Int(arc4random_uniform(3))
     var number4 = Int(arc4random_uniform(4))
+    var state = "none"
+    // state options are
+    // open - no walls,
+    // wall - 1 wall,
+    // corridor - 2 walls parallel,
+    // corner - 2 walls perpendicular,
+    // box - 3 walls
 
 
 //    let path = UIBezierPath()
@@ -140,27 +147,27 @@ class Enemy: SKNode {
         // if it is then enemy follows player 
         if enemyRayPlayer?.node == player {
             print("ENEMY: raycast detected player")
-            if (enemy!.position.x - player.position.x) > 5 {
+            if (enemy!.position.x - player.position.x) > 3 {
                 print("ENEMY: follow left")
                 enemy!.physicsBody?.velocity.dx = CGFloat(-100)
             }
-            if (player.position.x - enemy!.position.x) > 5 {
+            if (player.position.x - enemy!.position.x) > 3 {
                 enemy!.physicsBody?.velocity.dx = CGFloat(100)
                 print("ENEMY: follow right")
             }
-            if ((enemy!.position.x - player.position.x) < 5) && ((player.position.x - enemy!.position.x) < 5) {
+            if ((enemy!.position.x - player.position.x) < 3) && ((player.position.x - enemy!.position.x) < 3) {
                 enemy!.physicsBody?.velocity.dx = CGFloat(0)
             }
             
-            if (enemy!.position.y - player.position.y) > 5 {
+            if (enemy!.position.y - player.position.y) > 3 {
                 enemy!.physicsBody?.velocity.dy = CGFloat(-100)
                 print("ENEMY: follow down")
             }
-            if (player.position.y - enemy!.position.y) > 5 {
+            if (player.position.y - enemy!.position.y) > 3 {
                 enemy!.physicsBody?.velocity.dy = CGFloat(100)
                 print("ENEMY: follow up")
             }
-            if ((enemy!.position.y - player.position.y) < 5) && ((player.position.y - enemy!.position.y) < 5) {
+            if ((enemy!.position.y - player.position.y) < 3) && ((player.position.y - enemy!.position.y) < 3) {
                 enemy!.physicsBody?.velocity.dy = CGFloat(0)
             }
         }
@@ -182,331 +189,400 @@ class Enemy: SKNode {
 //                print("ENEMY: wall right")
 //            }
             
-            // TODO: need situations up/right, up/left, down/right, down/left
-            
-            // if walls in 0 directions pick random
-            // A4
-            if (nodeAbove != "MazeWall") && (nodeBelow != "MazeWall") &&
-                (nodeRight != "MazeWall") && (nodeLeft != "MazeWall") {
-                if direction == "none" {
-                    if number4 == 0 {
-                        print("ENEMY: A4 random down")
-                        down()
-                    }
-                    if number4 == 1 {
-                        print("ENEMY: A4 random up")
-                        up()
-                    }
-                    if number4 == 2 {
-                        print("ENEMY: A4 random right")
-                        right()
-                    }
-                    if number4 == 3 {
-                        print("ENEMY: A4 random left")
-                        left()
-                    }
-                }
-                if direction == "up" {
-                    print("ENEMY: A4 continue up")
-                    up()
-                }
-                if direction == "down" {
-                    print("ENEMY: A4 continue down")
-                    down()
-                }
-                if direction == "left" {
-                    print("ENEMY: A4 continue left")
-                    left()
-                }
-                if direction == "right" {
-                    print("ENEMY: A4 continue right")
-                    right()
-                }
-            }
-            
-            // if wall in 1 direction pick random from other 3
-            //A3
+            // if going towards wall, pick random from other 3
+            // else continue
+            // A3, WALL ABOVE------------------------------------------------------------------------------------------------
             if (nodeAbove == "MazeWall") && (nodeBelow != "MazeWall") &&
                 (nodeRight != "MazeWall") && (nodeLeft != "MazeWall") {
 //                if (direction == "up" || direction == "none") {
                     if number3 == 0 {
                         print("ENEMY: A3 random right")
                         right()
+                        state = "wall"
                     }
                     if number3 == 1 {
                         print("ENEMY: A3 random left")
                         left()
+                        state = "wall"
                     }
                     if number3 == 2 {
                         print("ENEMY: A3 random down")
                         down()
+                        state = "wall"
                     }
 //                }
 //                if (direction == "down") {
 //                    print("ENEMY: A3 continue down")
 //                    down()
+//                    state = "wall"
 //                }
 //                if direction == "left" {
 //                    print("ENEMY: A3 continue left")
 //                    left()
+//                    state = "wall"
 //                }
 //                if direction == "right" {
 //                    print("ENEMY: A3 continue right")
 //                    right()
+//                    state = "wall"
 //                }
             }
-            // B3
+            // B3, WALL BELOW-------------------------------------------------------------------------------------------------
             if (nodeBelow == "MazeWall") && (nodeAbove != "MazeWall") &&
                 (nodeRight != "MazeWall") && (nodeLeft != "MazeWall") {
 //                if (direction == "down" || direction == "none") {
                     if number3 == 0 {
                         print("ENEMY: B3 random right")
                         right()
+                        state = "wall"
                     }
                     if number3 == 1 {
                         print("ENEMY: B3 random left")
                         left()
+                        state = "wall"
                     }
                     if number3 == 2 {
                         print("ENEMY: B3 random up")
                         up()
+                        state = "wall"
                     }
 //                }
 //                if (direction == "up") {
 //                    print("ENEMY: B3 continue up")
 //                    up()
+//                     state = "wall"
 //                }
 //                if direction == "left" {
 //                    print("ENEMY: B3 continue left")
 //                    left()
+//                    state = "wall"
 //                }
 //                if direction == "right" {
 //                    print("ENEMY: B3 continue right")
 //                    right()
+//                    state = "wall"
 //                }
             }
-            // C3
+            // C3, WALL LEFT------------------------------------------------------------------------------------------------
             if (nodeLeft == "MazeWall") && (nodeBelow != "MazeWall") &&
                 (nodeRight != "MazeWall") && (nodeAbove != "MazeWall") {
 //                if (direction == "left" || direction == "none") {
                     if number3 == 0 {
                         print("ENEMY: C3 random right")
                         right()
+                        state = "wall"
                     }
                     if number3 == 1 {
                         print("ENEMY: C3 random down")
                         down()
+                        state = "wall"
                     }
                     if number3 == 2 {
                         print("ENEMY: C3 random up")
                         up()
+                        state = "wall"
                     }
 //                }
 //                if (direction == "down") {
 //                    print("ENEMY: C3 continue down")
 //                    down()
+//                    state = "wall"
 //                }
 //                if direction == "up" {
 //                    print("ENEMY: C3 continue up")
 //                    up()
+//                    state = "wall"
 //                }
 //                if direction == "right" {
 //                    print("ENEMY: C3 continue right")
 //                    right()
+//                    state = "wall"
 //                }
             }
-            // D3
+            // D3, WALL RIGHT-------------------------------------------------------------------------------------------------
             if (nodeRight == "MazeWall") && (nodeBelow != "MazeWall") &&
                 (nodeAbove != "MazeWall") && (nodeLeft != "MazeWall") {
 //                if (direction == "right"  || direction == "none") {
                     if number3 == 0 {
                         print("ENEMY: D3 random left")
                         left()
+                        state = "wall"
                     }
                     if number3 == 1 {
                         print("ENEMY: D3 random down")
                         down()
+                        state = "wall"
                     }
                     if number3 == 2 {
                         print("ENEMY: D3 random up")
                         up()
+                        state = "wall"
                     }
 //                }
 //                if (direction == "down") {
 //                    print("ENEMY: D3 continue down")
 //                    down()
+//                    state = "wall"
 //                }
 //                if direction == "left" {
 //                    print("ENEMY: D3 continue left")
 //                    left()
+//                    state = "wall"
 //                }
 //                if direction == "up" {
 //                    print("ENEMY: D3 continue up")
 //                    up()
+//                    state = "wall"
 //                }
             }
             
-            // if above&below go left/right
+            // if above&below go left/right----------------------------------------------------------------------------------
             if (nodeAbove == "MazeWall") && (nodeBelow == "MazeWall") {
-                if (direction == "up" || direction == "down" || direction == "none") {
-                    // if wall left go right
-                    if (nodeLeft == "MazeWall") {
-                        print("ENEMY: undisputed right")
-                        right()
-                    }
-                    // if wall right go left
-                    if (nodeRight == "MazeWall") {
-                        print("ENEMY: undisputed left")
-                        left()
-                    }
-                    // if neither pick random
-                    // A2
+                // BOXED IN
+                // if wall left go right
+                if (nodeLeft == "MazeWall") {
+                    print("ENEMY: undisputed right")
+                    right()
+                    state = "box"
+                }
+                // if wall right go left
+                if (nodeRight == "MazeWall") {
+                    print("ENEMY: undisputed left")
+                    left()
+                    state = "box"
+                }
+                if (nodeRight != "MazeWall") && (nodeLeft != "MazeWall") {
+                    // HORIZONTAL CORRIDOR
                     if (direction == "up" || direction == "down" || direction == "none") {
-                        if (nodeRight != "MazeWall") && (nodeLeft != "MazeWall") {
-                            if number2 == 0 {
-                                print("ENEMY: A2 random right")
-                                right()
-                            }
-                            if number2 == 1 {
-                                print("ENEMY: A2 random left")
-                                left()
-                            }
+                        // if open pick random
+                        // A2
+                        if number2 == 0 {
+                            print("ENEMY: A2 random right")
+                            right()
+                            state = "corridor"
+                        }
+                        if number2 == 1 {
+                            print("ENEMY: A2 random left")
+                            left()
+                            state = "corridor"
                         }
                     }
+                    // A1
                     if direction == "left" {
-                        print("ENEMY: A2 continue left")
+                        print("ENEMY: A1 continue left")
                         left()
+                        state = "corridor"
                     }
                     if direction == "right" {
-                        print("ENEMY: A2 continue right")
+                        print("ENEMY: A1 continue right")
                         right()
+                        state = "corridor"
                     }
                 }
             }
             
-            // if left&right go up/down
+            // if left&right go up/down---------------------------------------------------------------------------------------
             if (nodeLeft == "MazeWall") && (nodeRight == "MazeWall") {
-                if (direction == "left" || direction == "right" || direction == "none") {
-                    // if wall up go down
-                    if (nodeAbove == "MazeWall") {
-                        down()
-                        print("ENEMY: undisputed down")
-                    }
-                    // if wall down go up
-                    if (nodeBelow == "MazeWall") {
-                        print("ENEMY: undisputed up")
-                        up()
-                    }
-                    //if neither pick random
-                    // B2
+                // BOXED IN
+                // if wall up go down
+                if (nodeAbove == "MazeWall") {
+                    down()
+                    print("ENEMY: undisputed down")
+                    state = "box"
+                }
+                // if wall down go up
+                if (nodeBelow == "MazeWall") {
+                    print("ENEMY: undisputed up")
+                    up()
+                    state = "box"
+                }
+                if (nodeAbove != "MazeWall") && (nodeBelow != "MazeWall") {
+                    // VERTICAL CORRIDOR
                     if (direction == "left" || direction == "right" || direction == "none") {
-                        if (nodeAbove != "MazeWall") && (nodeBelow != "MazeWall") {
-                            if number2 == 0 {
-                                print("ENEMY: B2 random down")
-                                down()
-                            }
-                            if number2 == 1 {
-                                print("ENEMY: B2 random up")
-                                up()
-                            }
+                        //if open pick random
+                        // B2
+                        if number2 == 0 {
+                            print("ENEMY: B2 random down")
+                            down()
+                            state = "corridor"
+                        }
+                        if number2 == 1 {
+                            print("ENEMY: B2 random up")
+                            up()
+                            state = "corridor"
                         }
                     }
+                    // B1
                     if direction == "up" {
-                        print("ENEMY: B2 continue up")
+                        print("ENEMY: B1 continue up")
                         up()
+                        state = "corridor"
                     }
                     if direction == "down" {
-                        print("ENEMY: B2 continue down")
+                        print("ENEMY: B1 continue down")
                         down()
+                        state = "corridor"
                     }
                 }
             }
-            // if up&right go down/left
+            // if up&right go down/left------------------------------------------------------------------------------------
+            // CORNER
             if (nodeAbove == "MazeWall") && (nodeRight == "MazeWall") {
                     // C2
                     if (direction == "up" || direction == "right" || direction == "none") {
                             if number2 == 0 {
                                 print("ENEMY: C2 random left")
                                 left()
+                                state = "corner"
                             }
                             if number2 == 1 {
                                 print("ENEMY: C2 random down")
                                 down()
+                                state = "corner"
                             }
                     }
+                    // C1
                     if direction == "down" {
-                        print("ENEMY: C2 continue down")
+                        print("ENEMY: C1 continue down")
                         down()
+                        state = "corner"
                     }
                     if direction == "left" {
-                        print("ENEMY: C2 continue left")
+                        print("ENEMY: C1 continue left")
                         left()
+                        state = "corner"
                     }
                 }
-            // if up&left go down/right
+            // if up&left go down/right-------------------------------------------------------------------------------------
+            // CORNER
             if (nodeAbove == "MazeWall") && (nodeLeft == "MazeWall") {
                 // D2
                 if (direction == "up" || direction == "left" || direction == "none") {
                         if number2 == 0 {
                             print("ENEMY: D2 random right")
                             right()
+                            state = "corner"
                         }
                         if number2 == 1 {
                             print("ENEMY: D2 random down")
                             down()
+                            state = "corner"
                         }
                 }
+                // D1
                 if direction == "down" {
-                    print("ENEMY: D2 continue down")
+                    print("ENEMY: D1 continue down")
                     down()
+                    state = "corner"
                 }
                 if direction == "right" {
-                    print("ENEMY: D2 continue right")
+                    print("ENEMY: D1 continue right")
                     right()
+                    state = "corner"
                 }
             }
-            // if down&left go up/right
+            // if down&left go up/right-----------------------------------------------------------------------------------
+            // CORNER
             if (nodeBelow == "MazeWall") && (nodeLeft == "MazeWall") {
                 // E2
                 if (direction == "down" || direction == "left" || direction == "none") {
                     if number2 == 0 {
                         print("ENEMY: E2 random right")
                         right()
+                        state = "corner"
                     }
                     if number2 == 1 {
                         print("ENEMY: E2 random up")
                         up()
+                        state = "corner"
                     }
                 }
+                // E1
                 if direction == "up" {
-                    print("ENEMY: E2 continue up")
+                    print("ENEMY: E1 continue up")
                     up()
+                    state = "corner"
                 }
                 if direction == "right" {
-                    print("ENEMY: E2 continue right")
+                    print("ENEMY: E1 continue right")
                     right()
+                    state = "corner"
                 }
             }
-            // if down&right go up/left
+            // if down&right go up/left-------------------------------------------------------------------------------------
+            // CORNER
             if (nodeBelow == "MazeWall") && (nodeRight == "MazeWall") {
                 // F2
                 if (direction == "down" || direction == "right" || direction == "none") {
                     if number2 == 0 {
                         print("ENEMY: F2 random left")
                         left()
+                        state = "corner"
                     }
                     if number2 == 1 {
                         print("ENEMY: F2 random up")
                         up()
+                        state = "corner"
+                    }
+                }
+                // F1
+                if direction == "up" {
+                    print("ENEMY: F1 continue up")
+                    up()
+                    state = "corner"
+                }
+                if direction == "left" {
+                    print("ENEMY: F1 continue left")
+                    left()
+                    state = "corner"
+                }
+            }
+            
+            // if walls in 0 directions pick random-------------------------------------------------------------------------
+            // A0, OPEN
+            if (nodeAbove != "MazeWall") && (nodeBelow != "MazeWall") &&
+                (nodeRight != "MazeWall") && (nodeLeft != "MazeWall") {
+                if direction == "none" {
+                    if number4 == 0 {
+                        print("ENEMY: A0 random down")
+                        down()
+                        state = "open"
+                    }
+                    if number4 == 1 {
+                        print("ENEMY: A0 random up")
+                        up()
+                        state = "open"
+                    }
+                    if number4 == 2 {
+                        print("ENEMY: A0 random right")
+                        right()
+                        state = "open"
+                    }
+                    if number4 == 3 {
+                        print("ENEMY: A0 random left")
+                        left()
+                        state = "open"
                     }
                 }
                 if direction == "up" {
-                    print("ENEMY: F2 continue up")
+                    print("ENEMY: A0 continue up")
                     up()
+                    state = "open"
+                }
+                if direction == "down" {
+                    print("ENEMY: A0 continue down")
+                    down()
+                    state = "open"
                 }
                 if direction == "left" {
-                    print("ENEMY: F2 continue left")
+                    print("ENEMY: A0 continue left")
                     left()
+                    state = "open"
+                }
+                if direction == "right" {
+                    print("ENEMY: A0 continue right")
+                    right()
+                    state = "open"
                 }
             }
         }
