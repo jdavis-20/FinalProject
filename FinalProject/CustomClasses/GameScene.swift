@@ -102,10 +102,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     //executes when the scene is first loaded------------------------------------------------------------------------------
     
     override func didMove(to view: SKView) {
-        // This was to see where the menu was in the overall view, leaving for potential future use
+        // scaling options to see more of view at once
 //         let zoomOut = SKAction.scale(by: 3, duration: 1)
 //         camera!.run(zoomOut)
-        camera!.setScale(4)
+        camera!.setScale(4.5)
         
         // only nodes that are children of worldNode will be paused
         // this is so menus still work after they are opened
@@ -353,13 +353,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     playerAlive = false
                     print("COLLISION: player died")
                     
-//                    camera!.addChild(losePopup)
-//                    losePopup.visible()
-//                    physicsWorld.speed = 0
-//                    inGameMenu.isPaused = true
+                    camera!.addChild(losePopup)
+                    losePopup.visible()
+                    physicsWorld.speed = 0
+                    inGameMenu.isPaused = true
                 }
                 
-                let rebound = 50 // was 300
+                let rebound = 300
                 let goLeft = SKAction.applyImpulse(CGVector(dx: -rebound, dy: 0), duration: 0.1)
                 let goRight = SKAction.applyImpulse(CGVector(dx: rebound, dy: 0), duration: 0.1)
                 let goUp = SKAction.applyImpulse(CGVector(dx: 0, dy: rebound), duration: 0.1)
