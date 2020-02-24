@@ -18,14 +18,15 @@ class Enemy: SKSpriteNode {
     var number4 = Int(arc4random_uniform(4))
     var direction = "none"
     var idleSpeed = 100
+    let rebound = 150
     var state = "none"
     // state options are
-    // open - no walls,
-    // wall - 1 wall,
-    // corridor - 2 walls parallel,
-    // corner - 2 walls perpendicular,
-    // box - 3 walls
-    // follow - following player
+    //      open - no walls,
+    //      wall - 1 wall,
+    //      corridor - 2 walls parallel,
+    //      corner - 2 walls perpendicular,
+    //      box - 3 walls
+    //      follow - following player
     
     func enemyInit() {
         self.name = "enemy"
@@ -39,6 +40,9 @@ class Enemy: SKSpriteNode {
         }
     
     func pathfinding(playerNode: SKSpriteNode, currentScene: SKScene) {
+        
+        let absXDiff = abs(playerNode.position.x-self.position.x)
+        let absYDiff = abs(playerNode.position.y-self.position.y)
         
         Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { timer in
             self.number2 = Int(arc4random_uniform(2))
@@ -64,46 +68,43 @@ class Enemy: SKSpriteNode {
             direction = "down"
         }
         func contDir() {
+            print("ENEMY: continue \(direction)")
             if direction == "down" {
                 down()
-                print("ENEMY: continue down")
             }
             if direction == "up" {
                 up()
-                print("ENEMY: continue up")
             }
             if direction == "left" {
                 left()
-                print("ENEMY: continue left")
             }
             if direction == "right" {
                 right()
-                print("ENEMY: continue right")
             }
         }
         
-        var enemyRayPlayer = currentScene.physicsWorld.body(alongRayStart: self.position, end: playerNode.position)
+        let enemyRayPlayer = currentScene.physicsWorld.body(alongRayStart: self.position, end: playerNode.position)
         
-        var enemyRayUp = currentScene.physicsWorld.body(alongRayStart: self.position,
-                                                    end: CGPoint(x: self.position.x,
-                                                                 y: self.position.y + range))
+        let enemyRayUp = currentScene.physicsWorld.body(alongRayStart: self.position,
+                                                        end: CGPoint(x: self.position.x,
+                                                                     y: self.position.y + range))
         
-        var enemyRayDown = currentScene.physicsWorld.body(alongRayStart: self.position,
-                                                       end: CGPoint(x: self.position.x,
-                                                                    y: self.position.y - range))
+        let enemyRayDown = currentScene.physicsWorld.body(alongRayStart: self.position,
+                                                          end: CGPoint(x: self.position.x,
+                                                                       y: self.position.y - range))
         
-        var enemyRayLeft = currentScene.physicsWorld.body(alongRayStart: self.position,
-                                                       end: CGPoint(x: self.position.x - range,
-                                                                    y: self.position.y))
+        let enemyRayLeft = currentScene.physicsWorld.body(alongRayStart: self.position,
+                                                          end: CGPoint(x: self.position.x - range,
+                                                                       y: self.position.y))
         
-        var enemyRayRight = currentScene.physicsWorld.body(alongRayStart: self.position,
-                                                        end: CGPoint(x: self.position.x + range,
-                                                                     y: self.position.y))
+        let enemyRayRight = currentScene.physicsWorld.body(alongRayStart: self.position,
+                                                           end: CGPoint(x: self.position.x + range,
+                                                                        y: self.position.y))
         
-        var nodeAbove = enemyRayUp?.node
-        var nodeBelow = enemyRayDown?.node
-        var nodeLeft = enemyRayLeft?.node
-        var nodeRight = enemyRayRight?.node
+        let nodeAbove = enemyRayUp?.node
+        let nodeBelow = enemyRayDown?.node
+        let nodeLeft = enemyRayLeft?.node
+        let nodeRight = enemyRayRight?.node
         
 //        let rightline = SKShapeNode()
 //        let rightPath = CGMutablePath()
@@ -132,35 +133,67 @@ class Enemy: SKSpriteNode {
         if enemyRayPlayer?.node == playerNode {
             print("ENEMY: raycast detected player")
             state = "follow"
-            if (self.position.x - playerNode.position.x) > 3 {
-                print("ENEMY: follow left")
-                self.physicsBody?.velocity.dx = CGFloat(-80)
-            }
-            if (playerNode.position.x - self.position.x) > 3 {
-                self.physicsBody?.velocity.dx = CGFloat(80)
-                print("ENEMY: follow right")
-            }
-            if ((self.position.x - playerNode.position.x) < 3) && ((playerNode.position.x - self.position.x) < 3) {
-                self.physicsBody?.velocity.dx = CGFloat(0)
-            }
             
-            if (self.position.y - playerNode.position.y) > 3 {
-                self.physicsBody?.velocity.dy = CGFloat(-80)
-                print("ENEMY: follow down")
-            }
-            if (playerNode.position.y - self.position.y) > 3 {
-                self.physicsBody?.velocity.dy = CGFloat(80)
-                print("ENEMY: follow up")
-            }
-            if ((self.position.y - playerNode.position.y) < 3) && ((playerNode.position.y - self.position.y) < 3) {
+            // this section causes enemy movemnt to be only straight or diagonal
+            // if the difference in x is greater than the difference in y, move along x axis only
+            if (absXDiff - absYDiff) > 3 {
                 self.physicsBody?.velocity.dy = CGFloat(0)
+                if (self.position.x - playerNode.position.x) > 3 {
+                    print("ENEMY: follow left")
+                    self.physicsBody?.velocity.dx = CGFloat(-80)
+                }
+                if (playerNode.position.x - self.position.x) > 3 {
+                    self.physicsBody?.velocity.dx = CGFloat(80)
+                    print("ENEMY: follow right")
+                }
+                if ((self.position.x - playerNode.position.x) < 3) && ((playerNode.position.x - self.position.x) < 3) {
+                    self.physicsBody?.velocity.dx = CGFloat(0)
+                }
+            }
+            // if the difference in y is greater than the difference in x, move along y axis only
+            if (absYDiff - absXDiff) > 3 {
+                self.physicsBody?.velocity.dx = CGFloat(0)
+                if (self.position.y - playerNode.position.y) > 3 {
+                    self.physicsBody?.velocity.dy = CGFloat(-80)
+                    print("ENEMY: follow down")
+                }
+                if (playerNode.position.y - self.position.y) > 3 {
+                    self.physicsBody?.velocity.dy = CGFloat(80)
+                    print("ENEMY: follow up")
+                }
+                if ((self.position.y - playerNode.position.y) < 3) && ((playerNode.position.y - self.position.y) < 3) {
+                    self.physicsBody?.velocity.dy = CGFloat(0)
+                }
+            }
+            // if the difference in x and y positions is close, move along both axes
+            if abs(absYDiff - absXDiff) < 3 {
+                if (self.position.x - playerNode.position.x) > 3 {
+                    print("ENEMY: follow left")
+                    self.physicsBody?.velocity.dx = CGFloat(-80)
+                }
+                if (playerNode.position.x - self.position.x) > 3 {
+                    self.physicsBody?.velocity.dx = CGFloat(80)
+                    print("ENEMY: follow right")
+                }
+                if ((self.position.x - playerNode.position.x) < 3) && ((playerNode.position.x - self.position.x) < 3) {
+                    self.physicsBody?.velocity.dx = CGFloat(0)
+                }
+                if (self.position.y - playerNode.position.y) > 3 {
+                    self.physicsBody?.velocity.dy = CGFloat(-80)
+                    print("ENEMY: follow down")
+                }
+                if (playerNode.position.y - self.position.y) > 3 {
+                    self.physicsBody?.velocity.dy = CGFloat(80)
+                    print("ENEMY: follow up")
+                }
+                if ((self.position.y - playerNode.position.y) < 3) && ((playerNode.position.y - self.position.y) < 3) {
+                    self.physicsBody?.velocity.dy = CGFloat(0)
+                }
             }
         }
             
         // TODO: behavior patterns for when player is out of sight will go here
         else {
-            
-            // if wall is within 100 units in this direction
 //            if nodeAbove is MazeWall {
 //                //print("ENEMY: wall above")
 //            }
@@ -174,27 +207,32 @@ class Enemy: SKSpriteNode {
 //                //print("ENEMY: wall right")
 //            }
             
+            // TODO: make sure this is working properly
+            // bounce back and switch directions if colliding with another enemy
+            if (nodeAbove is Enemy) {
+                    print("ENEMY: X4 turned around")
+                    self.run(SKAction.applyImpulse(CGVector(dx: 0, dy: -rebound), duration: 0.2))
+                    down()
+            }
+            if (nodeBelow is Enemy) {
+                    print("ENEMY: X3 turned around")
+                    self.run(SKAction.applyImpulse(CGVector(dx: 0, dy: rebound), duration: 0.2))
+                    up()
+            }
+            if (nodeLeft is Enemy) {
+                    print("ENEMY: X2 turned around")
+                    self.run(SKAction.applyImpulse(CGVector(dx: rebound, dy: 0), duration: 0.2))
+                    right()
+            }
+            if (nodeRight is Enemy) {
+                    print("ENEMY: X1 turned around")
+                    self.run(SKAction.applyImpulse(CGVector(dx: -rebound, dy: 0), duration: 0.2))
+                    left()
+            }
+            
             // if going towards wall, pick random from other 3
             // else continue
             // A3, WALL ABOVE------------------------------------------------------------------------------------------------
-            if (nodeAbove is Enemy) || (nodeBelow is Enemy) || (nodeLeft is Enemy) || (nodeRight is Enemy) {
-                if direction == "right" {
-                    print("ENEMY: X1 turned around")
-                    left()
-                }
-                if direction == "left" {
-                    print("ENEMY: X2 turned around")
-                    right()
-                }
-                if direction == "down" {
-                    print("ENEMY: X3 turned around")
-                    up()
-                }
-                if direction == "up" {
-                    print("ENEMY: X4 turned around")
-                    down()
-                }
-            }
             if (nodeAbove is MazeWall) && !(nodeBelow is MazeWall) && !(nodeRight is MazeWall) && !(nodeLeft is MazeWall) {
                 if state == "corridor" {
                     state = "wall"
