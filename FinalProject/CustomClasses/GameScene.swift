@@ -36,7 +36,10 @@ var started = false
 
 var character = ""
 public var playerHealth: Int = 10
+public var playerItems: Int = 0
 var healthLabel = SKLabelNode(text: String(10))
+var itemLabel = SKLabelNode(text: String(0))
+
 var playerAlive = true
 var playerYDirection = "up"
 var playerXDirection = "still"
@@ -66,6 +69,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         charSelPopup.invisible()
         physicsWorld.speed = 1
         inGameMenu.isPaused = false
+        character = charSelPopup.character
         
         // print(inGameMenu.position)
         
@@ -180,6 +184,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             (node, stop) in
             let mazeNode = node as? MazeWall
             mazeNode?.setWallPhysics()
+        }
+        scene?.enumerateChildNodes(withName: "item") {
+            (node, stop) in
+            let itemNode = node as? Item
+            itemNode?.itemInit()
         }
         
         // player-----------------------------------------------------------------------------------------------------------
@@ -397,6 +406,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 print("COLLISION: item")
                 aNode!.removeFromParent()
                 
+                playerItems += 1
                 itemPopupOut = true
                 itemPopup.itemName.text = aName
                 itemPopup.visible()
@@ -406,6 +416,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 print("COLLSION: item")
                 bNode!.removeFromParent()
                 
+                playerItems += 1
                 itemPopupOut = true
                 itemPopup.itemName.text = bName
                 itemPopup.visible()
@@ -479,6 +490,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override func update(_ currentTime: TimeInterval) {
         
         healthLabel.text = String(playerHealth)
+        itemLabel.text = String(playerItems)
         
         // player movement based on tilt
         player.physicsBody!.velocity = CGVector(dx: destX,
@@ -488,7 +500,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             scene?.enumerateChildNodes(withName: "enemy") {
                 (node, stop) in
                 let enemy = node as? Enemy
-                enemy?.pathfinding(playerNode: player, currentScene: self)
+                enemy?.pathfinding(playerNode: player, currentScene: self, character: character)
             }
         }
     }

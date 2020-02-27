@@ -29,9 +29,6 @@ class Level1Scene: GameScene {
 //            itemNode?.setItemPhysics()
 //        }
         
-        let firstItem = Item(image: "item_temp", position: CGPoint(x: (frame.size.width / 4), y: (frame.size.height / 4)))
-        worldNode.addChild(firstItem)
-        
         //collision handling is in the gamescene class
 
         

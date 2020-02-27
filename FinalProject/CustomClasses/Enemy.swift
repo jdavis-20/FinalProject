@@ -17,8 +17,10 @@ class Enemy: SKSpriteNode {
     var number3 = Int(arc4random_uniform(3))
     var number4 = Int(arc4random_uniform(4))
     var direction = "none"
-    var idleSpeed = 100
+    let idleSpeed = 100
     let rebound = 150
+    let followSwitch: CGFloat = 10
+    var follow = false
     var state = "none"
     // state options are
     //      open - no walls,
@@ -26,7 +28,6 @@ class Enemy: SKSpriteNode {
     //      corridor - 2 walls parallel,
     //      corner - 2 walls perpendicular,
     //      box - 3 walls
-    //      follow - following player
     
     func enemyInit() {
         self.name = "enemy"
@@ -37,18 +38,43 @@ class Enemy: SKSpriteNode {
         self.physicsBody?.isDynamic = true
         self.physicsBody?.contactTestBitMask = 0x00000001
         self.physicsBody?.restitution = 1
-        }
+        
+        let rightline = SKShapeNode()
+        let rightPath = CGMutablePath()
+        rightPath.move(to: CGPoint(x:-100, y:0))
+        rightPath.addLine(to: CGPoint(x: 100,
+                                      y: 0))
+        rightline.path = rightPath
+        rightline.strokeColor = SKColor.red
+        addChild(rightline)
+        
+        let upline = SKShapeNode()
+        let upPath = CGMutablePath()
+        upPath.move(to: CGPoint(x:0, y:-100))
+        upPath.addLine(to: CGPoint(x: 0,
+                                   y: 100))
+        upline.path = upPath
+        upline.strokeColor = SKColor.red
+        addChild(upline)
+    }
     
-    func pathfinding(playerNode: SKSpriteNode, currentScene: SKScene) {
+    func pathfinding(playerNode: SKSpriteNode, currentScene: SKScene, character: String) {
         
         let absXDiff = abs(playerNode.position.x-self.position.x)
         let absYDiff = abs(playerNode.position.y-self.position.y)
+        let xGreater = absXDiff > absYDiff
+        let yGreater = absYDiff > absXDiff
+        let playerRight = playerNode.position.x > self.position.x
+        let playerLeft = playerNode.position.x < self.position.x
+        let playerUp = playerNode.position.y > self.position.y
+        let playerDown = playerNode.position.y < self.position.y
+        var dirOptions: Array = ["up", "down", "left", "right"]
         
         Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { timer in
             self.number2 = Int(arc4random_uniform(2))
             self.number3 = Int(arc4random_uniform(3))
             self.number4 = Int(arc4random_uniform(4))
-//            print("ENEMY: var changed: \(self.number2), \(self.number3), \(self.number4)")
+            //            print("ENEMY: var changed: \(self.number2), \(self.number3), \(self.number4)")
         }
         
         func left() {
@@ -82,197 +108,223 @@ class Enemy: SKSpriteNode {
                 right()
             }
         }
+        func followDir() {
+            if xGreater == true {
+                print("ENEMY: follow x")
+                if playerLeft == true && dirOptions.contains("left") {
+                    left()
+                }
+                if playerRight == true && dirOptions.contains("right") {
+                    right()
+                }
+                else {
+                    if playerUp == true && dirOptions.contains("up") {
+                        up()
+                    }
+                    if playerDown == true && dirOptions.contains("down") {
+                        down()
+                    }
+                    else {
+                        follow = false
+                    }
+                }
+            }
+            if yGreater == true {
+                print("ENEMY: follow y")
+                if playerUp == true && dirOptions.contains("up") {
+                    up()
+                }
+                if playerDown == true && dirOptions.contains("down") {
+                    down()
+                }
+                else {
+                    if playerLeft == true && dirOptions.contains("left") {
+                        left()
+                    }
+                    if playerRight == true && dirOptions.contains("right") {
+                        right()
+                    }
+                    else {
+                        follow = false
+                    }
+                }
+            }
+        }
         
-        let enemyRayPlayer = currentScene.physicsWorld.body(alongRayStart: self.position, end: playerNode.position)
-        
+        let enemyRayPlayer = currentScene.physicsWorld.body(alongRayStart: self.position,
+                                                            end: playerNode.position)
         let enemyRayUp = currentScene.physicsWorld.body(alongRayStart: self.position,
                                                         end: CGPoint(x: self.position.x,
                                                                      y: self.position.y + range))
-        
         let enemyRayDown = currentScene.physicsWorld.body(alongRayStart: self.position,
                                                           end: CGPoint(x: self.position.x,
                                                                        y: self.position.y - range))
-        
         let enemyRayLeft = currentScene.physicsWorld.body(alongRayStart: self.position,
                                                           end: CGPoint(x: self.position.x - range,
                                                                        y: self.position.y))
-        
         let enemyRayRight = currentScene.physicsWorld.body(alongRayStart: self.position,
                                                            end: CGPoint(x: self.position.x + range,
                                                                         y: self.position.y))
-        
         let nodeAbove = enemyRayUp?.node
         let nodeBelow = enemyRayDown?.node
         let nodeLeft = enemyRayLeft?.node
         let nodeRight = enemyRayRight?.node
-        
-//        let rightline = SKShapeNode()
-//        let rightPath = CGMutablePath()
-//        rightPath.move(to: CGPoint(x:-100, y:0))
-//        rightPath.addLine(to: CGPoint(x: 100,
-//                                       y: 0))
-//        rightline.path = rightPath
-//        rightline.strokeColor = SKColor.red
-//        addChild(rightline)
-//
-//        let upline = SKShapeNode()
-//        let upPath = CGMutablePath()
-//        upPath.move(to: CGPoint(x:0, y:-100))
-//        upPath.addLine(to: CGPoint(x: 0,
-//                                       y: 100))
-//        upline.path = upPath
-//        upline.strokeColor = SKColor.red
-//        addChild(upline)
-
-        
         
         //TODO: implement distance limit on sighting? if so, can do with -if playerposition-enemyposition > distance-
         
         // enemy detects if player is in sight using raycasting
         // if it is then enemy follows player 
         if enemyRayPlayer?.node == playerNode {
-            print("ENEMY: raycast detected player")
-            state = "follow"
+            follow = true
             
             // this section causes enemy movemnt to be only straight or diagonal
             // if the difference in x is greater than the difference in y, move along x axis only
-            if (absXDiff - absYDiff) > 3 {
-                self.physicsBody?.velocity.dy = CGFloat(0)
-                if (self.position.x - playerNode.position.x) > 3 {
-                    print("ENEMY: follow left")
-                    self.physicsBody?.velocity.dx = CGFloat(-80)
-                }
-                if (playerNode.position.x - self.position.x) > 3 {
-                    self.physicsBody?.velocity.dx = CGFloat(80)
-                    print("ENEMY: follow right")
-                }
-                if ((self.position.x - playerNode.position.x) < 3) && ((playerNode.position.x - self.position.x) < 3) {
-                    self.physicsBody?.velocity.dx = CGFloat(0)
-                }
-            }
+            //            if (absXDiff > absYDiff) {
+            //                self.physicsBody?.velocity.dy = CGFloat(0)
+            //                if (self.position.x - playerNode.position.x) > followSwitch {
+            //                    print("ENEMY: follow left")
+            //                    self.physicsBody?.velocity.dx = CGFloat(-80)
+            //                }
+            //                if (playerNode.position.x - self.position.x) > followSwitch {
+            //                    self.physicsBody?.velocity.dx = CGFloat(80)
+            //                    print("ENEMY: follow right")
+            //                }
+            //                if (absXDiff < followSwitch) {
+            //                    self.physicsBody?.velocity.dx = CGFloat(0)
+            //                }
+            //            }
             // if the difference in y is greater than the difference in x, move along y axis only
-            if (absYDiff - absXDiff) > 3 {
-                self.physicsBody?.velocity.dx = CGFloat(0)
-                if (self.position.y - playerNode.position.y) > 3 {
-                    self.physicsBody?.velocity.dy = CGFloat(-80)
-                    print("ENEMY: follow down")
-                }
-                if (playerNode.position.y - self.position.y) > 3 {
-                    self.physicsBody?.velocity.dy = CGFloat(80)
-                    print("ENEMY: follow up")
-                }
-                if ((self.position.y - playerNode.position.y) < 3) && ((playerNode.position.y - self.position.y) < 3) {
-                    self.physicsBody?.velocity.dy = CGFloat(0)
-                }
-            }
+            //            if (absYDiff > absXDiff) {
+            //                self.physicsBody?.velocity.dx = CGFloat(0)
+            //                if (self.position.y - playerNode.position.y) > followSwitch {
+            //                    self.physicsBody?.velocity.dy = CGFloat(-80)
+            //                    print("ENEMY: follow down")
+            //                }
+            //                if (playerNode.position.y - self.position.y) > followSwitch {
+            //                    self.physicsBody?.velocity.dy = CGFloat(80)
+            //                    print("ENEMY: follow up")
+            //                }
+            //                if (absYDiff < followSwitch) {
+            //                    self.physicsBody?.velocity.dy = CGFloat(0)
+            //                }
+            //            }
+            
             // if the difference in x and y positions is close, move along both axes
-            if abs(absYDiff - absXDiff) < 3 {
-                if (self.position.x - playerNode.position.x) > 3 {
-                    print("ENEMY: follow left")
-                    self.physicsBody?.velocity.dx = CGFloat(-80)
-                }
-                if (playerNode.position.x - self.position.x) > 3 {
-                    self.physicsBody?.velocity.dx = CGFloat(80)
-                    print("ENEMY: follow right")
-                }
-                if ((self.position.x - playerNode.position.x) < 3) && ((playerNode.position.x - self.position.x) < 3) {
-                    self.physicsBody?.velocity.dx = CGFloat(0)
-                }
-                if (self.position.y - playerNode.position.y) > 3 {
-                    self.physicsBody?.velocity.dy = CGFloat(-80)
-                    print("ENEMY: follow down")
-                }
-                if (playerNode.position.y - self.position.y) > 3 {
-                    self.physicsBody?.velocity.dy = CGFloat(80)
-                    print("ENEMY: follow up")
-                }
-                if ((self.position.y - playerNode.position.y) < 3) && ((playerNode.position.y - self.position.y) < 3) {
-                    self.physicsBody?.velocity.dy = CGFloat(0)
-                }
-            }
+            //            if abs(absYDiff - absXDiff) < followSwitch {
+            //                if (self.position.x - playerNode.position.x) > followSwitch {
+            //                    print("ENEMY: follow left")
+            //                    self.physicsBody?.velocity.dx = CGFloat(-80)
+            //                }
+            //                if (playerNode.position.x - self.position.x) > followSwitch {
+            //                    self.physicsBody?.velocity.dx = CGFloat(80)
+            //                    print("ENEMY: follow right")
+            //                }
+            //                if ((self.position.x - playerNode.position.x) < followSwitch) &&
+            //                    ((playerNode.position.x - self.position.x) < followSwitch) {
+            //                    self.physicsBody?.velocity.dx = CGFloat(0)
+            //                }
+            //                if (self.position.y - playerNode.position.y) > followSwitch {
+            //                    self.physicsBody?.velocity.dy = CGFloat(-80)
+            //                    print("ENEMY: follow down")
+            //                }
+            //                if (playerNode.position.y - self.position.y) > followSwitch {
+            //                    self.physicsBody?.velocity.dy = CGFloat(80)
+            //                    print("ENEMY: follow up")
+            //                }
+            //                if ((self.position.y - playerNode.position.y) < followSwitch) &&
+            //                    ((playerNode.position.y - self.position.y) < followSwitch) {
+            //                    self.physicsBody?.velocity.dy = CGFloat(0)
+            //                }
+            //            }
         }
-            
-        // TODO: behavior patterns for when player is out of sight will go here
         else {
-//            if nodeAbove is MazeWall {
-//                //print("ENEMY: wall above")
-//            }
-//            if nodeBelow is MazeWall {
-//                //print("ENEMY: wall below")
-//            }
-//            if nodeLeft is MazeWall {
-//                //print("ENEMY: wall left")
-//            }
-//            if nodeRight is MazeWall {
-//                //print("ENEMY: wall right")
-//            }
-            
-            // TODO: make sure this is working properly
-            // bounce back and switch directions if colliding with another enemy
-            if (nodeAbove is Enemy) {
-                    print("ENEMY: X4 turned around")
-                    self.run(SKAction.applyImpulse(CGVector(dx: 0, dy: -rebound), duration: 0.2))
-                    down()
-            }
-            if (nodeBelow is Enemy) {
-                    print("ENEMY: X3 turned around")
-                    self.run(SKAction.applyImpulse(CGVector(dx: 0, dy: rebound), duration: 0.2))
-                    up()
-            }
-            if (nodeLeft is Enemy) {
-                    print("ENEMY: X2 turned around")
-                    self.run(SKAction.applyImpulse(CGVector(dx: rebound, dy: 0), duration: 0.2))
-                    right()
-            }
-            if (nodeRight is Enemy) {
-                    print("ENEMY: X1 turned around")
-                    self.run(SKAction.applyImpulse(CGVector(dx: -rebound, dy: 0), duration: 0.2))
-                    left()
-            }
-            
-            // if going towards wall, pick random from other 3
-            // else continue
-            // A3, WALL ABOVE------------------------------------------------------------------------------------------------
-            if (nodeAbove is MazeWall) && !(nodeBelow is MazeWall) && !(nodeRight is MazeWall) && !(nodeLeft is MazeWall) {
+            follow = false
+        }
+        
+        //            if nodeAbove is MazeWall {
+        //                //print("ENEMY: wall above")
+        //            }
+        //            if nodeBelow is MazeWall {
+        //                //print("ENEMY: wall below")
+        //            }
+        //            if nodeLeft is MazeWall {
+        //                //print("ENEMY: wall left")
+        //            }
+        //            if nodeRight is MazeWall {
+        //                //print("ENEMY: wall right")
+        //            }
+        
+        // TODO: make sure this is working properly
+        // bounce back and switch directions if colliding with another enemy
+        if (nodeAbove is Enemy) {
+            print("ENEMY: X4 turned around")
+            self.run(SKAction.applyImpulse(CGVector(dx: 0, dy: -rebound), duration: 0.2))
+            down()
+        }
+        if (nodeBelow is Enemy) {
+            print("ENEMY: X3 turned around")
+            self.run(SKAction.applyImpulse(CGVector(dx: 0, dy: rebound), duration: 0.2))
+            up()
+        }
+        if (nodeLeft is Enemy) {
+            print("ENEMY: X2 turned around")
+            self.run(SKAction.applyImpulse(CGVector(dx: rebound, dy: 0), duration: 0.2))
+            right()
+        }
+        if (nodeRight is Enemy) {
+            print("ENEMY: X1 turned around")
+            self.run(SKAction.applyImpulse(CGVector(dx: -rebound, dy: 0), duration: 0.2))
+            left()
+        }
+        
+        // if going towards wall, pick random from other 3
+        // else continue
+        // A3, WALL ABOVE------------------------------------------------------------------------------------------------
+        if (nodeAbove is MazeWall) && !(nodeBelow is MazeWall) && !(nodeRight is MazeWall) && !(nodeLeft is MazeWall) {
+            dirOptions = ["left", "right", "down"]
+            if follow == false {
+                // or character camo active
                 if state == "corridor" {
                     state = "wall"
                     print("ENEMY: delay")
-                    DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
-                        if self.direction == "left" {
-                            // down or left
-                            if self.number2 == 0 {
-                                print("ENEMY: A3 random down")
-                                down()
+                    if follow == false {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
+                            if self.direction == "left" {
+                                // down or left
+                                if self.number2 == 0 {
+                                    print("ENEMY: A3 random down")
+                                    down()
+                                }
+                                if self.number2 == 1 {
+                                    print("ENEMY: A3 random left")
+                                    left()
+                                }
                             }
-                            if self.number2 == 1 {
-                                print("ENEMY: A3 random left")
-                                left()
+                            if self.direction == "up" {
+                                // right or left
+                                if self.number2 == 0 {
+                                    print("ENEMY: A3 random right")
+                                    right()
+                                }
+                                if self.number2 == 1 {
+                                    print("ENEMY: A3 random left")
+                                    left()
+                                }
                             }
-                        }
-                        if self.direction == "up" {
-                            // right or left
-                            if self.number2 == 0 {
-                                print("ENEMY: A3 random right")
-                                right()
+                            if self.direction == "right" {
+                                // down or right
+                                if self.number2 == 0 {
+                                    print("ENEMY: A3 random down")
+                                    down()
+                                }
+                                if self.number2 == 1 {
+                                    print("ENEMY: A3 random right")
+                                    right()
+                                }
                             }
-                            if self.number2 == 1 {
-                                print("ENEMY: A3 random left")
-                                left()
+                            if self.direction == "down" {
+                                contDir()
                             }
-                        }
-                        if self.direction == "right" {
-                            // down or right
-                            if self.number2 == 0 {
-                                print("ENEMY: A3 random down")
-                                down()
-                            }
-                            if self.number2 == 1 {
-                                print("ENEMY: A3 random right")
-                                right()
-                            }
-                        }
-                        if self.direction == "down" {
-                            contDir()
                         }
                     }
                 }
@@ -300,8 +352,15 @@ class Enemy: SKSpriteNode {
                     }
                 }
             }
-            // B3, WALL BELOW-------------------------------------------------------------------------------------------------
-            if (nodeBelow is MazeWall) && !(nodeAbove is MazeWall) && !(nodeRight is MazeWall) && !(nodeLeft is MazeWall) {
+            if follow == true {
+                // and character camo not active
+                followDir()
+            }
+        }
+        // B3, WALL BELOW-------------------------------------------------------------------------------------------------
+        if (nodeBelow is MazeWall) && !(nodeAbove is MazeWall) && !(nodeRight is MazeWall) && !(nodeLeft is MazeWall) {
+            dirOptions = ["left", "right", "up"]
+            if follow == false {
                 if state == "corridor" {
                     state = "wall"
                     print("ENEMY: delay")
@@ -344,7 +403,6 @@ class Enemy: SKSpriteNode {
                         }
                     }
                 }
-               
                 if state != "corridor" {
                     if (direction == "down" || direction == "none") {
                         if number3 == 0 {
@@ -369,8 +427,14 @@ class Enemy: SKSpriteNode {
                     }
                 }
             }
-            // C3, WALL LEFT------------------------------------------------------------------------------------------------
-            if (nodeLeft is MazeWall) && !(nodeBelow is MazeWall) && !(nodeRight is MazeWall) && !(nodeAbove is MazeWall) {
+            if follow == true {
+                followDir()
+            }
+        }
+        // C3, WALL LEFT------------------------------------------------------------------------------------------------
+        if (nodeLeft is MazeWall) && !(nodeBelow is MazeWall) && !(nodeRight is MazeWall) && !(nodeAbove is MazeWall) {
+            dirOptions = ["up", "right", "down"]
+            if follow == false {
                 if state == "corridor" {
                     state = "wall"
                     print("ENEMY: delay")
@@ -385,7 +449,7 @@ class Enemy: SKSpriteNode {
                                 print("ENEMY: C3 random up")
                                 up()
                             }
-
+                            
                         }
                         if self.direction == "up" {
                             // right or up
@@ -397,7 +461,7 @@ class Enemy: SKSpriteNode {
                                 print("ENEMY: C3 random right")
                                 right()
                             }
-
+                            
                         }
                         if self.direction == "down" {
                             // right or down
@@ -440,8 +504,14 @@ class Enemy: SKSpriteNode {
                     }
                 }
             }
-            // D3, WALL RIGHT-------------------------------------------------------------------------------------------------
-            if (nodeRight is MazeWall) && !(nodeBelow is MazeWall) && !(nodeAbove is MazeWall) && !(nodeLeft is MazeWall) {
+            if follow == true {
+                followDir()
+            }
+        }
+        // D3, WALL RIGHT-------------------------------------------------------------------------------------------------
+        if (nodeRight is MazeWall) && !(nodeBelow is MazeWall) && !(nodeAbove is MazeWall) && !(nodeLeft is MazeWall) {
+            dirOptions = ["left", "up", "down"]
+            if follow == false {
                 if state == "corridor" {
                     state = "wall"
                     print("ENEMY: delay")
@@ -484,7 +554,7 @@ class Enemy: SKSpriteNode {
                         }
                     }
                 }
-               
+                
                 if state != "corridor" {
                     if (direction == "right"  || direction == "none") {
                         if number3 == 0 {
@@ -509,23 +579,29 @@ class Enemy: SKSpriteNode {
                     }
                 }
             }
-            
-            // if above&below go left/right----------------------------------------------------------------------------------
-            if (nodeAbove is MazeWall) && (nodeBelow is MazeWall) {
-                // BOXED IN
-                // if wall left go right
-                if (nodeLeft is MazeWall) {
-                    print("ENEMY: undisputed right")
-                    right()
-                    state = "box"
-                }
-                // if wall right go left
-                if (nodeRight is MazeWall) {
-                    print("ENEMY: undisputed left")
-                    left()
-                    state = "box"
-                }
-                if !(nodeRight is MazeWall) && !(nodeLeft is MazeWall) {
+            if follow == true {
+                followDir()
+            }
+        }
+        
+        // if above&below go left/right----------------------------------------------------------------------------------
+        if (nodeAbove is MazeWall) && (nodeBelow is MazeWall) {
+            // BOXED IN
+            // if wall left go right
+            if (nodeLeft is MazeWall) {
+                print("ENEMY: undisputed right")
+                right()
+                state = "box"
+            }
+            // if wall right go left
+            if (nodeRight is MazeWall) {
+                print("ENEMY: undisputed left")
+                left()
+                state = "box"
+            }
+            if !(nodeRight is MazeWall) && !(nodeLeft is MazeWall) {
+                dirOptions = ["up", "down"]
+                    if follow == false {
                     // HORIZONTAL CORRIDOR
                     if (direction == "up" || direction == "down" || direction == "none") {
                         // if open pick random
@@ -547,24 +623,30 @@ class Enemy: SKSpriteNode {
                         state = "corridor"
                     }
                 }
+                if follow == true {
+                    followDir()
+                }
             }
-            
-            // if left&right go up/down---------------------------------------------------------------------------------------
-            if (nodeLeft is MazeWall) && (nodeRight is MazeWall) {
-                // BOXED IN
-                // if wall up go down
-                if (nodeAbove is MazeWall) {
-                    down()
-                    print("ENEMY: undisputed down")
-                    state = "box"
-                }
-                // if wall down go up
-                if (nodeBelow is MazeWall) {
-                    print("ENEMY: undisputed up")
-                    up()
-                    state = "box"
-                }
-                if !(nodeAbove is MazeWall) && !(nodeBelow is MazeWall) {
+        }
+        
+        // if left&right go up/down---------------------------------------------------------------------------------------
+        if (nodeLeft is MazeWall) && (nodeRight is MazeWall) {
+            // BOXED IN
+            // if wall up go down
+            if (nodeAbove is MazeWall) {
+                down()
+                print("ENEMY: undisputed down")
+                state = "box"
+            }
+            // if wall down go up
+            if (nodeBelow is MazeWall) {
+                print("ENEMY: undisputed up")
+                up()
+                state = "box"
+            }
+            if !(nodeAbove is MazeWall) && !(nodeBelow is MazeWall) {
+                dirOptions = ["left", "right"]
+                    if follow == false {
                     // VERTICAL CORRIDOR
                     if (direction == "left" || direction == "right" || direction == "none") {
                         //if open pick random
@@ -586,44 +668,56 @@ class Enemy: SKSpriteNode {
                         state = "corridor"
                     }
                 }
+                if follow == true {
+                    followDir()
+                }
             }
-            // if up&right go down/left------------------------------------------------------------------------------------
-            // CORNER
-            if (nodeAbove is MazeWall) && (nodeRight is MazeWall) {
-                    // C2
-                    if (direction == "up" || direction == "right" || direction == "none") {
-                        if direction == "up" {
-                            print("ENEMY: C2 alternate left")
+        }
+        // if up&right go down/left------------------------------------------------------------------------------------
+        // CORNER
+        if (nodeAbove is MazeWall) && (nodeRight is MazeWall) {
+            dirOptions = ["left", "down"]
+            if follow == false {
+                // C2
+                if (direction == "up" || direction == "right" || direction == "none") {
+                    if direction == "up" {
+                        print("ENEMY: C2 alternate left")
+                        left()
+                        state = "corner"
+                    }
+                    if direction == "right" {
+                        print("ENEMY: C2 alternate down")
+                        down()
+                        state = "corner"
+                    }
+                    if direction == "none" {
+                        if number2 == 0 {
+                            print("ENEMY: C2 random left")
                             left()
                             state = "corner"
                         }
-                        if direction == "right" {
-                            print("ENEMY: C2 alternate down")
+                        if number2 == 1 {
+                            print("ENEMY: C2 random down")
                             down()
                             state = "corner"
                         }
-                        if direction == "none" {
-                            if number2 == 0 {
-                                print("ENEMY: C2 random left")
-                                left()
-                                state = "corner"
-                            }
-                            if number2 == 1 {
-                                print("ENEMY: C2 random down")
-                                down()
-                                state = "corner"
-                            }
-                        }
-                    }
-                    // C1
-                    if (direction == "left" || direction == "down") {
-                        contDir()
-                        state = "corner"
                     }
                 }
-            // if up&left go down/right-------------------------------------------------------------------------------------
-            // CORNER
-            if (nodeAbove is MazeWall) && (nodeLeft is MazeWall) {
+                // C1
+                if (direction == "left" || direction == "down") {
+                    contDir()
+                    state = "corner"
+                }
+            }
+            if follow == true {
+                followDir()
+            }
+        }
+        // if up&left go down/right-------------------------------------------------------------------------------------
+        // CORNER
+        if (nodeAbove is MazeWall) && (nodeLeft is MazeWall) {
+            dirOptions = ["right", "down"]
+            if follow == false {
                 // D2
                 if (direction == "up" || direction == "left" || direction == "none") {
                     if direction == "up" {
@@ -655,9 +749,15 @@ class Enemy: SKSpriteNode {
                     state = "corner"
                 }
             }
-            // if down&left go up/right-----------------------------------------------------------------------------------
-            // CORNER
-            if (nodeBelow is MazeWall) && (nodeLeft is MazeWall) {
+            if follow == true {
+                followDir()
+            }
+        }
+        // if down&left go up/right-----------------------------------------------------------------------------------
+        // CORNER
+        if (nodeBelow is MazeWall) && (nodeLeft is MazeWall) {
+            dirOptions = ["up", "right"]
+            if follow == false {
                 // E2
                 if (direction == "down" || direction == "left" || direction == "none") {
                     if direction == "down" {
@@ -689,10 +789,16 @@ class Enemy: SKSpriteNode {
                     state = "corner"
                 }
             }
-            // if down&right go up/left-------------------------------------------------------------------------------------
-            // CORNER
-            if (nodeBelow is MazeWall) && (nodeRight is MazeWall) {
-                // F2
+            if follow == true {
+                followDir()
+            }
+        }
+        // if down&right go up/left-------------------------------------------------------------------------------------
+        // CORNER
+        if (nodeBelow is MazeWall) && (nodeRight is MazeWall) {
+            dirOptions = ["left", "up"]
+            // F2
+            if follow == false {
                 if (direction == "down" || direction == "right" || direction == "none") {
                     if direction == "down" {
                         print("ENEMY: F2 alternate left")
@@ -723,10 +829,16 @@ class Enemy: SKSpriteNode {
                     state = "corner"
                 }
             }
-            
-            // if walls in 0 directions pick random-------------------------------------------------------------------------
-            // A0, OPEN
-            if !(nodeAbove is MazeWall) && !(nodeBelow is MazeWall) && !(nodeRight is MazeWall) && !(nodeLeft is MazeWall) {
+            if follow == true {
+                followDir()
+            }
+        }
+        
+        // if walls in 0 directions pick random-------------------------------------------------------------------------
+        // A0, OPEN
+        if !(nodeAbove is MazeWall) && !(nodeBelow is MazeWall) && !(nodeRight is MazeWall) && !(nodeLeft is MazeWall) {
+            dirOptions = ["left", "right", "down", "up"]
+            if follow == false {
                 if direction == "none" {
                     if number4 == 0 {
                         print("ENEMY: A0 random down")
@@ -754,6 +866,10 @@ class Enemy: SKSpriteNode {
                     state = "open"
                 }
             }
+            if follow == true {
+                followDir()
+            }
         }
     }
 }
+
