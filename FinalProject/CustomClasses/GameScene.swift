@@ -51,6 +51,7 @@ var optionsPopupOut = true
 var charSelOut = true
 var losePopupOut = false
 var winPopupOut = false
+var abilityActive = false
 
 // movement and animation
 let path = UIBezierPath()
@@ -70,6 +71,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         physicsWorld.speed = 1
         inGameMenu.isPaused = false
         character = charSelPopup.character
+        print("CHARACTER: \(character)")
         
         // print(inGameMenu.position)
         
@@ -500,7 +502,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             scene?.enumerateChildNodes(withName: "enemy") {
                 (node, stop) in
                 let enemy = node as? Enemy
-                enemy?.pathfinding(playerNode: player, currentScene: self, character: character)
+                enemy?.pathfinding(playerNode: player,
+                                   currentScene: self,
+                                   character: character,
+                                   ability: abilityActive)
+            }
+            scene?.enumerateChildNodes(withName: "item") {
+                (node, stop) in
+                let itemNode = node as? Item
+                itemNode?.attract(character: character,
+                                  ability: abilityActive,
+                                  playerNode: player)
             }
         }
     }

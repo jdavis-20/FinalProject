@@ -17,7 +17,7 @@ class Enemy: SKSpriteNode {
     var number3 = Int(arc4random_uniform(3))
     var number4 = Int(arc4random_uniform(4))
     var direction = "none"
-    let idleSpeed = 100
+    var idleSpeed = 100
     let rebound = 150
     let followSwitch: CGFloat = 10
     var follow = false
@@ -58,7 +58,7 @@ class Enemy: SKSpriteNode {
         addChild(upline)
     }
     
-    func pathfinding(playerNode: SKSpriteNode, currentScene: SKScene, character: String) {
+    func pathfinding(playerNode: SKSpriteNode, currentScene: SKScene, character: String, ability: Bool) {
         
         let absXDiff = abs(playerNode.position.x-self.position.x)
         let absYDiff = abs(playerNode.position.y-self.position.y)
@@ -69,6 +69,13 @@ class Enemy: SKSpriteNode {
         let playerUp = playerNode.position.y > self.position.y
         let playerDown = playerNode.position.y < self.position.y
         var dirOptions: Array = ["up", "down", "left", "right"]
+        
+        if character == "Med" && ability == true {
+            idleSpeed = 70
+        }
+        else {
+            idleSpeed = 100
+        }
         
         Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { timer in
             self.number2 = Int(arc4random_uniform(2))
@@ -282,7 +289,7 @@ class Enemy: SKSpriteNode {
         // A3, WALL ABOVE------------------------------------------------------------------------------------------------
         if (nodeAbove is MazeWall) && !(nodeBelow is MazeWall) && !(nodeRight is MazeWall) && !(nodeLeft is MazeWall) {
             dirOptions = ["left", "right", "down"]
-            if follow == false {
+            if follow == false || (character == "Bot" && ability == true){
                 // or character camo active
                 if state == "corridor" {
                     state = "wall"
@@ -352,7 +359,7 @@ class Enemy: SKSpriteNode {
                     }
                 }
             }
-            if follow == true {
+            if follow == true && (character != "Bot" || ability == false) {
                 // and character camo not active
                 followDir()
             }

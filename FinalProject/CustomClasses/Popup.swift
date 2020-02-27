@@ -19,15 +19,15 @@ class Popup: SKNode {
     var char3button: Button
 
     func char1() {
-        character = "char1"
+        character = "Med"
         print("POPUP: selected character 1")
     }
     func char2() {
-        character = "char2"
+        character = "Bot"
         print("POPUP: selected character 2")
     }
     func char3() {
-        character = "char3"
+        character = "Arch"
         print("POPUP: selected character 3")
     }
     
