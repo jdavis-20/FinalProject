@@ -47,6 +47,9 @@
 		25642EF5235373C100650F9C /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25642EF4235373C100650F9C /* MenuScene.swift */; };
 		25642EF7235373E500650F9C /* MenuScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 25642EF6235373E500650F9C /* MenuScene.sks */; };
 		256FB44423F33A8C003D3BBE /* Popup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 256FB44323F33A8C003D3BBE /* Popup.swift */; };
+		257CAFD4240FE610002E7EA3 /* maze3.png in Resources */ = {isa = PBXBuildFile; fileRef = 257CAFD2240FE610002E7EA3 /* maze3.png */; };
+		257CAFD5240FE610002E7EA3 /* maze2.png in Resources */ = {isa = PBXBuildFile; fileRef = 257CAFD3240FE610002E7EA3 /* maze2.png */; };
+		257CAFD7240FE6F3002E7EA3 /* maze4.png in Resources */ = {isa = PBXBuildFile; fileRef = 257CAFD6240FE6F3002E7EA3 /* maze4.png */; };
 		2585FCCE23D9C919005926F5 /* Level4Scene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 2585FCCD23D9C919005926F5 /* Level4Scene.sks */; };
 		2585FCD023D9C935005926F5 /* Level4Scene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2585FCCF23D9C935005926F5 /* Level4Scene.swift */; };
 		2585FCD323D9E195005926F5 /* maze1.png in Resources */ = {isa = PBXBuildFile; fileRef = 2585FCD223D9E195005926F5 /* maze1.png */; };
@@ -137,6 +140,9 @@
 		25642EF4235373C100650F9C /* MenuScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
 		25642EF6235373E500650F9C /* MenuScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MenuScene.sks; sourceTree = "<group>"; };
 		256FB44323F33A8C003D3BBE /* Popup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Popup.swift; sourceTree = "<group>"; };
+		257CAFD2240FE610002E7EA3 /* maze3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = maze3.png; sourceTree = "<group>"; };
+		257CAFD3240FE610002E7EA3 /* maze2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = maze2.png; sourceTree = "<group>"; };
+		257CAFD6240FE6F3002E7EA3 /* maze4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = maze4.png; sourceTree = "<group>"; };
 		2585FCCD23D9C919005926F5 /* Level4Scene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Level4Scene.sks; sourceTree = "<group>"; };
 		2585FCCF23D9C935005926F5 /* Level4Scene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Level4Scene.swift; sourceTree = "<group>"; };
 		2585FCD223D9E195005926F5 /* maze1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = maze1.png; sourceTree = "<group>"; };
@@ -372,6 +378,9 @@
 			isa = PBXGroup;
 			children = (
 				2585FCD223D9E195005926F5 /* maze1.png */,
+				257CAFD3240FE610002E7EA3 /* maze2.png */,
+				257CAFD2240FE610002E7EA3 /* maze3.png */,
+				257CAFD6240FE6F3002E7EA3 /* maze4.png */,
 			);
 			path = References;
 			sourceTree = "<group>";
@@ -513,12 +522,15 @@
 				253A1C882392C2BA00CBECB9 /* tempiconsmall.png in Resources */,
 				25C56B6F23F6EDC400A61747 /* 76.png in Resources */,
 				2561E9482354C5A000B23812 /* Level3Scene.sks in Resources */,
+				257CAFD4240FE610002E7EA3 /* maze3.png in Resources */,
 				25C9CC5523F85E9100E365C6 /* yel.png in Resources */,
+				257CAFD5240FE610002E7EA3 /* maze2.png in Resources */,
 				25105E4E23521E2900CAC3AE /* LaunchScreen.storyboard in Resources */,
 				25C56B6923F6DFF900A61747 /* icon.png in Resources */,
 				25105E83235322B500CAC3AE /* button_active.png in Resources */,
 				254C97D323EF28E90036FBB6 /* play.png in Resources */,
 				2561E9442354C58000B23812 /* Level2Scene.sks in Resources */,
+				257CAFD7240FE6F3002E7EA3 /* maze4.png in Resources */,
 				25C56B7423F6F8C800A61747 /* 835.png in Resources */,
 				253A1C872392C2BA00CBECB9 /* tempicon.png in Resources */,
 				254C97D023EF27E00036FBB6 /* PurpleFront.png in Resources */,
