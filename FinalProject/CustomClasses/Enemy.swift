@@ -308,6 +308,12 @@ class Enemy: SKSpriteNode {
             left()
         }
         
+        if self.physicsBody?.velocity.dx == 0 && self.physicsBody?.velocity.dy == 0 {
+            self.number2 = Int(arc4random_uniform(2))
+            self.number3 = Int(arc4random_uniform(3))
+            self.number4 = Int(arc4random_uniform(4))
+        }
+        
         // if going towards wall, pick random from other 3
         // else continue
         // A3, WALL ABOVE------------------------------------------------------------------------------------------------

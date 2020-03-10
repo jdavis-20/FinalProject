@@ -112,7 +112,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // scaling options to see more of view at once
 //         let zoomOut = SKAction.scale(by: 3, duration: 1)
 //         camera!.run(zoomOut)
-        camera!.setScale(4.5)
+        camera!.setScale(2)
         
         // only nodes that are children of worldNode will be paused
         // this is so menus still work after they are opened
