@@ -19,6 +19,7 @@ class Item: SKSpriteNode {
         self.physicsBody?.allowsRotation = false
         self.physicsBody?.isDynamic = false
         self.physicsBody?.contactTestBitMask = 0x00000001
+        self.physicsBody?.categoryBitMask = 0x00000000
     }
     func attract(character: String, ability: Bool, playerNode: SKSpriteNode) {
         if character == "Arch" {

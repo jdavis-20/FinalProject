@@ -218,10 +218,11 @@ class Enemy: SKSpriteNode {
         if enemyRayPlayer?.node == playerNode {
             // follow doesn't work when using camo ability
             if (ability == false && character == "Bot") || character != "Bot" {
-                follow = false
+                follow = true
             }
             
             // this section causes enemy movemnt to be only straight or diagonal
+            
             // if the difference in x is greater than the difference in y, move along x axis only
             //            if (absXDiff > absYDiff) {
             //                self.physicsBody?.velocity.dy = CGFloat(0)
@@ -252,52 +253,38 @@ class Enemy: SKSpriteNode {
             //                    self.physicsBody?.velocity.dy = CGFloat(0)
             //                }
             //            }
-            
             // if the difference in x and y positions is close, move along both axes
-//                        if abs(absYDiff - absXDiff) < followSwitch {
-//                            if (self.position.x - playerNode.position.x) > followSwitch {
-//                                print("ENEMY: follow left")
-//                                self.physicsBody?.velocity.dx = CGFloat(-enemySpeed)
-//                            }
-//                            if (playerNode.position.x - self.position.x) > followSwitch {
-//                                self.physicsBody?.velocity.dx = CGFloat(enemySpeed)
-//                                print("ENEMY: follow right")
-//                            }
-//                            if ((self.position.x - playerNode.position.x) < followSwitch) &&
-//                                ((playerNode.position.x - self.position.x) < followSwitch) {
-//                                self.physicsBody?.velocity.dx = CGFloat(0)
-//                            }
-//                            if (self.position.y - playerNode.position.y) > followSwitch {
-//                                self.physicsBody?.velocity.dy = CGFloat(-enemySpeed)
-//                                print("ENEMY: follow down")
-//                            }
-//                            if (playerNode.position.y - self.position.y) > followSwitch {
-//                                self.physicsBody?.velocity.dy = CGFloat(enemySpeed)
-//                                print("ENEMY: follow up")
-//                            }
-//                            if ((self.position.y - playerNode.position.y) < followSwitch) &&
-//                                ((playerNode.position.y - self.position.y) < followSwitch) {
-//                                self.physicsBody?.velocity.dy = CGFloat(0)
-//                            }
-//                        }
+            //        if abs(absYDiff - absXDiff) < followSwitch {
+            //            if (self.position.x - playerNode.position.x) > followSwitch {
+            //                print("ENEMY: follow left")
+            //                self.physicsBody?.velocity.dx = CGFloat(-enemySpeed)
+            //            }
+            //            if (playerNode.position.x - self.position.x) > followSwitch {
+            //                self.physicsBody?.velocity.dx = CGFloat(enemySpeed)
+            //                print("ENEMY: follow right")
+            //            }
+            //            if ((self.position.x - playerNode.position.x) < followSwitch) &&
+            //                ((playerNode.position.x - self.position.x) < followSwitch) {
+            //                self.physicsBody?.velocity.dx = CGFloat(0)
+            //            }
+            //            if (self.position.y - playerNode.position.y) > followSwitch {
+            //                self.physicsBody?.velocity.dy = CGFloat(-enemySpeed)
+            //                print("ENEMY: follow down")
+            //            }
+            //            if (playerNode.position.y - self.position.y) > followSwitch {
+            //                self.physicsBody?.velocity.dy = CGFloat(enemySpeed)
+            //                print("ENEMY: follow up")
+            //            }
+            //            if ((self.position.y - playerNode.position.y) < followSwitch) &&
+            //                ((playerNode.position.y - self.position.y) < followSwitch) {
+            //                self.physicsBody?.velocity.dy = CGFloat(0)
+            //            }
+            //        }
         }
         else {
             follow = false
         }
-        
-        //            if nodeAbove is MazeWall {
-        //                //print("ENEMY: wall above")
-        //            }
-        //            if nodeBelow is MazeWall {
-        //                //print("ENEMY: wall below")
-        //            }
-        //            if nodeLeft is MazeWall {
-        //                //print("ENEMY: wall left")
-        //            }
-        //            if nodeRight is MazeWall {
-        //                //print("ENEMY: wall right")
-        //            }
-        
+
         // TODO: make sure this is working properly
         // bounce back and switch directions if colliding with another enemy
         if (nodeAbove is Enemy) {

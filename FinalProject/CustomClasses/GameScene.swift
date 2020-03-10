@@ -249,9 +249,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     //0° is flat, 90° is vertical
                 }
                 
-                if started == true {
-                    print("X TILT: \(data.acceleration.x)")
-                    
+                if started == true {                    
 //                    flat = 0, forward is +, back is -
 //                    when you tilt foward it goes up to 1 when vertical, then past it it goes down from 1 (still pos)
 //                    when you tilt back it goes up to -1 when vertical, then past it it goes down from -1 (still neg)
