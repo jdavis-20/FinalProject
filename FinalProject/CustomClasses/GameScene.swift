@@ -41,6 +41,7 @@ var healthLabel = SKLabelNode(text: String(10))
 var itemLabel = SKLabelNode(text: String(0))
 
 var playerAlive = true
+var playerWon = false
 var playerYDirection = "up"
 var playerXDirection = "still"
 var enemyInit = false
@@ -137,8 +138,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         startButton.zPosition = 3
         charSelPopup.addChild(startButton)
         
+        // add health and item counters to HUD
         healthLabel.position = CGPoint(x: -frame.size.width/2.2 , y: frame.size.height/2.5)
         camera!.addChild(healthLabel)
+        
+        itemLabel.position = CGPoint(x: -frame.size.width/2.5 , y: frame.size.height/2.5)
+        camera!.addChild(itemLabel)
         
         // menu setup
         inGameMenu = Menu(screenHeight: frame.size.height,
@@ -238,12 +243,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 
                 //records tilt along x axis once, when start button is pressed
                 if (preferredTilt == nil) && (started == true) {
+                    
                     preferredTilt = data.acceleration.x
                     print("INIT: Preferred tilt angle is \(Int(preferredTilt! * 90))°")
                     //0° is flat, 90° is vertical
                 }
                 
                 if started == true {
+                    print("X TILT: \(data.acceleration.x)")
+                    
+//                    flat = 0, forward is +, back is -
+//                    when you tilt foward it goes up to 1 when vertical, then past it it goes down from 1 (still pos)
+//                    when you tilt back it goes up to -1 when vertical, then past it it goes down from -1 (still neg)
+                    
                     // tilt moves, X
                     if (data.acceleration.y > 0.06 ||
                         data.acceleration.y < -0.06) {
@@ -413,6 +425,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 itemPopup.itemName.text = aName
                 itemPopup.visible()
                 physicsWorld.speed = 0
+                
+                if playerItems >= 5 {
+                    playerWon = true
+                }
+                
             }
             if ((aName == "player") && (bNode! is Item)) {
                 print("COLLSION: item")
@@ -423,6 +440,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 itemPopup.itemName.text = bName
                 itemPopup.visible()
                 physicsWorld.speed = 0
+                
+                if playerItems >= 5 {
+                    playerWon = true
+                }
             }
         }
     }
@@ -514,6 +535,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                                   ability: abilityActive,
                                   playerNode: player)
             }
+        }
+        
+        if itemPopupOut == false && playerWon == true {
+            camera!.addChild(winPopup)
+            winPopup.visible()
+            physicsWorld.speed = 0
+            inGameMenu.isPaused = true
         }
     }
 }

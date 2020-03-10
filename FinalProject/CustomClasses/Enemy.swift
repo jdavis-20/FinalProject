@@ -17,7 +17,7 @@ class Enemy: SKSpriteNode {
     var number3 = Int(arc4random_uniform(3))
     var number4 = Int(arc4random_uniform(4))
     var direction = "none"
-    var idleSpeed = 100
+    var enemySpeed = 100
     let rebound = 150
     let followSwitch: CGFloat = 10
     var follow = false
@@ -39,23 +39,23 @@ class Enemy: SKSpriteNode {
         self.physicsBody?.contactTestBitMask = 0x00000001
         self.physicsBody?.restitution = 1
         
-        let rightline = SKShapeNode()
-        let rightPath = CGMutablePath()
-        rightPath.move(to: CGPoint(x:-100, y:0))
-        rightPath.addLine(to: CGPoint(x: 100,
-                                      y: 0))
-        rightline.path = rightPath
-        rightline.strokeColor = SKColor.red
-        addChild(rightline)
-        
-        let upline = SKShapeNode()
-        let upPath = CGMutablePath()
-        upPath.move(to: CGPoint(x:0, y:-100))
-        upPath.addLine(to: CGPoint(x: 0,
-                                   y: 100))
-        upline.path = upPath
-        upline.strokeColor = SKColor.red
-        addChild(upline)
+//        let rightline = SKShapeNode()
+//        let rightPath = CGMutablePath()
+//        rightPath.move(to: CGPoint(x:-100, y:0))
+//        rightPath.addLine(to: CGPoint(x: 100,
+//                                      y: 0))
+//        rightline.path = rightPath
+//        rightline.strokeColor = SKColor.red
+//        addChild(rightline)
+//
+//        let upline = SKShapeNode()
+//        let upPath = CGMutablePath()
+//        upPath.move(to: CGPoint(x:0, y:-100))
+//        upPath.addLine(to: CGPoint(x: 0,
+//                                   y: 100))
+//        upline.path = upPath
+//        upline.strokeColor = SKColor.red
+//        addChild(upline)
     }
     
     func pathfinding(playerNode: SKSpriteNode, currentScene: SKScene, character: String, ability: Bool) {
@@ -70,36 +70,30 @@ class Enemy: SKSpriteNode {
         let playerDown = playerNode.position.y < self.position.y
         var dirOptions: Array = ["up", "down", "left", "right"]
         
-        if character == "Med" && ability == true {
-            idleSpeed = 70
-        }
-        else {
-            idleSpeed = 100
-        }
-        
         Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { timer in
             self.number2 = Int(arc4random_uniform(2))
             self.number3 = Int(arc4random_uniform(3))
             self.number4 = Int(arc4random_uniform(4))
-            //            print("ENEMY: var changed: \(self.number2), \(self.number3), \(self.number4)")
+         // print("ENEMY: var changed \(self.number2), \(self.number3), \(self.number4)")
         }
         
         func left() {
-            self.physicsBody?.velocity = CGVector(dx: -idleSpeed, dy: 0)
+            self.physicsBody?.velocity = CGVector(dx: -enemySpeed, dy: 0)
             direction = "left"
         }
         func right() {
-            self.physicsBody?.velocity = CGVector(dx: idleSpeed, dy: 0)
+            self.physicsBody?.velocity = CGVector(dx: enemySpeed, dy: 0)
             direction = "right"
         }
         func up() {
-            self.physicsBody?.velocity = CGVector(dx: 0, dy: idleSpeed)
+            self.physicsBody?.velocity = CGVector(dx: 0, dy: enemySpeed)
             direction = "up"
         }
         func down() {
-            self.physicsBody?.velocity = CGVector(dx: 0, dy: -idleSpeed)
+            self.physicsBody?.velocity = CGVector(dx: 0, dy: -enemySpeed)
             direction = "down"
         }
+        
         func contDir() {
             print("ENEMY: continue \(direction)")
             if direction == "down" {
@@ -115,47 +109,87 @@ class Enemy: SKSpriteNode {
                 right()
             }
         }
+        
         func followDir() {
-            if xGreater == true {
-                print("ENEMY: follow x")
-                if playerLeft == true && dirOptions.contains("left") {
-                    left()
-                }
-                if playerRight == true && dirOptions.contains("right") {
-                    right()
-                }
-                else {
-                    if playerUp == true && dirOptions.contains("up") {
-                        up()
-                    }
-                    if playerDown == true && dirOptions.contains("down") {
-                        down()
-                    }
-                    else {
-                        follow = false
-                    }
-                }
+            // slow follow cause of sedate
+            if (character == "Med" && ability == true) {
+                enemySpeed = 70
             }
-            if yGreater == true {
-                print("ENEMY: follow y")
-                if playerUp == true && dirOptions.contains("up") {
-                    up()
-                }
-                if playerDown == true && dirOptions.contains("down") {
-                    down()
-                }
-                else {
-                    if playerLeft == true && dirOptions.contains("left") {
-                        left()
-                    }
-                    if playerRight == true && dirOptions.contains("right") {
-                        right()
-                    }
-                    else {
-                        follow = false
-                    }
-                }
+            // normal follow and speed
+            else {
+                enemySpeed = 100
             }
+            
+            if (self.position.x - playerNode.position.x) > followSwitch {
+                print("ENEMY: follow left")
+                self.physicsBody?.velocity.dx = CGFloat(-enemySpeed)
+            }
+            if (playerNode.position.x - self.position.x) > followSwitch {
+                self.physicsBody?.velocity.dx = CGFloat(enemySpeed)
+                print("ENEMY: follow right")
+            }
+            if ((self.position.x - playerNode.position.x) < followSwitch) &&
+                ((playerNode.position.x - self.position.x) < followSwitch) {
+                self.physicsBody?.velocity.dx = CGFloat(0)
+            }
+            if (self.position.y - playerNode.position.y) > followSwitch {
+                self.physicsBody?.velocity.dy = CGFloat(-enemySpeed)
+                print("ENEMY: follow down")
+            }
+            if (playerNode.position.y - self.position.y) > followSwitch {
+                self.physicsBody?.velocity.dy = CGFloat(enemySpeed)
+                print("ENEMY: follow up")
+            }
+            if ((self.position.y - playerNode.position.y) < followSwitch) &&
+                ((playerNode.position.y - self.position.y) < followSwitch) {
+                self.physicsBody?.velocity.dy = CGFloat(0)
+            }
+            
+
+            // this method was meant to make follow similar to regular pathfinding but it didn't work
+//            if (absXDiff - absYDiff) > 100 {
+//                print("ENEMY: follow x")
+//                if playerLeft == true && dirOptions.contains("left") {
+//                    left()
+//                }
+//                if playerRight == true && dirOptions.contains("right") {
+//                    right()
+//                }
+//                else {
+//                    if playerUp == true && dirOptions.contains("up") {
+//                        up()
+//                    }
+//                    if playerDown == true && dirOptions.contains("down") {
+//                        down()
+//                    }
+//                    else {
+//                        follow = false
+//                    }
+//                }
+//            }
+//            if (absYDiff - absXDiff) > 100 {
+//                print("ENEMY: follow y")
+//                if playerUp == true && dirOptions.contains("up") {
+//                    up()
+//                }
+//                if playerDown == true && dirOptions.contains("down") {
+//                    down()
+//                }
+//                else {
+//                    if playerLeft == true && dirOptions.contains("left") {
+//                        left()
+//                    }
+//                    if playerRight == true && dirOptions.contains("right") {
+//                        right()
+//                    }
+//                    else {
+//                        follow = false
+//                    }
+//                }
+//            }
+//            if (-100...100).contains(absXDiff - absYDiff) {
+//
+//            }
         }
         
         let enemyRayPlayer = currentScene.physicsWorld.body(alongRayStart: self.position,
@@ -182,7 +216,10 @@ class Enemy: SKSpriteNode {
         // enemy detects if player is in sight using raycasting
         // if it is then enemy follows player 
         if enemyRayPlayer?.node == playerNode {
-            follow = true
+            // follow doesn't work when using camo ability
+            if (ability == false && character == "Bot") || character != "Bot" {
+                follow = false
+            }
             
             // this section causes enemy movemnt to be only straight or diagonal
             // if the difference in x is greater than the difference in y, move along x axis only
@@ -217,32 +254,32 @@ class Enemy: SKSpriteNode {
             //            }
             
             // if the difference in x and y positions is close, move along both axes
-            //            if abs(absYDiff - absXDiff) < followSwitch {
-            //                if (self.position.x - playerNode.position.x) > followSwitch {
-            //                    print("ENEMY: follow left")
-            //                    self.physicsBody?.velocity.dx = CGFloat(-80)
-            //                }
-            //                if (playerNode.position.x - self.position.x) > followSwitch {
-            //                    self.physicsBody?.velocity.dx = CGFloat(80)
-            //                    print("ENEMY: follow right")
-            //                }
-            //                if ((self.position.x - playerNode.position.x) < followSwitch) &&
-            //                    ((playerNode.position.x - self.position.x) < followSwitch) {
-            //                    self.physicsBody?.velocity.dx = CGFloat(0)
-            //                }
-            //                if (self.position.y - playerNode.position.y) > followSwitch {
-            //                    self.physicsBody?.velocity.dy = CGFloat(-80)
-            //                    print("ENEMY: follow down")
-            //                }
-            //                if (playerNode.position.y - self.position.y) > followSwitch {
-            //                    self.physicsBody?.velocity.dy = CGFloat(80)
-            //                    print("ENEMY: follow up")
-            //                }
-            //                if ((self.position.y - playerNode.position.y) < followSwitch) &&
-            //                    ((playerNode.position.y - self.position.y) < followSwitch) {
-            //                    self.physicsBody?.velocity.dy = CGFloat(0)
-            //                }
-            //            }
+//                        if abs(absYDiff - absXDiff) < followSwitch {
+//                            if (self.position.x - playerNode.position.x) > followSwitch {
+//                                print("ENEMY: follow left")
+//                                self.physicsBody?.velocity.dx = CGFloat(-enemySpeed)
+//                            }
+//                            if (playerNode.position.x - self.position.x) > followSwitch {
+//                                self.physicsBody?.velocity.dx = CGFloat(enemySpeed)
+//                                print("ENEMY: follow right")
+//                            }
+//                            if ((self.position.x - playerNode.position.x) < followSwitch) &&
+//                                ((playerNode.position.x - self.position.x) < followSwitch) {
+//                                self.physicsBody?.velocity.dx = CGFloat(0)
+//                            }
+//                            if (self.position.y - playerNode.position.y) > followSwitch {
+//                                self.physicsBody?.velocity.dy = CGFloat(-enemySpeed)
+//                                print("ENEMY: follow down")
+//                            }
+//                            if (playerNode.position.y - self.position.y) > followSwitch {
+//                                self.physicsBody?.velocity.dy = CGFloat(enemySpeed)
+//                                print("ENEMY: follow up")
+//                            }
+//                            if ((self.position.y - playerNode.position.y) < followSwitch) &&
+//                                ((playerNode.position.y - self.position.y) < followSwitch) {
+//                                self.physicsBody?.velocity.dy = CGFloat(0)
+//                            }
+//                        }
         }
         else {
             follow = false
@@ -289,8 +326,7 @@ class Enemy: SKSpriteNode {
         // A3, WALL ABOVE------------------------------------------------------------------------------------------------
         if (nodeAbove is MazeWall) && !(nodeBelow is MazeWall) && !(nodeRight is MazeWall) && !(nodeLeft is MazeWall) {
             dirOptions = ["left", "right", "down"]
-            if follow == false || (character == "Bot" && ability == true){
-                // or character camo active
+            if follow == false {
                 if state == "corridor" {
                     state = "wall"
                     print("ENEMY: delay")
@@ -359,7 +395,7 @@ class Enemy: SKSpriteNode {
                     }
                 }
             }
-            if follow == true && (character != "Bot" || ability == false) {
+            if follow == true {
                 // and character camo not active
                 followDir()
             }
