@@ -20,11 +20,11 @@ var player = SKSpriteNode()
 // menus and popups
 var inGameMenu =  Menu(screenHeight: 375,
                        screenWidth: 667)
-var itemPopup = Popup(image: "popup", type: "item", worldNode: worldNode)
-var optionsPopup = Popup(image: "popup", type: "options", worldNode: worldNode)
-var charSelPopup = Popup(image: "charsel", type: "charsel", worldNode: worldNode)
-var winPopup = Popup(image: "popup", type: "win", worldNode: worldNode)
-var losePopup = Popup(image: "popup", type: "lose", worldNode: worldNode)
+var itemPopup = Popup(image: "pop", type: "item", worldNode: worldNode)
+var optionsPopup = Popup(image: "pop", type: "options", worldNode: worldNode)
+var charSelPopup = Popup(image: "pop", type: "charsel", worldNode: worldNode)
+var winPopup = Popup(image: "pop", type: "win", worldNode: worldNode)
+var losePopup = Popup(image: "pop", type: "lose", worldNode: worldNode)
 
 // orientation
 var preferredTilt: Double?
@@ -238,8 +238,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         worldNode.addChild(player)
         
         // popup test----------------------------------------------------------------------------------------------------------
-        
-        itemPopup = Popup(image: "button", type: "item", worldNode: worldNode)
         
         camera!.addChild(itemPopup)
         

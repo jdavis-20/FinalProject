@@ -48,7 +48,7 @@ class Popup: SKNode {
         char1button = Button(defaultButtonImage: "button",
                              activeButtonImage: "button_active",
                              label: "Char1")
-        char1button.position = CGPoint(x: -popupNode.frame.size.width/3, y: 0)
+        char1button.position = CGPoint(x: -popupNode.frame.size.width/4, y: 0)
         char1button.zPosition = 3
         char2button = Button(defaultButtonImage: "button",
                              activeButtonImage: "button_active",
@@ -58,7 +58,7 @@ class Popup: SKNode {
         char3button = Button(defaultButtonImage: "button",
                              activeButtonImage: "button_active",
                              label: "Char3")
-        char3button.position = CGPoint(x: popupNode.frame.size.width/3, y: 0)
+        char3button.position = CGPoint(x: popupNode.frame.size.width/4, y: 0)
         char3button.zPosition = 3
         
         super.init()
