@@ -22,7 +22,7 @@ var inGameMenu =  Menu(screenHeight: 375,
                        screenWidth: 667)
 var itemPopup = Popup(image: "popup", type: "item", worldNode: worldNode)
 var optionsPopup = Popup(image: "popup", type: "options", worldNode: worldNode)
-var charSelPopup = Popup(image: "popup", type: "charsel", worldNode: worldNode)
+var charSelPopup = Popup(image: "charsel", type: "charsel", worldNode: worldNode)
 var winPopup = Popup(image: "popup", type: "win", worldNode: worldNode)
 var losePopup = Popup(image: "popup", type: "lose", worldNode: worldNode)
 

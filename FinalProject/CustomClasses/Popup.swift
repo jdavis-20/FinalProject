@@ -33,12 +33,12 @@ class Popup: SKNode {
     
     init(image: String, type: String, worldNode: SKNode) {
         
-        popupNode = SKSpriteNode(imageNamed: "popup")
+        popupNode = SKSpriteNode(imageNamed: image)
         popupNode.isHidden = true
         label.isHidden = true
         popupNode.zPosition = 2
         label.zPosition = 3
-        label.position = CGPoint(x: 0, y: popupNode.frame.size.height/3)
+        label.position = CGPoint(x: 0, y: popupNode.frame.size.height/4)
         itemName.zPosition = 3
         popupNode.position = CGPoint(x: 0, y: 0)
         popupNode.alpha = 0.8

@@ -25,6 +25,7 @@ class Button: SKNode {
         action = nil
         buttonLabel.text = label
         buttonLabel.fontColor = .black
+        buttonLabel.fontSize = 24
         buttonLabel.verticalAlignmentMode = .center
         buttonLabel.zPosition = 2
         
