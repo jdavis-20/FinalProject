@@ -81,7 +81,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // AudioServicesPlayAlertSound(kSystemSoundID_Vibrate)
     }
     
-    
     //button on the in-game menu-------------------------------------------------------
     
     func returnToMenu(){
@@ -113,6 +112,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 //         let zoomOut = SKAction.scale(by: 3, duration: 1)
 //         camera!.run(zoomOut)
         camera!.setScale(2)
+        playerHealth = 10
+        playerItems = 0
         
         // only nodes that are children of worldNode will be paused
         // this is so menus still work after they are opened
@@ -144,6 +145,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         itemLabel.position = CGPoint(x: -frame.size.width/2.5 , y: frame.size.height/2.5)
         camera!.addChild(itemLabel)
+        
+        // button to return to menu after win/lose
+        let loseReturnButton = Button(defaultButtonImage: "button",
+                                 activeButtonImage: "button_active",
+                                 label: "return to menu")
+        loseReturnButton.action = returnToMenu
+        loseReturnButton.position = CGPoint(x: 0, y: 40)
+        loseReturnButton.zPosition = 2
+        let winReturnButton = Button(defaultButtonImage: "button",
+                                      activeButtonImage: "button_active",
+                                      label: "return to menu")
+        winReturnButton.action = returnToMenu
+        winReturnButton.position = CGPoint(x: 0, y: 40)
+        winReturnButton.zPosition = 2
+
+        winPopup.addChild(winReturnButton)
+        losePopup.addChild(loseReturnButton)
         
         // menu setup
         inGameMenu = Menu(screenHeight: frame.size.height,
@@ -536,10 +554,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         if itemPopupOut == false && playerWon == true {
-            camera!.addChild(winPopup)
-            winPopup.visible()
-            physicsWorld.speed = 0
-            inGameMenu.isPaused = true
+            if winPopupOut == false {
+                winPopupOut = true
+                camera!.addChild(winPopup)
+                winPopup.visible()
+                physicsWorld.speed = 0
+                inGameMenu.isPaused = true
+            }
         }
     }
 }

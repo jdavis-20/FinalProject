@@ -113,11 +113,11 @@ class Enemy: SKSpriteNode {
         func followDir() {
             // slow follow cause of sedate
             if (character == "Med" && ability == true) {
-                enemySpeed = 70
+                enemySpeed = 80
             }
-            // normal follow and speed
+            // normal follow speed
             else {
-                enemySpeed = 100
+                enemySpeed = 120
             }
             
             if (self.position.x - playerNode.position.x) > followSwitch {
@@ -283,6 +283,7 @@ class Enemy: SKSpriteNode {
         }
         else {
             follow = false
+            enemySpeed = 100
         }
 
         // TODO: make sure this is working properly
