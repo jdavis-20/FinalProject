@@ -109,9 +109,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func didMove(to view: SKView) {
         // scaling options to see more of view at once
-//         let zoomOut = SKAction.scale(by: 3, duration: 1)
-//         camera!.run(zoomOut)
-        camera!.setScale(2)
+        camera!.setScale(1.5)
+        let zoomOut = SKAction.scale(by: 1.5, duration: 1.2)
+        camera!.run(zoomOut)
+        
+        // any values that need to be reset at the start of the level
         playerHealth = 10
         playerItems = 0
         
