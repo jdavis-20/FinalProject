@@ -362,7 +362,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         func describeCollision(contactA: SKPhysicsBody,
                                contactB: SKPhysicsBody) {
             
-            print("COLLISION: \n  bodyA is \(contactA.node?.name! ?? "unidentified")\n  bodyB is \(contactB.node?.name! ?? "unidentified")")
+//            print("COLLISION: \n  bodyA is \(contactA.node?.name! ?? "unidentified")\n  bodyB is \(contactB.node?.name! ?? "unidentified")")
 //            print(type(of: contactA.node!))
 //            print(type(of: contactB.node!))
         }
@@ -380,7 +380,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             // player collision with wall
             if (bName == "player") &&
-                (aName == "wall") {
+                (aNode is MazeWall) {
 //                print("player collided with wall")
                 }
             

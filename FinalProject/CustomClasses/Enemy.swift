@@ -309,11 +309,23 @@ class Enemy: SKSpriteNode {
             left()
         }
         
-        if self.physicsBody?.velocity.dx == 0 && self.physicsBody?.velocity.dy == 0 {
-            self.number2 = Int(arc4random_uniform(2))
-            self.number3 = Int(arc4random_uniform(3))
-            self.number4 = Int(arc4random_uniform(4))
-        }
+//        if (self.physicsBody?.velocity.dx)! == 0 && (self.physicsBody?.velocity.dy)! < 10 {
+//            print("BLOCK DETECTED")
+//            let dirNum = Int(arc4random_uniform(UInt32(dirOptions.count)))
+//            let randomDir = dirOptions[dirNum]
+//            if randomDir == "up" {
+//                up()
+//            }
+//            if randomDir == "down" {
+//                down()
+//            }
+//            if randomDir == "left" {
+//                left()
+//            }
+//            if randomDir == "right" {
+//                right()
+//            }
+//        }
         
         // if going towards wall, pick random from other 3
         // else continue

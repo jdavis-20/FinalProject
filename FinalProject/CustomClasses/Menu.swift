@@ -52,14 +52,15 @@ class Menu: SKShapeNode {
             print("error: no valid menu position provided")
         }*/
         
-        menuRect.fillColor = SKColor(red: 0.2,
-                                     green: 0,
-                                     blue: 0.5,
-                                     alpha: 0.9)
-        menuRect.strokeColor = SKColor(red: 0.2,
-                                       green: 0,
-                                       blue: 0.5,
+        menuRect.fillColor = SKColor(red: 0.62,
+                                     green: 0.84,
+                                     blue: 0.84,
+                                     alpha: 0.6)
+        menuRect.strokeColor = SKColor(red:0.56,
+                                       green:0.75,
+                                       blue:0.75,
                                        alpha: 0.9)
+        menuRect.lineWidth = 2
         
         super.init()
         
