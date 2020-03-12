@@ -90,6 +90,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let transition: SKTransition = SKTransition.fade(withDuration: 1)
         self.view?.presentScene(menuScene!, transition: transition)
 
+        charSelPopup.removeAllChildren()
+        winPopup.removeAllChildren()
+        losePopup.removeAllChildren()
+        itemPopup.removeAllChildren()
+        optionsPopup.removeAllChildren()
+        inGameMenu.removeAllChildren()
+        
         worldNode.removeAllChildren()
 
         camera!.removeAllChildren()
@@ -133,9 +140,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         physicsWorld.speed = 0
         
         // set tilt and start moving
-        let startButton = Button(defaultButtonImage: "button",
-                                 activeButtonImage: "button_active",
-                                 label: "start")
+        let startButton = Button(defaultButtonImage: "start",
+                                 activeButtonImage: "start",
+                                 label: "")
         startButton.action = startGame
         startButton.position = CGPoint(x: 0,
                                        y: -80)
@@ -174,18 +181,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         inGameMenu.zPosition = 1
         
         // button returning to main menu
-        let returnButton = Button(defaultButtonImage: "button",
-                                    activeButtonImage: "button_active",
-                                    label: "main menu")
+        let returnButton = Button(defaultButtonImage: "menu",
+                                    activeButtonImage: "menu",
+                                    label: "")
         returnButton.action = returnToMenu
         returnButton.position = CGPoint(x: 0,
                                         y: -40)
         inGameMenu.addChild(returnButton)
         
         // button to accesss options
-        let optionButton = Button(defaultButtonImage: "button",
-                                  activeButtonImage: "button_active",
-                                  label: "options")
+        let optionButton = Button(defaultButtonImage: "options",
+                                  activeButtonImage: "options",
+                                  label: "")
         optionButton.action = options
         optionButton.position = CGPoint(x: 0,
                                         y: 40)

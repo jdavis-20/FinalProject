@@ -17,12 +17,15 @@ class LevelSelectScene : SKScene {
         
         let song = SKAudioNode(fileNamed: "menuloop.wav")
         song.autoplayLooped = true
-        addChild(song)
         let mute = SKAction.changeVolume(to: 0, duration: 0)
-        let fadeIn = SKAction.changeVolume(to: 1, duration: 3)
+        let fadeIn = SKAction.changeVolume(to: 1, duration: 2)
         let sequence = SKAction.sequence([mute, fadeIn])
         let fadeOut = SKAction.changeVolume(to: 0, duration: 1)
-        song.run(sequence)
+        song.run(mute)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+        self.addChild(song)
+        song.run(fadeIn)
+        }
         
 //        let music = SKAction.playSoundFileNamed("menuloop.wav", waitForCompletion: true)
 //        let musicLoop = SKAction.repeatForever(music)

@@ -72,6 +72,10 @@
 		258FF9BA24198A60008480CE /* ch1.png in Resources */ = {isa = PBXBuildFile; fileRef = 258FF9B724198A60008480CE /* ch1.png */; };
 		258FF9BE24198F4D008480CE /* menuloop.wav in Resources */ = {isa = PBXBuildFile; fileRef = 258FF9BD24198F4D008480CE /* menuloop.wav */; };
 		258FF9C0241A484F008480CE /* skynew.png in Resources */ = {isa = PBXBuildFile; fileRef = 258FF9BF241A484F008480CE /* skynew.png */; };
+		258FF9C2241A8A80008480CE /* launch.png in Resources */ = {isa = PBXBuildFile; fileRef = 258FF9C1241A8A7F008480CE /* launch.png */; };
+		258FF9C6241AA29E008480CE /* menu.png in Resources */ = {isa = PBXBuildFile; fileRef = 258FF9C3241AA29C008480CE /* menu.png */; };
+		258FF9C7241AA29E008480CE /* options.png in Resources */ = {isa = PBXBuildFile; fileRef = 258FF9C4241AA29D008480CE /* options.png */; };
+		258FF9C8241AA29E008480CE /* start.png in Resources */ = {isa = PBXBuildFile; fileRef = 258FF9C5241AA29D008480CE /* start.png */; };
 		25B9C4182374C07F00BAFC36 /* Enemy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25B9C4172374C07F00BAFC36 /* Enemy.swift */; };
 		25C56B6323F6D7D300A61747 /* popup.png in Resources */ = {isa = PBXBuildFile; fileRef = 25C56B6223F6D7D200A61747 /* popup.png */; };
 		25C56B6723F6DFF900A61747 /* 180.png in Resources */ = {isa = PBXBuildFile; fileRef = 25C56B6423F6DFF800A61747 /* 180.png */; };
@@ -176,6 +180,10 @@
 		258FF9B724198A60008480CE /* ch1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ch1.png; sourceTree = "<group>"; };
 		258FF9BD24198F4D008480CE /* menuloop.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = menuloop.wav; sourceTree = "<group>"; };
 		258FF9BF241A484F008480CE /* skynew.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = skynew.png; path = "../../../../../../../Pictures/School/Final Project/skynew.png"; sourceTree = "<group>"; };
+		258FF9C1241A8A7F008480CE /* launch.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = launch.png; sourceTree = "<group>"; };
+		258FF9C3241AA29C008480CE /* menu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menu.png; sourceTree = "<group>"; };
+		258FF9C4241AA29D008480CE /* options.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = options.png; sourceTree = "<group>"; };
+		258FF9C5241AA29D008480CE /* start.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = start.png; sourceTree = "<group>"; };
 		25B9C4172374C07F00BAFC36 /* Enemy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enemy.swift; sourceTree = "<group>"; };
 		25C56B6223F6D7D200A61747 /* popup.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = popup.png; sourceTree = "<group>"; };
 		25C56B6423F6DFF800A61747 /* 180.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 180.png; sourceTree = "<group>"; };
@@ -453,7 +461,11 @@
 				258FF9B624198A60008480CE /* ch2.png */,
 				258FF9B524198A60008480CE /* ch3.png */,
 				258FF9B324196F02008480CE /* pop.png */,
+				258FF9C1241A8A7F008480CE /* launch.png */,
 				258FF9AF241969A0008480CE /* launchbutton.png */,
+				258FF9C3241AA29C008480CE /* menu.png */,
+				258FF9C4241AA29D008480CE /* options.png */,
+				258FF9C5241AA29D008480CE /* start.png */,
 			);
 			path = Interface;
 			sourceTree = "<group>";
@@ -594,6 +606,7 @@
 				2506F6C523E31C4200F639D3 /* item_temp.png in Resources */,
 				25642EF7235373E500650F9C /* MenuScene.sks in Resources */,
 				254C38B72418090600EF4D0A /* yell.png in Resources */,
+				258FF9C8241AA29E008480CE /* start.png in Resources */,
 				254C38B22418090600EF4D0A /* blu.png in Resources */,
 				25C56B7523F6F8C800A61747 /* 152.png in Resources */,
 				252CBD2923F4761D00CF40E3 /* sky.png in Resources */,
@@ -622,6 +635,7 @@
 				257CAFD5240FE610002E7EA3 /* maze2.png in Resources */,
 				25105E4E23521E2900CAC3AE /* LaunchScreen.storyboard in Resources */,
 				25C56B6923F6DFF900A61747 /* icon.png in Resources */,
+				258FF9C7241AA29E008480CE /* options.png in Resources */,
 				254C38B02418090600EF4D0A /* blul.png in Resources */,
 				25105E83235322B500CAC3AE /* button_active.png in Resources */,
 				254C97D323EF28E90036FBB6 /* play.png in Resources */,
@@ -629,10 +643,12 @@
 				258FF9BE24198F4D008480CE /* menuloop.wav in Resources */,
 				257CAFD7240FE6F3002E7EA3 /* maze4.png in Resources */,
 				25C56B7423F6F8C800A61747 /* 835.png in Resources */,
+				258FF9C6241AA29E008480CE /* menu.png in Resources */,
 				254C38A72418086800EF4D0A /* skynewvert.png in Resources */,
 				253A1C872392C2BA00CBECB9 /* tempicon.png in Resources */,
 				254C97D023EF27E00036FBB6 /* PurpleFront.png in Resources */,
 				254C97D123EF27E00036FBB6 /* RedFront.png in Resources */,
+				258FF9C2241A8A80008480CE /* launch.png in Resources */,
 				25C56B6323F6D7D300A61747 /* popup.png in Resources */,
 				252CBD2A23F4761D00CF40E3 /* ship (temp).png in Resources */,
 				25105E4223521E2900CAC3AE /* Actions.sks in Resources */,
