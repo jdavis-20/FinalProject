@@ -15,6 +15,7 @@ var level1Label = SKLabelNode()
 
 class Level1Scene: GameScene {
     override func didMove(to view: SKView) {
+        self.name = "Level1"
 //        level1Label.text = "Level 1"
 //        level1Label.fontSize = 30
 //        level1Label.zPosition = 1

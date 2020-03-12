@@ -13,6 +13,21 @@ var levelSelectCamera = SKCameraNode()
 
 class LevelSelectScene : SKScene {
     override func didMove(to view: SKView) {
+        self.name = "LevelSelect"
+        
+//        let song = SKAudioNode(fileNamed: "menuloop.wav")
+//        song.autoplayLooped = true
+//        addChild(song)
+//        let mute = SKAction.changeVolume(to: 0, duration: 0)
+//        let fadeIn = SKAction.changeVolume(to: 1, duration: 3)
+//        let sequence = SKAction.sequence([mute, fadeIn])
+//        let fadeOut = SKAction.changeVolume(to: 0, duration: 3)
+//        song.run(sequence)
+        
+//        let music = SKAction.playSoundFileNamed("menuloop.wav", waitForCompletion: true)
+//        let musicLoop = SKAction.repeatForever(music)
+//        SKAction.changeVolume(to: 0, duration: 1)
+//        self.run(musicLoop)
         
 //        TODO: fix overlay touch through
 //        let overlay = childNode(withName: "overlay")

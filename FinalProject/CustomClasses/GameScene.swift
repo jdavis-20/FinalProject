@@ -68,6 +68,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func startGame(){
         // started variable sets tilt and other attributes, signals gameplay start
         started = true
+        player.isHidden = false
         charSelPopup.invisible()
         physicsWorld.speed = 1
         inGameMenu.isPaused = false
@@ -234,6 +235,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         player.physicsBody?.mass = 0.8
         player.physicsBody?.restitution = 0
         player.physicsBody?.contactTestBitMask = 0x00000001
+        player.isHidden = true
         
         worldNode.addChild(player)
         

@@ -15,9 +15,10 @@ var menuCamera = SKCameraNode()
 class MenuScene: SKScene {
     
     override func didMove(to view: SKView) {
-        let music = SKAction.playSoundFileNamed("menuloop.wav", waitForCompletion: true)
-        let musicLoop = SKAction.repeatForever(music)
-        self.run(musicLoop)
+        self.name = "Menu"
+//        let music = SKAction.playSoundFileNamed("menuloop.wav", waitForCompletion: true)
+//        let musicLoop = SKAction.repeatForever(music)
+//        self.run(musicLoop)
         
         //setting up camera
         menuCamera = self.childNode(withName: "menuCamera") as! SKCameraNode
