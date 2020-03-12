@@ -16,9 +16,15 @@ class MenuScene: SKScene {
     
     override func didMove(to view: SKView) {
         self.name = "Menu"
-//        let music = SKAction.playSoundFileNamed("menuloop.wav", waitForCompletion: true)
-//        let musicLoop = SKAction.repeatForever(music)
-//        self.run(musicLoop)
+        
+        let song = SKAudioNode(fileNamed: "menuloop.wav")
+        song.autoplayLooped = true
+        addChild(song)
+        let mute = SKAction.changeVolume(to: 0, duration: 0)
+        let fadeIn = SKAction.changeVolume(to: 1, duration: 3)
+        let sequence = SKAction.sequence([mute, fadeIn])
+        let fadeOut = SKAction.changeVolume(to: 0, duration: 1)
+        song.run(sequence)
         
         //setting up camera
         menuCamera = self.childNode(withName: "menuCamera") as! SKCameraNode

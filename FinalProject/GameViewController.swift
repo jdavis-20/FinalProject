@@ -56,77 +56,76 @@ class GameViewController: UIViewController {
             view.showsNodeCount = true
         }
         
-        Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
-            self.scenePlayMusic()
-        }
+//        Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { timer in
+//            self.scenePlayMusic()
+//        }
     }
     
-    func scenePlayMusic() {
-        
-        let currentView = self.view as! SKView?
-        let currentScene = currentView?.scene!.name
-        
-        if currentScene == "Menu" && inMenu == false {
-            inMenu = true
-            inLevSel = false
-            inL1 = false
-            inL2 = false
-            inL3 = false
-            inL4 = false
-            print("SCENE: MAINMENU")
-            bgMusicPlayer?.play()
-        }
-        if currentScene == "LevelSelect" && inLevSel == false{
-            inLevSel = true
-            inMenu = false
-            inL1 = false
-            inL2 = false
-            inL3 = false
-            inL4 = false
-            print("SCENE: LEVELSELECT")
-        }
-        if currentScene == "Level1" && inL1 == false {
-            inL1 = true
-            inMenu = false
-            inLevSel = false
-            inL2 = false
-            inL3 = false
-            inL4 = false
-            print("SCENE: LEVEL1")
-            bgMusicPlayer?.stop()
-        }
-        if currentScene == "Level2" && inL2 == false {
-            inL2 = true
-            inMenu = false
-            inLevSel = false
-            inL1 = false
-            inL3 = false
-            inL4 = false
-            print("SCENE: LEVEL2")
-            bgMusicPlayer?.stop()
-        }
-        if currentScene == "Level3" && inL3 == false {
-            inL3 = true
-            inMenu = false
-            inLevSel = false
-            inL1 = false
-            inL2 = false
-            inL4 = false
-            print("SCENE: LEVEL3")
-            bgMusicPlayer?.stop()
-        }
-        if currentScene == "Level4" && inL4 == false {
-            inL4 = true
-            inMenu = false
-            inLevSel = false
-            inL1 = false
-            inL2 = false
-            inL3 = false
-            print("SCENE: LEVEL4")
-            bgMusicPlayer?.stop()
-        }
-        
-    }
+//    func scenePlayMusic() {
+//        let currentView = self.view as! SKView?
+//        let currentScene = currentView?.scene!.name
+//
+//        if currentScene == "Menu" && inMenu == false {
+//            inMenu = true
+//            inLevSel = false
+//            inL1 = false
+//            inL2 = false
+//            inL3 = false
+//            inL4 = false
+//            print("SCENE: MAINMENU")
+//            bgMusicPlayer?.play()
+//        }
+//        if currentScene == "LevelSelect" && inLevSel == false{
+//            inLevSel = true
+//            inMenu = false
+//            inL1 = false
+//            inL2 = false
+//            inL3 = false
+//            inL4 = false
+//            print("SCENE: LEVELSELECT")
+//        }
+//        if currentScene == "Level1" && inL1 == false {
+//            inL1 = true
+//            inMenu = false
+//            inLevSel = false
+//            inL2 = false
+//            inL3 = false
+//            inL4 = false
+//            print("SCENE: LEVEL1")
+//            bgMusicPlayer?.stop()
+//        }
+//        if currentScene == "Level2" && inL2 == false {
+//            inL2 = true
+//            inMenu = false
+//            inLevSel = false
+//            inL1 = false
+//            inL3 = false
+//            inL4 = false
+//            print("SCENE: LEVEL2")
+//            bgMusicPlayer?.stop()
+//        }
+//        if currentScene == "Level3" && inL3 == false {
+//            inL3 = true
+//            inMenu = false
+//            inLevSel = false
+//            inL1 = false
+//            inL2 = false
+//            inL4 = false
+//            print("SCENE: LEVEL3")
+//            bgMusicPlayer?.stop()
+//        }
+//        if currentScene == "Level4" && inL4 == false {
+//            inL4 = true
+//            inMenu = false
+//            inLevSel = false
+//            inL1 = false
+//            inL2 = false
+//            inL3 = false
+//            print("SCENE: LEVEL4")
+//            bgMusicPlayer?.stop()
+//        }
+//
+//    }
     
     override var shouldAutorotate: Bool {
         return true
