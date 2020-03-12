@@ -90,12 +90,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let transition: SKTransition = SKTransition.fade(withDuration: 1)
         self.view?.presentScene(menuScene!, transition: transition)
 
-        charSelPopup.removeAllChildren()
-        winPopup.removeAllChildren()
-        losePopup.removeAllChildren()
-        itemPopup.removeAllChildren()
-        optionsPopup.removeAllChildren()
-        inGameMenu.removeAllChildren()
+        charSelPopup.childNode(withName: "startButton")?.removeFromParent()
         
         worldNode.removeAllChildren()
 
@@ -143,6 +138,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let startButton = Button(defaultButtonImage: "start",
                                  activeButtonImage: "start",
                                  label: "")
+        startButton.name = "startButton"
         startButton.action = startGame
         startButton.position = CGPoint(x: 0,
                                        y: -80)
@@ -157,15 +153,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         camera!.addChild(itemLabel)
         
         // button to return to menu after win/lose
-        let loseReturnButton = Button(defaultButtonImage: "button",
-                                 activeButtonImage: "button_active",
-                                 label: "return to menu")
+        let loseReturnButton = Button(defaultButtonImage: "menu",
+                                      activeButtonImage: "menu",
+                                      label: "")
         loseReturnButton.action = returnToMenu
         loseReturnButton.position = CGPoint(x: 0, y: 40)
         loseReturnButton.zPosition = 2
-        let winReturnButton = Button(defaultButtonImage: "button",
-                                      activeButtonImage: "button_active",
-                                      label: "return to menu")
+        let winReturnButton = Button(defaultButtonImage: "menu",
+                                      activeButtonImage: "menu",
+                                      label: "")
         winReturnButton.action = returnToMenu
         winReturnButton.position = CGPoint(x: 0, y: 40)
         winReturnButton.zPosition = 2
