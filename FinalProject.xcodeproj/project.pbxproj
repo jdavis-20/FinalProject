@@ -65,7 +65,6 @@
 		2585FCCE23D9C919005926F5 /* Level4Scene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 2585FCCD23D9C919005926F5 /* Level4Scene.sks */; };
 		2585FCD023D9C935005926F5 /* Level4Scene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2585FCCF23D9C935005926F5 /* Level4Scene.swift */; };
 		2585FCD323D9E195005926F5 /* maze1.png in Resources */ = {isa = PBXBuildFile; fileRef = 2585FCD223D9E195005926F5 /* maze1.png */; };
-		258FF9B0241969A0008480CE /* launchbutton.png in Resources */ = {isa = PBXBuildFile; fileRef = 258FF9AF241969A0008480CE /* launchbutton.png */; };
 		258FF9B424196F02008480CE /* pop.png in Resources */ = {isa = PBXBuildFile; fileRef = 258FF9B324196F02008480CE /* pop.png */; };
 		258FF9B824198A60008480CE /* ch3.png in Resources */ = {isa = PBXBuildFile; fileRef = 258FF9B524198A60008480CE /* ch3.png */; };
 		258FF9B924198A60008480CE /* ch2.png in Resources */ = {isa = PBXBuildFile; fileRef = 258FF9B624198A60008480CE /* ch2.png */; };
@@ -173,7 +172,6 @@
 		2585FCCD23D9C919005926F5 /* Level4Scene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Level4Scene.sks; sourceTree = "<group>"; };
 		2585FCCF23D9C935005926F5 /* Level4Scene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Level4Scene.swift; sourceTree = "<group>"; };
 		2585FCD223D9E195005926F5 /* maze1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = maze1.png; sourceTree = "<group>"; };
-		258FF9AF241969A0008480CE /* launchbutton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = launchbutton.png; path = ../../../../../../Downloads/launchbutton.png; sourceTree = "<group>"; };
 		258FF9B324196F02008480CE /* pop.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pop.png; sourceTree = "<group>"; };
 		258FF9B524198A60008480CE /* ch3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ch3.png; sourceTree = "<group>"; };
 		258FF9B624198A60008480CE /* ch2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ch2.png; sourceTree = "<group>"; };
@@ -462,7 +460,6 @@
 				258FF9B524198A60008480CE /* ch3.png */,
 				258FF9B324196F02008480CE /* pop.png */,
 				258FF9C1241A8A7F008480CE /* launch.png */,
-				258FF9AF241969A0008480CE /* launchbutton.png */,
 				258FF9C3241AA29C008480CE /* menu.png */,
 				258FF9C4241AA29D008480CE /* options.png */,
 				258FF9C5241AA29D008480CE /* start.png */,
@@ -617,7 +614,6 @@
 				254C38BC2418194700EF4D0A /* overlayL.png in Resources */,
 				254C38BD2418194700EF4D0A /* overlayB.png in Resources */,
 				253A1C8E2392C4DF00CBECB9 /* tempiconsmalliPad2xios9.png in Resources */,
-				258FF9B0241969A0008480CE /* launchbutton.png in Resources */,
 				253A1C8F2392C4DF00CBECB9 /* tempiconiPad2x.png in Resources */,
 				2536DE2823882E8D000FC136 /* playerback.png in Resources */,
 				2585FCD323D9E195005926F5 /* maze1.png in Resources */,

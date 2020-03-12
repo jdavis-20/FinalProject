@@ -70,8 +70,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         started = true
         player.isHidden = false
         charSelPopup.invisible()
-        physicsWorld.speed = 1
-        inGameMenu.isPaused = false
+        play(inGameMenu)
         character = charSelPopup.character
         print("CHARACTER: \(character)")
         
@@ -82,7 +81,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // AudioServicesPlayAlertSound(kSystemSoundID_Vibrate)
     }
     
-    //button on the in-game menu-------------------------------------------------------
+    func pause(_ node: SKNode? = nil){
+        worldNode.isPaused = true
+        node?.isPaused = true
+        physicsWorld.speed = 0
+    }
+    func play(_ node: SKNode? = nil) {
+        worldNode.isPaused = false
+        node?.isPaused = false
+        physicsWorld.speed = 1
+    }
+    
+    //buttons on the in-game menu-------------------------------------------------------
     
     func returnToMenu(){
         print("MENU: main menu button pressed")
@@ -93,46 +103,41 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         charSelPopup.childNode(withName: "startButton")?.removeFromParent()
         
         worldNode.removeAllChildren()
-
         camera!.removeAllChildren()
-        
         self.removeAllChildren()
         self.removeAllActions()
     }
     
     func options(){
         print("MENU: options button pressed")
-        physicsWorld.speed = 0
         optionsPopup.visible()
-        inGameMenu.isPaused = true
         optionsPopupOut = true
+        pause(inGameMenu)
     }
     
     //executes when the scene is first loaded------------------------------------------------------------------------------
     
     override func didMove(to view: SKView) {
-        // scaling options to see more of view at once
+        // scaling the view
         camera!.setScale(1.5)
         let zoomOut = SKAction.scale(by: 1.5, duration: 1.2)
         camera!.run(zoomOut)
         
-        // any values that need to be reset at the start of the level
+        // values that need to be reset at the start of the level
         playerHealth = 10
         playerItems = 0
+        preferredTilt = nil
+        started = false
         
         // only nodes that are children of worldNode will be paused
-        // this is so menus still work after they are opened
-        preferredTilt = nil
+        // allows menus to work after they are opened
         addChild(worldNode)
-        started = false
         
         // creates character select popup at the start of the level
         camera!.addChild(charSelPopup)
         charSelPopup.visible()
         charSelOut = true
-        worldNode.isPaused = true
-        inGameMenu.isPaused = true
-        physicsWorld.speed = 0
+        pause(inGameMenu)
         
         // set tilt and start moving
         let startButton = Button(defaultButtonImage: "start",
@@ -154,14 +159,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         // button to return to menu after win/lose
         let loseReturnButton = Button(defaultButtonImage: "menu",
-                                      activeButtonImage: "menu",
-                                      label: "")
+                                      activeButtonImage: "menu")
         loseReturnButton.action = returnToMenu
         loseReturnButton.position = CGPoint(x: 0, y: 40)
         loseReturnButton.zPosition = 2
+        
         let winReturnButton = Button(defaultButtonImage: "menu",
-                                      activeButtonImage: "menu",
-                                      label: "")
+                                      activeButtonImage: "menu")
         winReturnButton.action = returnToMenu
         winReturnButton.position = CGPoint(x: 0, y: 40)
         winReturnButton.zPosition = 2
@@ -172,14 +176,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // menu setup
         inGameMenu = Menu(screenHeight: frame.size.height,
                           screenWidth: frame.size.width)
-        inGameMenu.position = CGPoint(x: ((frame.size.width / 3) * 2), y: 0)
+        inGameMenu.position = CGPoint(x: ((frame.size.width / 3) * 2),
+                                      y: 0)
         camera!.addChild(inGameMenu)
         inGameMenu.zPosition = 1
         
         // button returning to main menu
         let returnButton = Button(defaultButtonImage: "menu",
-                                    activeButtonImage: "menu",
-                                    label: "")
+                                    activeButtonImage: "menu")
         returnButton.action = returnToMenu
         returnButton.position = CGPoint(x: 0,
                                         y: -40)
@@ -187,14 +191,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         // button to accesss options
         let optionButton = Button(defaultButtonImage: "options",
-                                  activeButtonImage: "options",
-                                  label: "")
+                                  activeButtonImage: "options")
         optionButton.action = options
         optionButton.position = CGPoint(x: 0,
                                         y: 40)
         inGameMenu.addChild(optionButton)
-        
-        camera!.addChild(optionsPopup)
         
         // prep for swipe detection
         let leftRecognizer = UISwipeGestureRecognizer(target: self,
@@ -210,7 +211,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // physics contact delegate
         physicsWorld.contactDelegate = self
         
-        // finds nodes with a specific name and sets the physics for them as walls
+        // iterates through sks nodes and runs the neccesary functions based on class
         scene?.enumerateChildNodes(withName: "MazeWall") {
             (node, stop) in
             let mazeNode = node as? MazeWall
@@ -220,6 +221,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             (node, stop) in
             let itemNode = node as? Item
             itemNode?.itemInit()
+        }
+        scene?.enumerateChildNodes(withName: "enemy") {
+            (node, stop) in
+            let enemy = node as? Enemy
+            enemy?.enemyInit()
         }
         
         // player-----------------------------------------------------------------------------------------------------------
@@ -233,26 +239,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                                                                height: player.size.height))
         player.physicsBody?.affectedByGravity = false
         player.physicsBody?.allowsRotation = false
-        
         player.physicsBody?.isDynamic = true
+        
         player.physicsBody?.mass = 0.8
         player.physicsBody?.restitution = 0
         player.physicsBody?.contactTestBitMask = 0x00000001
+        
         player.isHidden = true
         
         worldNode.addChild(player)
         
-        // popup test----------------------------------------------------------------------------------------------------------
+        // popups------------------------------------------------------------------------------------------------------------
         
         camera!.addChild(itemPopup)
-        
-        // enemy---------------------------------------------------------------------------------------------------------
-        
-        scene?.enumerateChildNodes(withName: "enemy") {
-            (node, stop) in
-            let enemy = node as? Enemy
-            enemy?.enemyInit()
-        }
+        camera!.addChild(optionsPopup)
         
         // accelerometer data--------------------------------------------------------------------------------------------
         
@@ -343,16 +343,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if sender.direction == .left {
                 print("MENU: left swipe")
                     inGameMenu.run(enterAction)
-                    worldNode.isPaused = true
-                    physicsWorld.speed = 0
                     menuOut = true
+                    pause()
             }
             if sender.direction == .right{
                 print("MENU: right swipe")
                     inGameMenu.run(leaveAction)
-                    worldNode.isPaused = false
-                    physicsWorld.speed = 1
                     menuOut = false
+                    play()
             }
         }
     }
@@ -399,8 +397,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     
                     camera!.addChild(losePopup)
                     losePopup.visible()
-                    physicsWorld.speed = 0
-                    inGameMenu.isPaused = true
+                    pause(inGameMenu)
                 }
                 
                 let rebound = 300
@@ -445,7 +442,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 itemPopupOut = true
                 itemPopup.itemName.text = aName
                 itemPopup.visible()
-                physicsWorld.speed = 0
+                pause(inGameMenu)
                 
                 if playerItems >= 5 {
                     playerWon = true
@@ -460,7 +457,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 itemPopupOut = true
                 itemPopup.itemName.text = bName
                 itemPopup.visible()
-                physicsWorld.speed = 0
+                pause(inGameMenu)
                 
                 if playerItems >= 5 {
                     playerWon = true
@@ -491,7 +488,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 if !(itemPopup.popupNode.contains(location)) {
                     itemPopupOut = false;
                     itemPopup.invisible();
-                    physicsWorld.speed = 1
+                    play(inGameMenu)
                 }
             }
         }
@@ -563,8 +560,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 winPopupOut = true
                 camera!.addChild(winPopup)
                 winPopup.visible()
-                physicsWorld.speed = 0
-                inGameMenu.isPaused = true
+                pause(inGameMenu)
             }
         }
     }
