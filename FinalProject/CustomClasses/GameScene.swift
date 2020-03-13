@@ -35,8 +35,9 @@ var destY: CGFloat = 0.0
 var started = false
 
 var character = ""
-public var playerHealth: Int = 10
-public var playerItems: Int = 0
+var playerHealth: Int = 10
+var playerItems: Int = 0
+var itemCount = 0
 var healthLabel = SKLabelNode(text: String(10))
 var itemLabel = SKLabelNode(text: String(0))
 
@@ -66,19 +67,21 @@ let towards = SKAction.setTexture(SKTexture(imageNamed: "RedFront"))
 class GameScene: SKScene, SKPhysicsContactDelegate {
 
     func startGame(){
-        // started variable sets tilt and other attributes, signals gameplay start
-        started = true
-        player.isHidden = false
-        charSelPopup.invisible()
-        play(inGameMenu)
         character = charSelPopup.character
         print("CHARACTER: \(character)")
-        
-        // print(inGameMenu.position)
-        
-        // TODO: vibration response
-        // AudioServicesPlaySystemSound(1520)
-        // AudioServicesPlayAlertSound(kSystemSoundID_Vibrate)
+        if character != "" {
+            // started variable sets tilt and other attributes, signals gameplay start
+            started = true
+            player.isHidden = false
+            charSelPopup.invisible()
+            play(inGameMenu)
+            
+            // print(inGameMenu.position)
+            
+            // TODO: vibration response
+            // AudioServicesPlaySystemSound(1520)
+            // AudioServicesPlayAlertSound(kSystemSoundID_Vibrate)
+        }
     }
     
     func pause(_ node: SKNode? = nil){
@@ -126,8 +129,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // values that need to be reset at the start of the level
         playerHealth = 10
         playerItems = 0
+        itemCount = 0
         preferredTilt = nil
         started = false
+        charSelPopup.character = ""
         
         // only nodes that are children of worldNode will be paused
         // allows menus to work after they are opened
@@ -139,12 +144,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         charSelOut = true
         pause(inGameMenu)
         
+        for button in [charSelPopup.char1button, charSelPopup.char2button, charSelPopup.char3button] {
+        button.activeButton.isHidden = true
+        button.defaultButton.isHidden = false
+        }
+        
         // set tilt and start moving
         let startButton = Button(defaultButtonImage: "start",
-                                 activeButtonImage: "start",
-                                 label: "")
-        startButton.name = "startButton"
+                                 activeButtonImage: "startflat",
+                                 toggle: false)
         startButton.action = startGame
+        startButton.name = "startButton"
         startButton.position = CGPoint(x: 0,
                                        y: -80)
         startButton.zPosition = 3
@@ -154,18 +164,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         healthLabel.position = CGPoint(x: -frame.size.width/2.2 , y: frame.size.height/2.5)
         camera!.addChild(healthLabel)
         
-        itemLabel.position = CGPoint(x: -frame.size.width/2.5 , y: frame.size.height/2.5)
+        itemLabel.position = CGPoint(x: -frame.size.width/2.6 , y: frame.size.height/2.5)
         camera!.addChild(itemLabel)
         
         // button to return to menu after win/lose
         let loseReturnButton = Button(defaultButtonImage: "menu",
-                                      activeButtonImage: "menu")
+                                      activeButtonImage: "menuflat",
+                                      toggle: false)
         loseReturnButton.action = returnToMenu
         loseReturnButton.position = CGPoint(x: 0, y: 40)
         loseReturnButton.zPosition = 2
         
         let winReturnButton = Button(defaultButtonImage: "menu",
-                                      activeButtonImage: "menu")
+                                      activeButtonImage: "menuflat",
+                                      toggle: false)
         winReturnButton.action = returnToMenu
         winReturnButton.position = CGPoint(x: 0, y: 40)
         winReturnButton.zPosition = 2
@@ -183,19 +195,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         // button returning to main menu
         let returnButton = Button(defaultButtonImage: "menu",
-                                    activeButtonImage: "menu")
+                                    activeButtonImage: "menuflat",
+                                    toggle: false)
         returnButton.action = returnToMenu
         returnButton.position = CGPoint(x: 0,
                                         y: -40)
         inGameMenu.addChild(returnButton)
         
         // button to accesss options
-        let optionButton = Button(defaultButtonImage: "options",
-                                  activeButtonImage: "options")
-        optionButton.action = options
-        optionButton.position = CGPoint(x: 0,
+        let optionsButton = Button(defaultButtonImage: "options",
+                                  activeButtonImage: "optionsflat",
+                                  toggle: false)
+        optionsButton.action = options
+        optionsButton.position = CGPoint(x: 0,
                                         y: 40)
-        inGameMenu.addChild(optionButton)
+        inGameMenu.addChild(optionsButton)
         
         // prep for swipe detection
         let leftRecognizer = UISwipeGestureRecognizer(target: self,
@@ -221,6 +235,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             (node, stop) in
             let itemNode = node as? Item
             itemNode?.itemInit()
+            itemCount += 1
         }
         scene?.enumerateChildNodes(withName: "enemy") {
             (node, stop) in
@@ -272,7 +287,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     //0° is flat, 90° is vertical
                 }
                 
-                if started == true {                    
+                if started == true {
+                    let dataXAdjusted = -data.acceleration.x + preferredTilt!
 //                    flat = 0, forward is +, back is -
 //                    when you tilt foward it goes up to 1 when vertical, then past it it goes down from 1 (still pos)
 //                    when you tilt back it goes up to -1 when vertical, then past it it goes down from -1 (still neg)
@@ -281,13 +297,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     if (data.acceleration.y > 0.06 ||
                         data.acceleration.y < -0.06) {
                         
-                        destX = CGFloat((data.acceleration.y) * 600) // left and right speed
                         // RIGHT
-                        if (data.acceleration.y > 0.06){
+                        if (data.acceleration.y > 0.06) && (data.acceleration.y < 0.6) {
+                            destX = CGFloat((data.acceleration.y) * 800) // right speed
+                            playerXDirection = "right"
+                        }
+                        if (data.acceleration.y > 0.6){
+                            print("right cap hit")
+                            destX = CGFloat(0.6 * 800) // max right speed
                             playerXDirection = "right"
                         }
                         // LEFT
-                        if (data.acceleration.y < -0.06){
+                        if (data.acceleration.y < -0.06) && (data.acceleration.y > -0.6) {
+                            destX = CGFloat((data.acceleration.y) * 800) // left speed
+                            playerXDirection = "left"
+                        }
+                        if (data.acceleration.y < -0.6){
+                            print("left cap hit")
+                            destX = CGFloat(-0.6 * 800) // max left speed
                             playerXDirection = "left"
                         }
                     }
@@ -299,20 +326,31 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     }
                     
                     // tilt moves, Y
-                    if ((-data.acceleration.x + preferredTilt!) > 0.06 ||
-                        (-data.acceleration.x + preferredTilt!) < -0.06) {
-                        
+                    if (dataXAdjusted > 0.06) ||
+                        (dataXAdjusted < -0.06) {
+        
                         // UP
-                        if ((-data.acceleration.x + preferredTilt!) > 0.06) {
-                            destY = CGFloat((-data.acceleration.x + preferredTilt!) * 600) // up speed
+                        if (dataXAdjusted > 0.06) && (dataXAdjusted < 0.6) {
+                            destY = CGFloat(dataXAdjusted * 800) // up speed
+                            playerYDirection = "up"
+                        }
+                        if (dataXAdjusted > 0.6) {
+                            print("forward cap hit")
+                            destY = CGFloat(0.6 * 800) // max up speed
                             playerYDirection = "up"
                         }
                         // DOWN
-                        if ((-data.acceleration.x + preferredTilt!) < -0.06) {
-                            destY = CGFloat((-data.acceleration.x + preferredTilt!) * 800) // down speed
+                        if (dataXAdjusted < -0.06) && (dataXAdjusted > -0.6) {
+                            destY = CGFloat(dataXAdjusted * 1000) // down speed
                             //(this is faster because tilting down moves the screen out of the player's view
                             playerYDirection = "down"
                         }
+                        if (dataXAdjusted < -0.6) {
+                            print("backward cap hit")
+                            destY = CGFloat(-0.6 * 1000) // max down speed
+                            playerYDirection = "down"
+                        }
+                        
                     }
                         
                     // tilt doesn't move, Y
@@ -363,21 +401,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         func describeCollision(contactA: SKPhysicsBody,
                                contactB: SKPhysicsBody) {
             
-//            print("COLLISION: \n  bodyA is \(contactA.node?.name! ?? "unidentified")\n  bodyB is \(contactB.node?.name! ?? "unidentified")")
-//            print(type(of: contactA.node!))
-//            print(type(of: contactB.node!))
+            print("COLLISION: \n  bodyA is \(contactA.node?.name! ?? "unidentified")\n  bodyB is \(contactB.node?.name! ?? "unidentified")")
+            print(type(of: contactA.node!))
+            print(type(of: contactB.node!))
         }
-        // prints the names of bodies involved in a collision
+
         if (contact.bodyA.node != nil) &&
             (contact.bodyB.node != nil) {
             
-            let aName = contact.bodyA.node?.name
-            let bName = contact.bodyB.node?.name
             let aNode = contact.bodyA.node
             let bNode = contact.bodyB.node
-            
-            describeCollision(contactA: contact.bodyA,
-                              contactB: contact.bodyB)
+            let aName = aNode?.name
+            let bName = bNode?.name
+
+//            describeCollision(contactA: contact.bodyA,
+//                              contactB: contact.bodyB)
             
             // player collision with wall
             if (bName == "player") &&
@@ -390,7 +428,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 ((bNode is Enemy) && (aName == "player")) {
                 playerHealth -= 1
                 print("COLLISION: player touched enemy, health = \(playerHealth)")
-                //death condition (may need to be moved later)
+                
+                //lose condition (may need to be moved later)
                 if playerHealth <= 0 {
                     playerAlive = false
                     print("COLLISION: player died")
@@ -409,6 +448,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 // enemy & player will only bounce off of each other vertical or horizontal,
                 // based off of whether the difference in y position or x position is greater
                 if (abs(aNode!.position.x - bNode!.position.x) > abs(aNode!.position.y - bNode!.position.y)) {
+                // x diff > y diff
                     if (aNode!.position.x < bNode!.position.x) {
                         aNode!.run(goLeft)
                         bNode!.run(goRight)
@@ -421,6 +461,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     }
                 }
                 if (abs(aNode!.position.y - bNode!.position.y) > abs(aNode!.position.x - bNode!.position.x)) {
+                // y diff > x diff
                     if (aNode!.position.y < bNode!.position.y) {
                         aNode!.run(goDown)
                         bNode!.run(goUp)
@@ -434,24 +475,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
             }
             // item collision (currently can be initiated by either body, because items may move)
-            if ((bName == "player") && (aNode! is Item)) {
-                print("COLLISION: item")
-                aNode!.removeFromParent()
-                
-                playerItems += 1
-                itemPopupOut = true
-                itemPopup.itemName.text = aName
-                itemPopup.visible()
-                pause(inGameMenu)
-                
-                if playerItems >= 5 {
-                    playerWon = true
+            if ((bName == "player") && (aNode! is Item)) || ((aName == "player") && (bNode! is Item)) {
+                if aNode! is Item {
+                    aNode!.removeFromParent()
                 }
-                
-            }
-            if ((aName == "player") && (bNode! is Item)) {
+                if bNode! is Item {
+                    bNode!.removeFromParent()
+                }
                 print("COLLSION: item")
-                bNode!.removeFromParent()
                 
                 playerItems += 1
                 itemPopupOut = true
@@ -482,7 +513,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     inGameMenu.isPaused = false
                 }
             }
-            
            
             if itemPopupOut == true {
                 if !(itemPopup.popupNode.contains(location)) {
@@ -501,7 +531,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         camera?.position.x = player.position.x
         camera?.position.y = player.position.y
         
-        // texture changes for the direction the player character is facing
+        // texture changes for the direction the player character is facing, will be used for animation
         // TODO: add "still" positions
         if playerYDirection == "up"{
             player.run(away)
@@ -531,7 +561,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override func update(_ currentTime: TimeInterval) {
         
         healthLabel.text = String(playerHealth)
-        itemLabel.text = String(playerItems)
+        itemLabel.text = "\(String(playerItems))/\(String(itemCount))"
         
         // player movement based on tilt
         player.physicsBody!.velocity = CGVector(dx: destX,

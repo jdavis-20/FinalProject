@@ -21,14 +21,36 @@ class Popup: SKNode {
     func char1() {
         character = "Med"
         print("POPUP: selected character 1")
+        if char2button.activeButton.isHidden == false {
+            char2button.toggle()
+        }
+        if char3button.activeButton.isHidden == false {
+            char3button.toggle()
+        }
     }
     func char2() {
         character = "Bot"
         print("POPUP: selected character 2")
+        if char1button.activeButton.isHidden == false {
+            char1button.toggle()
+        }
+        if char3button.activeButton.isHidden == false {
+            char3button.toggle()
+        }
     }
     func char3() {
         character = "Arch"
         print("POPUP: selected character 3")
+        if char1button.activeButton.isHidden == false {
+            char1button.toggle()
+        }
+        if char2button.activeButton.isHidden == false {
+            char2button.toggle()
+        }
+    }
+    func resetChar() {
+        character = ""
+        print("POPUP: character deselected")
     }
     
     init(image: String, type: String, worldNode: SKNode) {
@@ -45,19 +67,22 @@ class Popup: SKNode {
         
         character = ""
 
-        char1button = Button(defaultButtonImage: "ch1",
-                             activeButtonImage: "ch1",
-                             label: "")
+        char1button = Button(defaultButtonImage: "button",
+                             activeButtonImage: "buttonflat",
+                             label: "ch1",
+                             toggle: true)
         char1button.position = CGPoint(x: -popupNode.frame.size.width/4, y: 0)
         char1button.zPosition = 3
-        char2button = Button(defaultButtonImage: "ch2",
-                             activeButtonImage: "ch2",
-                             label: "")
+        char2button = Button(defaultButtonImage: "button",
+                             activeButtonImage: "buttonflat",
+                             label: "ch2",
+                             toggle: true)
         char2button.position = CGPoint(x: 0, y: 0)
         char2button.zPosition = 3
-        char3button = Button(defaultButtonImage: "ch3",
-                             activeButtonImage: "ch3",
-                             label: "")
+        char3button = Button(defaultButtonImage: "button",
+                             activeButtonImage: "buttonflat",
+                             label: "ch3",
+                             toggle: true)
         char3button.position = CGPoint(x: popupNode.frame.size.width/4, y: 0)
         char3button.zPosition = 3
         
@@ -66,6 +91,9 @@ class Popup: SKNode {
         char1button.action = char1
         char2button.action = char2
         char3button.action = char3
+        char1button.altAction = resetChar
+        char2button.altAction = resetChar
+        char3button.altAction = resetChar
         
         self.addChild(popupNode)
         self.addChild(label)

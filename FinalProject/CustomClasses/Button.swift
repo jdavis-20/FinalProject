@@ -13,21 +13,26 @@ class Button: SKNode {
     let activeButton: SKSpriteNode
     var buttonLabel = SKLabelNode()
     var action: (() -> ())?
+    var altAction: (() -> ())?
+    var isToggle: Bool
     
     //takes a default and active version of the button
     init(defaultButtonImage: String,
          activeButtonImage: String,
-         label: String = "") {
+         label: String = "",
+         toggle: Bool ) {
         
         defaultButton = SKSpriteNode(imageNamed: defaultButtonImage)
         activeButton = SKSpriteNode(imageNamed: activeButtonImage)
         activeButton.isHidden = true
         action = nil
+        altAction = nil
         buttonLabel.text = label
         buttonLabel.fontColor = .black
         buttonLabel.fontSize = 24
         buttonLabel.verticalAlignmentMode = .center
         buttonLabel.zPosition = 2
+        isToggle = toggle
         
         super.init()
         
@@ -42,10 +47,26 @@ class Button: SKNode {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func toggle() {
+        if activeButton.isHidden == true && defaultButton.isHidden == false {
+            activeButton.isHidden = false
+            defaultButton.isHidden = true
+        }
+        else if activeButton.isHidden == false && defaultButton.isHidden == true {
+            activeButton.isHidden = true
+            defaultButton.isHidden = false
+        }
+    }
+    
     override func touchesBegan(_ touches: Set<UITouch>,
                                with event: UIEvent?) {
-        activeButton.isHidden = false
-        defaultButton.isHidden = true
+        if isToggle == false {
+            activeButton.isHidden = false
+            defaultButton.isHidden = true
+        }
+        if isToggle == true {
+            toggle()
+        }
     }
     
     override func touchesMoved(_ touches: Set<UITouch>,
@@ -53,12 +74,14 @@ class Button: SKNode {
         for touch in touches {
             let location = touch.location(in: self)
             
-            if defaultButton.contains(location) {
-                activeButton.isHidden = false
-                defaultButton.isHidden = true
-            } else {
-                activeButton.isHidden = true
-                defaultButton.isHidden = false
+            if isToggle == false {
+                if defaultButton.contains(location) {
+                    activeButton.isHidden = false
+                    defaultButton.isHidden = true
+                } else {
+                    activeButton.isHidden = true
+                    defaultButton.isHidden = false
+                }
             }
         }
     }
@@ -69,11 +92,18 @@ class Button: SKNode {
             let location = touch.location(in: self)
             
             if defaultButton.contains(location) {
-                action!()
+                if isToggle == true && activeButton.isHidden == true {
+                    altAction?()
+                }
+                else {
+                    action?()
+                }
             }
             
-            activeButton.isHidden = true
-            defaultButton.isHidden = false
+            if isToggle == false {
+                activeButton.isHidden = true
+                defaultButton.isHidden = false
+            }
         }
     }
 }

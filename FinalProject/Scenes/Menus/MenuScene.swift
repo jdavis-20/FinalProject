@@ -17,17 +17,17 @@ class MenuScene: SKScene {
     override func didMove(to view: SKView) {
         self.name = "Menu"
         
-        let song = SKAudioNode(fileNamed: "menuloop.wav")
-        song.autoplayLooped = true
-        let mute = SKAction.changeVolume(to: 0, duration: 0)
-        let fadeIn = SKAction.changeVolume(to: 1, duration: 2)
-        let sequence = SKAction.sequence([mute, fadeIn])
-        let fadeOut = SKAction.changeVolume(to: 0, duration: 1)
-        song.run(mute)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            self.addChild(song)
-            song.run(fadeIn)
-        }
+//        let song = SKAudioNode(fileNamed: "menuloop.wav")
+//        song.autoplayLooped = true
+//        let mute = SKAction.changeVolume(to: 0, duration: 0)
+//        let fadeIn = SKAction.changeVolume(to: 1, duration: 2)
+//        let sequence = SKAction.sequence([mute, fadeIn])
+//        let fadeOut = SKAction.changeVolume(to: 0, duration: 1)
+//        song.run(mute)
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+//            self.addChild(song)
+//            song.run(fadeIn)
+//        }
         
         //setting up camera
         menuCamera = self.childNode(withName: "menuCamera") as! SKCameraNode
@@ -48,7 +48,7 @@ class MenuScene: SKScene {
         //button triggers actual transition
         let playButton = Button(defaultButtonImage: "launch",
                                  activeButtonImage: "launch",
-                                 label: "")
+                                 toggle: false)
         playButton.setScale(0.8)
         playButton.action = levelSelect
         playButton.position = CGPoint(x: (frame.size.width / 2),

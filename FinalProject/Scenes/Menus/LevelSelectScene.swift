@@ -15,17 +15,17 @@ class LevelSelectScene : SKScene {
     override func didMove(to view: SKView) {
         self.name = "LevelSelect"
         
-        let song = SKAudioNode(fileNamed: "menuloop.wav")
-        song.autoplayLooped = true
-        let mute = SKAction.changeVolume(to: 0, duration: 0)
-        let fadeIn = SKAction.changeVolume(to: 1, duration: 2)
-        let sequence = SKAction.sequence([mute, fadeIn])
-        let fadeOut = SKAction.changeVolume(to: 0, duration: 1)
-        song.run(mute)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-        self.addChild(song)
-        song.run(fadeIn)
-        }
+//        let song = SKAudioNode(fileNamed: "menuloop.wav")
+//        song.autoplayLooped = true
+//        let mute = SKAction.changeVolume(to: 0, duration: 0)
+//        let fadeIn = SKAction.changeVolume(to: 1, duration: 2)
+//        let sequence = SKAction.sequence([mute, fadeIn])
+//        let fadeOut = SKAction.changeVolume(to: 0, duration: 1)
+//        song.run(mute)
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+//        self.addChild(song)
+//        song.run(fadeIn)
+//        }
         
 //        let music = SKAction.playSoundFileNamed("menuloop.wav", waitForCompletion: true)
 //        let musicLoop = SKAction.repeatForever(music)
@@ -94,37 +94,45 @@ class LevelSelectScene : SKScene {
         
         let l1Button = Button(defaultButtonImage: "yel",
                                  activeButtonImage: "yell",
-                                 label: "")
+                                 toggle: false)
         l1Button.action = playL1
-        l1Button.setScale(0.4)
-        l1Button.position = CGPoint(x: ((-frame.size.width/2) + 100),
-                                    y: ((frame.size.height/2) - 100))
+        l1Button.setScale(0.38)
+        l1Button.defaultButton.anchorPoint = CGPoint(x: 0, y: 1)
+        l1Button.activeButton.anchorPoint = CGPoint(x: 0, y: 1)
+        l1Button.position = CGPoint(x: (-frame.size.width/2),
+                                    y: (frame.size.height/2))
         addChild(l1Button)
         
         let l2Button = Button(defaultButtonImage: "blu",
                               activeButtonImage: "blul",
-                              label: "")
+                              toggle: false)
         l2Button.action = playL2
-        l2Button.setScale(0.4)
+        l2Button.setScale(0.38)
+        l2Button.defaultButton.anchorPoint = CGPoint(x: 0.5, y: 0)
+        l2Button.activeButton.anchorPoint = CGPoint(x: 0.5, y: 0)
         l2Button.position = CGPoint(x: (-frame.size.width/16),
-                                    y: ((-frame.size.height/2) + 110))
+                                    y: (-frame.size.height/2))
         addChild(l2Button)
         
         let l3Button = Button(defaultButtonImage: "pur",
                               activeButtonImage: "purl",
-                              label: "")
+                              toggle: false)
         l3Button.action = playL3
-        l3Button.setScale(0.4)
-        l3Button.position = CGPoint(x: (frame.size.width * (1/8)),
-                                    y: (frame.size.height/2) - 60)
+        l3Button.setScale(0.38)
+        l3Button.defaultButton.anchorPoint = CGPoint(x: 0.5, y: 1)
+        l3Button.activeButton.anchorPoint = CGPoint(x: 0.5, y: 1)
+        l3Button.position = CGPoint(x: (frame.size.width/8),
+                                    y: (frame.size.height/2))
         addChild(l3Button)
         
         let l4Button = Button(defaultButtonImage: "red",
                               activeButtonImage: "redl",
-                              label: "")
+                              toggle: false)
         l4Button.action = playL4
-        l4Button.setScale(0.4)
-        l4Button.position = CGPoint(x: ((frame.size.width/2) - 90),
+        l4Button.setScale(0.38)
+        l4Button.defaultButton.anchorPoint = CGPoint(x: 1, y: 0.5)
+        l4Button.activeButton.anchorPoint = CGPoint(x: 1, y: 0.5)
+        l4Button.position = CGPoint(x: (frame.size.width/2),
                                     y: 0)
         addChild(l4Button)
     }
