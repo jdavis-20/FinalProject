@@ -26,6 +26,13 @@ var charSelPopup = Popup(image: "pop", type: "charsel", worldNode: worldNode)
 var winPopup = Popup(image: "pop", type: "win", worldNode: worldNode)
 var losePopup = Popup(image: "pop", type: "lose", worldNode: worldNode)
 
+var menuOut = true
+var itemPopupOut = false
+var optionsPopupOut = true
+var charSelOut = true
+var losePopupOut = false
+var winPopupOut = false
+
 // orientation
 var preferredTilt: Double?
 var destX: CGFloat = 0.0
@@ -46,17 +53,13 @@ var playerWon = false
 var playerYDirection = "up"
 var playerXDirection = "still"
 var enemyInit = false
-
-var menuOut = true
-var itemPopupOut = false
-var optionsPopupOut = true
-var charSelOut = true
-var losePopupOut = false
-var winPopupOut = false
 var abilityActive = false
 
+var sfxVol: Float = 1
+var musicVol: Float = 1
+var vibOn = true
+
 // movement and animation
-let path = UIBezierPath()
 let away = SKAction.setTexture(SKTexture(imageNamed: "BlueFront"))
 let towards = SKAction.setTexture(SKTexture(imageNamed: "RedFront"))
 
@@ -77,10 +80,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             play(inGameMenu)
             
             // print(inGameMenu.position)
-            
-            // TODO: vibration response
-            // AudioServicesPlaySystemSound(1520)
-            // AudioServicesPlayAlertSound(kSystemSoundID_Vibrate)
         }
     }
     
@@ -93,6 +92,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         worldNode.isPaused = false
         node?.isPaused = false
         physicsWorld.speed = 1
+    }
+    
+    func sfx(_ file: String, vibrate: Bool) {
+        let sound = SKAction.playSoundFileNamed(file, waitForCompletion: false)
+        SKAction.changeVolume(to: sfxVol, duration: 0)
+        self.run(sound)
+        // TODO: vibration response
+        if vibrate == true && vibOn == true {
+            AudioServicesPlaySystemSound(1519)
+//          AudioServicesPlayAlertSound(kSystemSoundID_Vibrate)
+        }
     }
     
     //buttons on the in-game menu-------------------------------------------------------
@@ -173,14 +183,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                                       toggle: false)
         loseReturnButton.action = returnToMenu
         loseReturnButton.position = CGPoint(x: 0, y: 40)
-        loseReturnButton.zPosition = 2
+        loseReturnButton.zPosition = 3
         
         let winReturnButton = Button(defaultButtonImage: "menu",
                                       activeButtonImage: "menuflat",
                                       toggle: false)
         winReturnButton.action = returnToMenu
         winReturnButton.position = CGPoint(x: 0, y: 40)
-        winReturnButton.zPosition = 2
+        winReturnButton.zPosition = 3
 
         winPopup.addChild(winReturnButton)
         losePopup.addChild(loseReturnButton)
@@ -298,23 +308,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         data.acceleration.y < -0.06) {
                         
                         // RIGHT
-                        if (data.acceleration.y > 0.06) && (data.acceleration.y < 0.6) {
+                        if (data.acceleration.y > 0.06) && (data.acceleration.y < 0.4) {
                             destX = CGFloat((data.acceleration.y) * 800) // right speed
                             playerXDirection = "right"
                         }
-                        if (data.acceleration.y > 0.6){
+                        if (data.acceleration.y > 0.4){
                             print("right cap hit")
-                            destX = CGFloat(0.6 * 800) // max right speed
+                            destX = CGFloat(0.4 * 800) // max right speed
                             playerXDirection = "right"
                         }
                         // LEFT
-                        if (data.acceleration.y < -0.06) && (data.acceleration.y > -0.6) {
+                        if (data.acceleration.y < -0.06) && (data.acceleration.y > -0.4) {
                             destX = CGFloat((data.acceleration.y) * 800) // left speed
                             playerXDirection = "left"
                         }
-                        if (data.acceleration.y < -0.6){
+                        if (data.acceleration.y < -0.4){
                             print("left cap hit")
-                            destX = CGFloat(-0.6 * 800) // max left speed
+                            destX = CGFloat(-0.4 * 800) // max left speed
                             playerXDirection = "left"
                         }
                     }
@@ -330,24 +340,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         (dataXAdjusted < -0.06) {
         
                         // UP
-                        if (dataXAdjusted > 0.06) && (dataXAdjusted < 0.6) {
+                        if (dataXAdjusted > 0.06) && (dataXAdjusted < 0.4) {
                             destY = CGFloat(dataXAdjusted * 800) // up speed
                             playerYDirection = "up"
                         }
-                        if (dataXAdjusted > 0.6) {
+                        if (dataXAdjusted > 0.4) {
                             print("forward cap hit")
-                            destY = CGFloat(0.6 * 800) // max up speed
+                            destY = CGFloat(0.4 * 800) // max up speed
                             playerYDirection = "up"
                         }
                         // DOWN
-                        if (dataXAdjusted < -0.06) && (dataXAdjusted > -0.6) {
+                        if (dataXAdjusted < -0.06) && (dataXAdjusted > -0.4) {
                             destY = CGFloat(dataXAdjusted * 1000) // down speed
                             //(this is faster because tilting down moves the screen out of the player's view
                             playerYDirection = "down"
                         }
-                        if (dataXAdjusted < -0.6) {
+                        if (dataXAdjusted < -0.4) {
                             print("backward cap hit")
-                            destY = CGFloat(-0.6 * 1000) // max down speed
+                            destY = CGFloat(-0.4 * 1000) // max down speed
                             playerYDirection = "down"
                         }
                         
@@ -427,6 +437,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if ((bName == "player") && (aNode is Enemy)) ||
                 ((bNode is Enemy) && (aName == "player")) {
                 playerHealth -= 1
+                // TODO: play sound & vibration
+                // sfx()
+                AudioServicesPlayAlertSound(kSystemSoundID_Vibrate)
                 print("COLLISION: player touched enemy, health = \(playerHealth)")
                 
                 //lose condition (may need to be moved later)

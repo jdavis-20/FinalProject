@@ -7,6 +7,7 @@
 //
 
 import SpriteKit
+import UIKit
 
 class Popup: SKNode {
     
@@ -17,6 +18,8 @@ class Popup: SKNode {
     var char1button: Button
     var char2button: Button
     var char3button: Button
+    var sfxSlider = UISlider()
+    var volSlider = UISlider()
 
     func char1() {
         character = "Med"
@@ -64,6 +67,13 @@ class Popup: SKNode {
         itemName.zPosition = 3
         popupNode.position = CGPoint(x: 0, y: 0)
         popupNode.alpha = 0.8
+        
+        sfxSlider.minimumValue = 0
+        sfxSlider.maximumValue = 1
+        sfxSlider.value = 1
+        volSlider.minimumValue = 0
+        volSlider.maximumValue = 1
+        volSlider.value = 1
         
         character = ""
 
@@ -113,6 +123,8 @@ class Popup: SKNode {
             
         if type == "options"{
             label.text = "options"
+//            self.addChild(sfxSlider)
+//            self.addChild(volSlider)
         }
         
         if type == "charsel"{
