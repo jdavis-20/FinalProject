@@ -68,9 +68,9 @@ class Popup: SKNode {
         popupNode.position = CGPoint(x: 0, y: 0)
         popupNode.alpha = 0.8
         
-        sfxVol.position = CGPoint(x: 0, y: 20)
+        sfxVol.position = CGPoint(x: 0, y: 30)
         sfxVol.zPosition = 3
-        musicVol.position = CGPoint(x: 0, y: -20)
+        musicVol.position = CGPoint(x: 0, y: -30)
         musicVol.zPosition = 3
 
         

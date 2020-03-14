@@ -22,16 +22,16 @@ class VolumeControl: SKNode {
         print(volValue)
         if volValue <= 0.9 {
             volValue += 0.1
-            volumeLabel.text = String(volValue)
         }
+        volumeLabel.text = String(volValue)
     }
     func turnDown() {
         print("VOLUME DOWN")
         print(volValue)
         if volValue >= 0.1 {
             volValue -= 0.1
-            volumeLabel.text = String(volValue)
         }
+        volumeLabel.text = String(volValue)
     }
     
     init(label: String) {
@@ -40,6 +40,7 @@ class VolumeControl: SKNode {
         volumeLabel = SKLabelNode(text: String(volValue))
         typeLabel = SKLabelNode(text: label)
         volumeLabel.position = CGPoint(x: 0, y: 0)
+        typeLabel.position = CGPoint(x: 0, y: 30)
         plusButton.position = CGPoint(x: 40, y: 0)
         minusButton.position = CGPoint(x: -40, y: 0)
 
@@ -51,6 +52,7 @@ class VolumeControl: SKNode {
         self.addChild(plusButton)
         self.addChild(minusButton)
         self.addChild(volumeLabel)
+        self.addChild(typeLabel)
     }
     
     required init(coder aDecoder: NSCoder) {
