@@ -143,6 +143,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         preferredTilt = nil
         started = false
         charSelPopup.character = ""
+        optionsPopup.invisible()
         
         // only nodes that are children of worldNode will be paused
         // allows menus to work after they are opened

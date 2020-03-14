@@ -18,8 +18,8 @@ class Popup: SKNode {
     var char1button: Button
     var char2button: Button
     var char3button: Button
-    var sfxSlider = UISlider()
-    var volSlider = UISlider()
+    var sfxVol = VolumeControl(label: "SFX")
+    var musicVol = VolumeControl(label: "Music")
 
     func char1() {
         character = "Med"
@@ -68,12 +68,11 @@ class Popup: SKNode {
         popupNode.position = CGPoint(x: 0, y: 0)
         popupNode.alpha = 0.8
         
-        sfxSlider.minimumValue = 0
-        sfxSlider.maximumValue = 1
-        sfxSlider.value = 1
-        volSlider.minimumValue = 0
-        volSlider.maximumValue = 1
-        volSlider.value = 1
+        sfxVol.position = CGPoint(x: 0, y: 20)
+        sfxVol.zPosition = 3
+        musicVol.position = CGPoint(x: 0, y: -20)
+        musicVol.zPosition = 3
+
         
         character = ""
 
@@ -123,8 +122,8 @@ class Popup: SKNode {
             
         if type == "options"{
             label.text = "options"
-//            self.addChild(sfxSlider)
-//            self.addChild(volSlider)
+            self.addChild(sfxVol)
+            self.addChild(musicVol)
         }
         
         if type == "charsel"{

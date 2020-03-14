@@ -95,7 +95,7 @@ class Enemy: SKSpriteNode {
         }
         
         func contDir() {
-            print("ENEMY: continue \(direction)")
+//            print("ENEMY: continue \(direction)")
             if direction == "down" {
                 down()
             }
@@ -341,33 +341,33 @@ class Enemy: SKSpriteNode {
                             if self.direction == "left" {
                                 // down or left
                                 if self.number2 == 0 {
-                                    print("ENEMY: A3 random down")
+//                                    print("ENEMY: A3 random down")
                                     down()
                                 }
                                 if self.number2 == 1 {
-                                    print("ENEMY: A3 random left")
+//                                    print("ENEMY: A3 random left")
                                     left()
                                 }
                             }
                             if self.direction == "up" {
                                 // right or left
                                 if self.number2 == 0 {
-                                    print("ENEMY: A3 random right")
+//                                    print("ENEMY: A3 random right")
                                     right()
                                 }
                                 if self.number2 == 1 {
-                                    print("ENEMY: A3 random left")
+//                                    print("ENEMY: A3 random left")
                                     left()
                                 }
                             }
                             if self.direction == "right" {
                                 // down or right
                                 if self.number2 == 0 {
-                                    print("ENEMY: A3 random down")
+//                                    print("ENEMY: A3 random down")
                                     down()
                                 }
                                 if self.number2 == 1 {
-                                    print("ENEMY: A3 random right")
+//                                    print("ENEMY: A3 random right")
                                     right()
                                 }
                             }
@@ -380,17 +380,17 @@ class Enemy: SKSpriteNode {
                 if state != "corridor" {
                     if (direction == "up" || direction == "none") {
                         if number3 == 0 {
-                            print("ENEMY: A3 random right")
+//                            print("ENEMY: A3 random right")
                             right()
                             state = "wall"
                         }
                         if number3 == 1 {
-                            print("ENEMY: A3 random left")
+//                            print("ENEMY: A3 random left")
                             left()
                             state = "wall"
                         }
                         if number3 == 2 {
-                            print("ENEMY: A3 random down")
+//                            print("ENEMY: A3 random down")
                             down()
                             state = "wall"
                         }
@@ -417,33 +417,33 @@ class Enemy: SKSpriteNode {
                         if self.direction == "down" {
                             // left or right
                             if self.number2 == 0 {
-                                print("ENEMY: B3 random right")
+//                                print("ENEMY: B3 random right")
                                 right()
                             }
                             if self.number2 == 1 {
-                                print("ENEMY: B3 random left")
+//                                print("ENEMY: B3 random left")
                                 left()
                             }
                         }
                         if self.direction == "left" {
                             // down or left
                             if self.number2 == 0 {
-                                print("ENEMY: B3 random down")
+//                                print("ENEMY: B3 random down")
                                 down()
                             }
                             if self.number2 == 1 {
-                                print("ENEMY: B3 random left")
+//                                print("ENEMY: B3 random left")
                                 left()
                             }
                         }
                         if self.direction == "right" {
                             //down or right
                             if self.number2 == 0 {
-                                print("ENEMY: B3 random down")
+//                                print("ENEMY: B3 random down")
                                 down()
                             }
                             if self.number2 == 1 {
-                                print("ENEMY: B3 random right")
+//                                print("ENEMY: B3 random right")
                                 right()
                             }
                         }
@@ -455,17 +455,17 @@ class Enemy: SKSpriteNode {
                 if state != "corridor" {
                     if (direction == "down" || direction == "none") {
                         if number3 == 0 {
-                            print("ENEMY: B3 random right")
+//                            print("ENEMY: B3 random right")
                             right()
                             state = "wall"
                         }
                         if number3 == 1 {
-                            print("ENEMY: B3 random left")
+//                            print("ENEMY: B3 random left")
                             left()
                             state = "wall"
                         }
                         if number3 == 2 {
-                            print("ENEMY: B3 random up")
+//                            print("ENEMY: B3 random up")
                             up()
                             state = "wall"
                         }
@@ -491,11 +491,11 @@ class Enemy: SKSpriteNode {
                         if self.direction == "left" {
                             // up or down
                             if self.number2 == 0 {
-                                print("ENEMY: C3 random down")
+//                                print("ENEMY: C3 random down")
                                 down()
                             }
                             if self.number2 == 1 {
-                                print("ENEMY: C3 random up")
+//                                print("ENEMY: C3 random up")
                                 up()
                             }
                             
@@ -503,11 +503,11 @@ class Enemy: SKSpriteNode {
                         if self.direction == "up" {
                             // right or up
                             if self.number2 == 0 {
-                                print("ENEMY: C3 random up")
+//                                print("ENEMY: C3 random up")
                                 up()
                             }
                             if self.number2 == 1 {
-                                print("ENEMY: C3 random right")
+//                                print("ENEMY: C3 random right")
                                 right()
                             }
                             
@@ -515,11 +515,11 @@ class Enemy: SKSpriteNode {
                         if self.direction == "down" {
                             // right or down
                             if self.number2 == 0 {
-                                print("ENEMY: C3 random down")
+//                                print("ENEMY: C3 random down")
                                 down()
                             }
                             if self.number2 == 1 {
-                                print("ENEMY: C3 random right")
+//                                print("ENEMY: C3 random right")
                                 right()
                             }
                         }
@@ -532,17 +532,17 @@ class Enemy: SKSpriteNode {
                 if state != "corridor" {
                     if (direction == "left" || direction == "none") {
                         if number3 == 0 {
-                            print("ENEMY: C3 random right")
+//                            print("ENEMY: C3 random right")
                             right()
                             state = "wall"
                         }
                         if number3 == 1 {
-                            print("ENEMY: C3 random down")
+//                            print("ENEMY: C3 random down")
                             down()
                             state = "wall"
                         }
                         if number3 == 2 {
-                            print("ENEMY: C3 random up")
+//                            print("ENEMY: C3 random up")
                             up()
                             state = "wall"
                         }
@@ -568,33 +568,33 @@ class Enemy: SKSpriteNode {
                         if self.direction == "right" {
                             // up or down
                             if self.number2 == 0 {
-                                print("ENEMY: D3 random down")
+//                                print("ENEMY: D3 random down")
                                 down()
                             }
                             if self.number2 == 1 {
-                                print("ENEMY: D3 random up")
+//                                print("ENEMY: D3 random up")
                                 up()
                             }
                         }
                         if self.direction == "up" {
                             // up or left
                             if self.number2 == 0 {
-                                print("ENEMY: D3 random up")
+//                                print("ENEMY: D3 random up")
                                 up()
                             }
                             if self.number2 == 1 {
-                                print("ENEMY: D3 random left")
+//                                print("ENEMY: D3 random left")
                                 left()
                             }
                         }
                         if self.direction == "down" {
                             // down or left
                             if self.number2 == 0 {
-                                print("ENEMY: D3 random down")
+//                                print("ENEMY: D3 random down")
                                 down()
                             }
                             if self.number2 == 1 {
-                                print("ENEMY: D3 random left")
+//                                print("ENEMY: D3 random left")
                                 left()
                             }
                         }
@@ -607,17 +607,17 @@ class Enemy: SKSpriteNode {
                 if state != "corridor" {
                     if (direction == "right"  || direction == "none") {
                         if number3 == 0 {
-                            print("ENEMY: D3 random left")
+//                            print("ENEMY: D3 random left")
                             left()
                             state = "wall"
                         }
                         if number3 == 1 {
-                            print("ENEMY: D3 random down")
+//                            print("ENEMY: D3 random down")
                             down()
                             state = "wall"
                         }
                         if number3 == 2 {
-                            print("ENEMY: D3 random up")
+//                            print("ENEMY: D3 random up")
                             up()
                             state = "wall"
                         }
@@ -638,13 +638,13 @@ class Enemy: SKSpriteNode {
             // BOXED IN
             // if wall left go right
             if (nodeLeft is MazeWall) {
-                print("ENEMY: undisputed right")
+//                print("ENEMY: undisputed right")
                 right()
                 state = "box"
             }
             // if wall right go left
             if (nodeRight is MazeWall) {
-                print("ENEMY: undisputed left")
+//                print("ENEMY: undisputed left")
                 left()
                 state = "box"
             }
@@ -656,12 +656,12 @@ class Enemy: SKSpriteNode {
                         // if open pick random
                         // A2
                         if number2 == 0 {
-                            print("ENEMY: A2 random right")
+//                            print("ENEMY: A2 random right")
                             right()
                             state = "corridor"
                         }
                         if number2 == 1 {
-                            print("ENEMY: A2 random left")
+//                            print("ENEMY: A2 random left")
                             left()
                             state = "corridor"
                         }
@@ -684,12 +684,12 @@ class Enemy: SKSpriteNode {
             // if wall up go down
             if (nodeAbove is MazeWall) {
                 down()
-                print("ENEMY: undisputed down")
+//                print("ENEMY: undisputed down")
                 state = "box"
             }
             // if wall down go up
             if (nodeBelow is MazeWall) {
-                print("ENEMY: undisputed up")
+//                print("ENEMY: undisputed up")
                 up()
                 state = "box"
             }
@@ -701,12 +701,12 @@ class Enemy: SKSpriteNode {
                         //if open pick random
                         // B2
                         if number2 == 0 {
-                            print("ENEMY: B2 random down")
+//                            print("ENEMY: B2 random down")
                             down()
                             state = "corridor"
                         }
                         if number2 == 1 {
-                            print("ENEMY: B2 random up")
+//                            print("ENEMY: B2 random up")
                             up()
                             state = "corridor"
                         }
@@ -730,23 +730,23 @@ class Enemy: SKSpriteNode {
                 // C2
                 if (direction == "up" || direction == "right" || direction == "none") {
                     if direction == "up" {
-                        print("ENEMY: C2 alternate left")
+//                        print("ENEMY: C2 alternate left")
                         left()
                         state = "corner"
                     }
                     if direction == "right" {
-                        print("ENEMY: C2 alternate down")
+//                        print("ENEMY: C2 alternate down")
                         down()
                         state = "corner"
                     }
                     if direction == "none" {
                         if number2 == 0 {
-                            print("ENEMY: C2 random left")
+//                            print("ENEMY: C2 random left")
                             left()
                             state = "corner"
                         }
                         if number2 == 1 {
-                            print("ENEMY: C2 random down")
+//                            print("ENEMY: C2 random down")
                             down()
                             state = "corner"
                         }
@@ -770,23 +770,23 @@ class Enemy: SKSpriteNode {
                 // D2
                 if (direction == "up" || direction == "left" || direction == "none") {
                     if direction == "up" {
-                        print("ENEMY: D2 alternate right")
+//                        print("ENEMY: D2 alternate right")
                         right()
                         state = "corner"
                     }
                     if direction == "left" {
-                        print("ENEMY: D2 alternate down")
+//                        print("ENEMY: D2 alternate down")
                         down()
                         state = "corner"
                     }
                     if direction == "none" {
                         if number2 == 0 {
-                            print("ENEMY: D2 random right")
+//                            print("ENEMY: D2 random right")
                             right()
                             state = "corner"
                         }
                         if number2 == 1 {
-                            print("ENEMY: D2 random down")
+//                            print("ENEMY: D2 random down")
                             down()
                             state = "corner"
                         }
@@ -810,23 +810,23 @@ class Enemy: SKSpriteNode {
                 // E2
                 if (direction == "down" || direction == "left" || direction == "none") {
                     if direction == "down" {
-                        print("ENEMY: E2 alternate right")
+//                        print("ENEMY: E2 alternate right")
                         right()
                         state = "corner"
                     }
                     if direction == "left" {
-                        print("ENEMY: E2 alternate up")
+//                        print("ENEMY: E2 alternate up")
                         up()
                         state = "corner"
                     }
                     if direction == "none" {
                         if number2 == 0 {
-                            print("ENEMY: E2 random right")
+//                            print("ENEMY: E2 random right")
                             right()
                             state = "corner"
                         }
                         if number2 == 1 {
-                            print("ENEMY: E2 random up")
+//                            print("ENEMY: E2 random up")
                             up()
                             state = "corner"
                         }
@@ -850,23 +850,23 @@ class Enemy: SKSpriteNode {
             if follow == false {
                 if (direction == "down" || direction == "right" || direction == "none") {
                     if direction == "down" {
-                        print("ENEMY: F2 alternate left")
+//                        print("ENEMY: F2 alternate left")
                         left()
                         state = "corner"
                     }
                     if direction == "right" {
-                        print("ENEMY: F2 alternate up")
+//                        print("ENEMY: F2 alternate up")
                         up()
                         state = "corner"
                     }
                     if direction == "none" {
                         if number2 == 0 {
-                            print("ENEMY: F2 random left")
+//                            print("ENEMY: F2 random left")
                             left()
                             state = "corner"
                         }
                         if number2 == 1 {
-                            print("ENEMY: F2 random up")
+//                            print("ENEMY: F2 random up")
                             up()
                             state = "corner"
                         }
@@ -890,22 +890,22 @@ class Enemy: SKSpriteNode {
             if follow == false {
                 if direction == "none" {
                     if number4 == 0 {
-                        print("ENEMY: A0 random down")
+//                        print("ENEMY: A0 random down")
                         down()
                         state = "open"
                     }
                     if number4 == 1 {
-                        print("ENEMY: A0 random up")
+//                        print("ENEMY: A0 random up")
                         up()
                         state = "open"
                     }
                     if number4 == 2 {
-                        print("ENEMY: A0 random right")
+//                        print("ENEMY: A0 random right")
                         right()
                         state = "open"
                     }
                     if number4 == 3 {
-                        print("ENEMY: A0 random left")
+//                        print("ENEMY: A0 random left")
                         left()
                         state = "open"
                     }

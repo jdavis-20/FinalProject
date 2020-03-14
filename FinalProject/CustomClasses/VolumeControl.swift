@@ -9,18 +9,44 @@
 import UIKit
 import SpriteKit
 
-var plusButton = SKSpriteNode()
-var minusButton = SKSpriteNode()
+var plusButton: Button!
+var minusButton: Button!
 var volumeLabel = SKLabelNode()
-var value: Float = 1
+var typeLabel = SKLabelNode()
+var volValue: Float = 1
 
 class VolumeControl: SKNode {
-    init(position: CGPoint) {
-        plusButton = SKSpriteNode(imageNamed: "")
-        minusButton = SKSpriteNode(imageNamed: "")
-        volumeLabel = SKLabelNode(text: "")
-        
+    
+    func turnUp() {
+        print("VOLUME UP")
+        print(volValue)
+        if volValue <= 0.9 {
+            volValue += 0.1
+            volumeLabel.text = String(volValue)
+        }
+    }
+    func turnDown() {
+        print("VOLUME DOWN")
+        print(volValue)
+        if volValue >= 0.1 {
+            volValue -= 0.1
+            volumeLabel.text = String(volValue)
+        }
+    }
+    
+    init(label: String) {
+        plusButton = Button(defaultButtonImage: "item_temp", activeButtonImage: "item_temp", label: "+", toggle: false)
+        minusButton = Button(defaultButtonImage: "item_temp", activeButtonImage: "item_temp", label: "-", toggle: false)
+        volumeLabel = SKLabelNode(text: String(volValue))
+        typeLabel = SKLabelNode(text: label)
+        volumeLabel.position = CGPoint(x: 0, y: 0)
+        plusButton.position = CGPoint(x: 40, y: 0)
+        minusButton.position = CGPoint(x: -40, y: 0)
+
         super.init()
+        
+        plusButton.action = turnUp
+        minusButton.action = turnDown
         
         self.addChild(plusButton)
         self.addChild(minusButton)
