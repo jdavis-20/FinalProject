@@ -13,31 +13,37 @@ var plusButton: Button!
 var minusButton: Button!
 var volumeLabel = SKLabelNode()
 var typeLabel = SKLabelNode()
-var volValue: Float = 1
+var volValue: Int = 10
 
 class VolumeControl: SKNode {
-    
     func turnUp() {
         print("VOLUME UP")
         print(volValue)
-        if volValue <= 0.9 {
-            volValue += 0.1
+        if volValue <= 9 {
+            volValue += 1
+            if let label = self.childNode(withName: "volumeLabel") as? SKLabelNode {
+                label.text = String(volValue)
+            }
         }
-        volumeLabel.text = String(volValue)
     }
     func turnDown() {
         print("VOLUME DOWN")
         print(volValue)
-        if volValue >= 0.1 {
-            volValue -= 0.1
+        if volValue >= 1 {
+            volValue -= 1
+            if let label = self.childNode(withName: "volumeLabel") as? SKLabelNode {
+                label.text = String(volValue)
+            }
         }
-        volumeLabel.text = String(volValue)
     }
     
     init(label: String) {
         plusButton = Button(defaultButtonImage: "item_temp", activeButtonImage: "item_temp", label: "+", toggle: false)
+        plusButton.setScale(2)
         minusButton = Button(defaultButtonImage: "item_temp", activeButtonImage: "item_temp", label: "-", toggle: false)
+        minusButton.setScale(2)
         volumeLabel = SKLabelNode(text: String(volValue))
+        volumeLabel.name = "volumeLabel"
         typeLabel = SKLabelNode(text: label)
         volumeLabel.position = CGPoint(x: 0, y: 0)
         typeLabel.position = CGPoint(x: 0, y: 30)

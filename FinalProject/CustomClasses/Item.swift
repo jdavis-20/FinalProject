@@ -19,13 +19,21 @@ class Item: SKSpriteNode {
         self.physicsBody?.allowsRotation = false
         self.physicsBody?.isDynamic = false
         self.physicsBody?.contactTestBitMask = 0x00000001
-        self.physicsBody?.categoryBitMask = 0x00000000
+        self.physicsBody?.categoryBitMask = 0x00000000 // set to 0 so there's no collision physics even as the collision is detected
     }
     func attract(character: String, ability: Bool, playerNode: SKSpriteNode) {
         if character == "Arch" {
             if (abs(playerNode.position.x-self.position.x) < 150) &&
                 (abs(playerNode.position.y-self.position.y) < 150) {
                 print("ITEM: distance detected")
+                self.run(SKAction.move(to: playerNode.position, duration: 0.2))
+            }
+        }
+        // TODO: testing effect of attract from close distance for all characters
+        else {
+            if (abs(playerNode.position.x-self.position.x) < 70) &&
+                (abs(playerNode.position.y-self.position.y) < 70) {
+                print("ITEM: close distance detected")
                 self.run(SKAction.move(to: playerNode.position, duration: 0.2))
             }
         }
