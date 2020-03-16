@@ -76,13 +76,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         charChoice = charSelPopup.character
         print("CHARACTER: \(charChoice)")
         if charChoice != "" {
-            // bool signals gameplay start to tilt, menu, and item/enemy class actions
+            // bool signals the start of gameplay to tilt, menu, and item/enemy class actions
             startPressed = true
             player.isHidden = false
             charSelPopup.invisible()
             play(slideMenu)
-            
-            // print(slideMenu.position)
         }
     }
     
@@ -90,11 +88,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         worldNode.isPaused = true
         node?.isPaused = true
         physicsWorld.speed = 0
+        if abilityActive == true {
+            abilityTimer.invalidate()
+        }
     }
     func play(_ node: SKNode? = nil) {
         worldNode.isPaused = false
         node?.isPaused = false
         physicsWorld.speed = 1
+        if abilityActive == true {
+            abilityTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: (#selector(updateTimer)), userInfo: nil, repeats: true)
+        }
     }
     
     func sfx(_ file: String, vibrate: Bool) {
@@ -111,11 +115,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     @objc func updateTimer() {
         timerSeconds -= 1
         abilityTimerLabel.text = String(timerSeconds)
+        print("ABILITY: \(timerSeconds) seconds left")
         if timerSeconds < 1 {
             abilityTimer.invalidate()
             abilityActive = false
-            timerSeconds = 10
             abilityTimerLabel.removeFromParent()
+            timerSeconds = 10
+            abilityTimerLabel.text = String(timerSeconds)
+            print("ABILITY: time is up")
         }
     }
     
@@ -551,6 +558,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 print("TOUCH: ability tap registered")
                 abilityActive = true
                 abilityTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: (#selector(updateTimer)), userInfo: nil, repeats: true)
+                print("ABILITY: time started")
                 camera!.addChild(abilityTimerLabel)
             }
         }
