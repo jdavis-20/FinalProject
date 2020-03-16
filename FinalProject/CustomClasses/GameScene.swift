@@ -134,6 +134,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let transition: SKTransition = SKTransition.fade(withDuration: 1)
         self.view?.presentScene(menuScene!, transition: transition)
 
+        abilityTimer.invalidate()
+        
         charSelPopup.childNode(withName: "startButton")?.removeFromParent()
         
         worldNode.removeAllChildren()
@@ -157,7 +159,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let zoomOut = SKAction.scale(by: 1.5, duration: 1.2)
         camera!.run(zoomOut)
         
-        // values that need to be reset at the start of the level
+        // values that need to be reset at the start of a new level
+        timerSeconds = 10
+        abilityTimerLabel.text = String(timerSeconds)
+        abilityActive = false
         playerHealth = 10
         playerItems = 0
         totalItems = 0
@@ -199,9 +204,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         itemLabel.position = CGPoint(x: -frame.size.width/2.6 , y: frame.size.height/2.5)
         camera!.addChild(itemLabel)
         
-        abilityTimerLabel.position = CGPoint(x: frame.size.width/2.2, y: -frame.size.height/2.5)
+        abilityTimerLabel.position = CGPoint(x: frame.size.width/2.1, y: -frame.size.height/2.3)
+        abilityTimerLabel.fontSize = 20
+        abilityTimerLabel.fontColor = .red
+        abilityTimerLabel.fontName = "Arial-BoldMT"
         
         // button to return to menu after win/lose
+        // TODO: move these and start button to popup class to eliminate multiples issue
         let loseReturnButton = Button(defaultButtonImage: "menu",
                                       activeButtonImage: "menuflat",
                                       toggle: false)

@@ -138,6 +138,7 @@ class Popup: SKNode {
     
     func visible() {
         popupNode.isHidden = false
+        popupNode.isUserInteractionEnabled = true
         label.isHidden = false
         itemName.isHidden = false
         worldNode.isPaused = true
@@ -148,6 +149,7 @@ class Popup: SKNode {
     }
     func invisible() {
         popupNode.isHidden = true
+        popupNode.isUserInteractionEnabled = false
         label.isHidden = true
         itemName.isHidden = true
         worldNode.isPaused = false
