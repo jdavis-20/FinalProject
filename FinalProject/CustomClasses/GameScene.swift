@@ -47,6 +47,7 @@ var playerItems: Int = 0
 var totalItems = 0
 var healthLabel = SKLabelNode(text: String(10))
 var itemLabel = SKLabelNode(text: String(0))
+var abilityTimerLabel = SKLabelNode(text: String(10))
 
 var playerAlive = true
 var playerWon = false
@@ -54,6 +55,8 @@ var playerYDirection = "up"
 var playerXDirection = "still"
 var enemyInit = false
 var abilityActive = false
+var abilityTimer = Timer()
+var timerSeconds = 10
 
 var sfxVol: Float = 1
 var musicVol: Float = 1
@@ -102,6 +105,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if vibrate == true && vibrateOn == true {
             AudioServicesPlaySystemSound(1519)
 //          AudioServicesPlayAlertSound(kSystemSoundID_Vibrate)
+        }
+    }
+    
+    @objc func updateTimer() {
+        timerSeconds -= 1
+        abilityTimerLabel.text = String(timerSeconds)
+        if timerSeconds < 1 {
+            abilityTimer.invalidate()
+            abilityActive = false
+            timerSeconds = 10
+            abilityTimerLabel.removeFromParent()
         }
     }
     
@@ -177,6 +191,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         itemLabel.position = CGPoint(x: -frame.size.width/2.6 , y: frame.size.height/2.5)
         camera!.addChild(itemLabel)
+        
+        abilityTimerLabel.position = CGPoint(x: frame.size.width/2.2, y: -frame.size.height/2.5)
         
         // button to return to menu after win/lose
         let loseReturnButton = Button(defaultButtonImage: "menu",
@@ -385,18 +401,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     @IBAction func swipeMade(_ sender: UISwipeGestureRecognizer) {
         //menu in and out (origin of menu object is at 0,0 not at the origin of the rectangle)
-        let enterAction = SKAction.moveTo(x: (frame.size.width / 3), duration: 0.5)
-        let leaveAction = SKAction.moveTo(x: ((frame.size.width / 3) * 2), duration: 0.5)
+        let menuEnter = SKAction.moveTo(x: (frame.size.width / 3), duration: 0.5)
+        let menuLeave = SKAction.moveTo(x: ((frame.size.width / 3) * 2), duration: 0.5)
         if (slideMenu.isPaused == false) && (startPressed == true) {
             if sender.direction == .left {
                 print("MENU: left swipe")
-                    slideMenu.run(enterAction)
+                    slideMenu.run(menuEnter)
                     slideMenuOut = true
                     pause()
             }
             if sender.direction == .right{
                 print("MENU: right swipe")
-                    slideMenu.run(leaveAction)
+                    slideMenu.run(menuLeave)
                     slideMenuOut = false
                     play()
             }
@@ -425,12 +441,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 //            describeCollision(contactA: contact.bodyA,
 //                              contactB: contact.bodyB)
             
-            // player collision with wall
-            if (bName == "player") && (aNode is MazeWall) {
-//                print("player collided with wall")
-                }
-            
-            // player touches an enemy (can be initiated by either body)
+            // PLAYER-ENEMY
             if ((bName == "player") && (aNode is Enemy)) ||
                 ((aName == "player") && (bNode is Enemy)) {
                 playerHealth -= 1
@@ -484,7 +495,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     }
                 }
             }
-            // item collision (currently can be initiated by either body, because items may move)
+            
+            // PLAYER-ITEM
             if ((bName == "player") && (aNode! is Item)) ||
                 ((aName == "player") && (bNode! is Item)) {
                 if aNode! is Item {
@@ -517,30 +529,29 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         for touch in touches {
             let location = touch.location(in: self)
             
-            if optionsPopupOut == true {
-                //touch outside of options popup to close it
-                if !(optionsPopup.popupNode.contains(location)) {
+            // touch outside of options popup to close
+            if optionsPopupOut == true && !(optionsPopup.popupNode.contains(location)) {
                     print("TOUCH: options popup closed")
                     optionsPopupOut = false
                     optionsPopup.invisible()
                     slideMenu.isPaused = false
-                }
             }
-           
-            if itemPopupOut == true {
-                // touch outside of item popup to close it
-                if !(itemPopup.popupNode.contains(location)) {
+        
+            // touch outside of item popup to close
+            if itemPopupOut == true && !(itemPopup.popupNode.contains(location)) {
                     print("TOUCH: item popup closed")
                     itemPopupOut = false;
                     itemPopup.invisible();
                     play(slideMenu)
-                }
             }
             
             // TODO: tap to activate ability for limited time
             // show timer, limit uses
-            if worldNode.isPaused == false && startPressed == true {
+            if worldNode.isPaused == false && startPressed == true && abilityActive == false {
                 print("TOUCH: ability tap registered")
+                abilityActive = true
+                abilityTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: (#selector(updateTimer)), userInfo: nil, repeats: true)
+                camera!.addChild(abilityTimerLabel)
             }
         }
     }
