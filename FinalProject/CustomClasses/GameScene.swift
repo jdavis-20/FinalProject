@@ -11,7 +11,7 @@ import CoreMotion
 import AudioToolbox
 import UIKit
 
-// nodes
+// core nodes
 var worldNode = SKNode()
 var camera = SKCameraNode()
 var motionManager = CMMotionManager()
@@ -40,36 +40,39 @@ var yVelocity: CGFloat = 0.0
 
 // game state values
 var startPressed = false
+var playerAlive = true
+var playerWon = false
+var enemyInit = false
+var abilityActive = false
+var vibrateOn = true
 
 var charChoice = ""
+var playerYDirection = "up"
+var playerXDirection = "still"
+
 var playerHealth: Int = 10
 var playerItems: Int = 0
 var totalItems = 0
-var healthLabel = SKLabelNode(text: String(10))
-var itemLabel = SKLabelNode(text: String(0))
-var abilityTimerLabel = SKLabelNode(text: String(10))
-
-var playerAlive = true
-var playerWon = false
-var playerYDirection = "up"
-var playerXDirection = "still"
-var enemyInit = false
-var abilityActive = false
-var abilityTimer = Timer()
 var abilityTimerSeconds = 10
 var abilityUses = 3
 
 var sfxVol: Float = 1
 var musicVol: Float = 1
-var vibrateOn = true
+
+// HUD labels
+var healthLabel = SKLabelNode(text: String(10))
+var itemLabel = SKLabelNode(text: String(0))
+var abilityTimerLabel = SKLabelNode(text: String(10))
+
+var abilityTimer = Timer()
 
 // movement and animation
 let away = SKAction.setTexture(SKTexture(imageNamed: "BlueFront"))
 let towards = SKAction.setTexture(SKTexture(imageNamed: "RedFront"))
 
 
-//  this is the superclass to all game levels----------------------------------------------------------------------------------
-// it contains fundamental mechanics and nodes that need to persist across levels----------------------------------------
+// gamescene is the superclass to all game levels-----------------------------------------------------------------------------
+// it contains the fundamental mechanics and nodes that need to persist across levels--------------------------------------
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
 
@@ -77,7 +80,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         charChoice = charSelPopup.character
         print("CHARACTER: \(charChoice)")
         if charChoice != "" {
-            // bool signals the start of gameplay to tilt, menu, and item/enemy class actions
+            // this bool signals the start of gameplay to tilt, menu, and item/enemy class actions
             startPressed = true
             player.isHidden = false
             charSelPopup.invisible()
@@ -118,12 +121,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         abilityTimerLabel.text = String(abilityTimerSeconds)
         print("ABILITY: \(abilityTimerSeconds) seconds left")
         if abilityTimerSeconds < 1 {
-            abilityTimer.invalidate()
+            print("ABILITY: time is up")
             abilityActive = false
+            abilityTimer.invalidate()
             abilityTimerLabel.removeFromParent()
             abilityTimerSeconds = 10
             abilityTimerLabel.text = String(abilityTimerSeconds)
-            print("ABILITY: time is up")
         }
     }
     
@@ -136,8 +139,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.view?.presentScene(menuScene!, transition: transition)
 
         abilityTimer.invalidate()
-        
-//        charSelPopup.childNode(withName: "startButton")?.removeFromParent()
         
         worldNode.removeAllChildren()
         camera!.removeAllChildren()
@@ -161,17 +162,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         camera!.run(zoomOut)
         
         // values that need to be reset at the start of a new level
+        charSelPopup.character = ""
         abilityTimerSeconds = 10
         abilityTimerLabel.text = String(abilityTimerSeconds)
         abilityActive = false
+        playerTilt = nil
+        startPressed = false
         abilityUses = 3
         playerHealth = 10
         playerItems = 0
         totalItems = 0
-        playerTilt = nil
-        startPressed = false
-        charSelPopup.character = ""
-        optionsPopup.invisible()
         
         // only nodes that are children of worldNode will be paused
         // allows menus to work after they are opened
@@ -207,7 +207,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // set tilt and start moving
         charSelPopup.startButton.action = startGame
 
-        
         // menu setup
         slideMenu = Menu(screenHeight: frame.size.height,
                           screenWidth: frame.size.width)
@@ -269,8 +268,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // player-----------------------------------------------------------------------------------------------------------
         
         player = SKSpriteNode(imageNamed: "RedFront")
-        player.position = CGPoint(x: 0,
-                                  y: 0)
+        player.position = CGPoint(x: 0, y: 0)
         player.name = "player"
         
         player.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: player.size.width,
@@ -290,7 +288,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         // popups------------------------------------------------------------------------------------------------------------
         
+        itemPopup.invisible()
         camera!.addChild(itemPopup)
+        optionsPopup.invisible()
         camera!.addChild(optionsPopup)
         
         // accelerometer data--------------------------------------------------------------------------------------------
@@ -313,9 +313,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 
                 if (startPressed == true) {
                     let dataXAdjusted = -data.acceleration.x + playerTilt!
-//                    flat = 0, forward is +, back is -
-//                    tilt foward goes up to 1 fully vertical, past it goes back from 1
-//                    tilt back goes up to -1 fully vertical, past it goes back from -1
+//                  flat = 0, forward is +, back is -
+//                  tilt foward goes up to 1 fully vertical, past it goes back from 1
+//                  tilt back goes up to -1 fully vertical, past it goes back from -1
                     
                     // tilt moves, X
                     if (data.acceleration.y > 0.06 ||
