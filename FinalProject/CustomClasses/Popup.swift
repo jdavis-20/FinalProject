@@ -18,6 +18,9 @@ class Popup: SKNode {
     var char1button: Button
     var char2button: Button
     var char3button: Button
+    var loseReturnButton: Button
+    var winReturnButton: Button
+    var startButton: Button
     var sfxVol = VolumeControl(label: "SFX")
     var musicVol = VolumeControl(label: "Music")
 
@@ -95,6 +98,25 @@ class Popup: SKNode {
         char3button.position = CGPoint(x: popupNode.frame.size.width/4, y: 0)
         char3button.zPosition = 3
         
+        loseReturnButton = Button(defaultButtonImage: "menu",
+                                      activeButtonImage: "menuflat",
+                                      toggle: false)
+        loseReturnButton.position = CGPoint(x: 0, y: 40)
+        loseReturnButton.zPosition = 3
+        
+        winReturnButton = Button(defaultButtonImage: "menu",
+                                     activeButtonImage: "menuflat",
+                                     toggle: false)
+        winReturnButton.position = CGPoint(x: 0, y: 40)
+        winReturnButton.zPosition = 3
+        
+        startButton = Button(defaultButtonImage: "start",
+                                 activeButtonImage: "startflat",
+                                 toggle: false)
+        startButton.position = CGPoint(x: 0,
+                                       y: -80)
+        startButton.zPosition = 3
+        
         super.init()
 
         char1button.action = char1
@@ -109,10 +131,12 @@ class Popup: SKNode {
         
         if type == "win" {
             label.text = "win"
+            self.addChild(winReturnButton)
         }
             
         if type == "lose"{
             label.text = "lose"
+            self.addChild(loseReturnButton)
         }
             
         if type == "item"{
@@ -131,6 +155,7 @@ class Popup: SKNode {
             self.addChild(char1button)
             self.addChild(char2button)
             self.addChild(char3button)
+            self.addChild(startButton)
         }
         
         isUserInteractionEnabled = true

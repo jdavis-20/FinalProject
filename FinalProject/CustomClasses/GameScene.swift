@@ -101,7 +101,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    func sfx(_ file: String, vibrate: Bool) {
+    func sfx(_ file: String, vibrate: Bool = true) {
         let sound = SKAction.playSoundFileNamed(file, waitForCompletion: false)
         SKAction.changeVolume(to: sfxVol, duration: 0)
         self.run(sound)
@@ -136,7 +136,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
         abilityTimer.invalidate()
         
-        charSelPopup.childNode(withName: "startButton")?.removeFromParent()
+//        charSelPopup.childNode(withName: "startButton")?.removeFromParent()
         
         worldNode.removeAllChildren()
         camera!.removeAllChildren()
@@ -186,17 +186,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         button.defaultButton.isHidden = false
         }
         
-        // set tilt and start moving
-        let startButton = Button(defaultButtonImage: "start",
-                                 activeButtonImage: "startflat",
-                                 toggle: false)
-        startButton.action = startGame
-        startButton.name = "startButton"
-        startButton.position = CGPoint(x: 0,
-                                       y: -80)
-        startButton.zPosition = 3
-        charSelPopup.addChild(startButton)
-        
         // add health and item counters to HUD
         healthLabel.position = CGPoint(x: -frame.size.width/2.2 , y: frame.size.height/2.5)
         camera!.addChild(healthLabel)
@@ -209,24 +198,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         abilityTimerLabel.fontColor = .red
         abilityTimerLabel.fontName = "Arial-BoldMT"
         
-        // button to return to menu after win/lose
-        // TODO: move these and start button to popup class to eliminate multiples issue
-        let loseReturnButton = Button(defaultButtonImage: "menu",
-                                      activeButtonImage: "menuflat",
-                                      toggle: false)
-        loseReturnButton.action = returnToMenu
-        loseReturnButton.position = CGPoint(x: 0, y: 40)
-        loseReturnButton.zPosition = 3
-        
-        let winReturnButton = Button(defaultButtonImage: "menu",
-                                      activeButtonImage: "menuflat",
-                                      toggle: false)
-        winReturnButton.action = returnToMenu
-        winReturnButton.position = CGPoint(x: 0, y: 40)
-        winReturnButton.zPosition = 3
+        // button actions
+        // return to menu after win/lose
+        losePopup.loseReturnButton.action = returnToMenu
+        winPopup.winReturnButton.action = returnToMenu
+        // set tilt and start moving
+        charSelPopup.startButton.action = startGame
 
-        winPopup.addChild(winReturnButton)
-        losePopup.addChild(loseReturnButton)
         
         // menu setup
         slideMenu = Menu(screenHeight: frame.size.height,
@@ -462,7 +440,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 ((aName == "player") && (bNode is Enemy)) {
                 playerHealth -= 1
                 // TODO: play sound & vibration
-                // sfx()
+                // sfx("filename")
                 AudioServicesPlayAlertSound(kSystemSoundID_Vibrate)
                 print("COLLISION: player touched enemy, health = \(playerHealth)")
                 
@@ -561,8 +539,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     play(slideMenu)
             }
             
-            // TODO: tap to activate ability for limited time
-            // show timer, limit uses
+            // TODO: limit/track uses of ability
+            // TODO: move menu nodes offscreen while hidden so they don't block tap functionality (or figure out how to include them)
             if worldNode.isPaused == false && startPressed == true && abilityActive == false {
                 print("TOUCH: ability tap registered")
                 abilityActive = true
