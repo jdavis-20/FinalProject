@@ -11,7 +11,6 @@ import SpriteKit
 class Enemy: SKSpriteNode {
     
     let rayRange: CGFloat = 110
-//    var timer = Timer()
     let turnDelay = 0.8
     var randomOutOf2 = Int(arc4random_uniform(2))
     var randomOutOf3 = Int(arc4random_uniform(3))
@@ -39,6 +38,7 @@ class Enemy: SKSpriteNode {
         self.physicsBody?.contactTestBitMask = 0x00000001
         self.physicsBody?.restitution = 1
         
+        // visualization of enemy raycasting for pathfinding
 //        let rightline = SKShapeNode()
 //        let rightPath = CGMutablePath()
 //        rightPath.move(to: CGPoint(x:-100, y:0))
@@ -121,12 +121,12 @@ class Enemy: SKSpriteNode {
             }
             
             if (self.position.x - playerNode.position.x) > followDirPadding {
-                print("ENEMY: follow left")
+//                print("ENEMY: follow left")
                 self.physicsBody?.velocity.dx = CGFloat(-enemySpeed)
             }
             if (playerNode.position.x - self.position.x) > followDirPadding {
                 self.physicsBody?.velocity.dx = CGFloat(enemySpeed)
-                print("ENEMY: follow right")
+//                print("ENEMY: follow right")
             }
             if ((self.position.x - playerNode.position.x) < followDirPadding) &&
                 ((playerNode.position.x - self.position.x) < followDirPadding) {
@@ -134,11 +134,11 @@ class Enemy: SKSpriteNode {
             }
             if (self.position.y - playerNode.position.y) > followDirPadding {
                 self.physicsBody?.velocity.dy = CGFloat(-enemySpeed)
-                print("ENEMY: follow down")
+//                print("ENEMY: follow down")
             }
             if (playerNode.position.y - self.position.y) > followDirPadding {
                 self.physicsBody?.velocity.dy = CGFloat(enemySpeed)
-                print("ENEMY: follow up")
+//                print("ENEMY: follow up")
             }
             if ((self.position.y - playerNode.position.y) < followDirPadding) &&
                 ((playerNode.position.y - self.position.y) < followDirPadding) {

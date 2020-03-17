@@ -56,7 +56,8 @@ var playerXDirection = "still"
 var enemyInit = false
 var abilityActive = false
 var abilityTimer = Timer()
-var timerSeconds = 10
+var abilityTimerSeconds = 10
+var abilityUses = 3
 
 var sfxVol: Float = 1
 var musicVol: Float = 1
@@ -113,15 +114,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     @objc func updateTimer() {
-        timerSeconds -= 1
-        abilityTimerLabel.text = String(timerSeconds)
-        print("ABILITY: \(timerSeconds) seconds left")
-        if timerSeconds < 1 {
+        abilityTimerSeconds -= 1
+        abilityTimerLabel.text = String(abilityTimerSeconds)
+        print("ABILITY: \(abilityTimerSeconds) seconds left")
+        if abilityTimerSeconds < 1 {
             abilityTimer.invalidate()
             abilityActive = false
             abilityTimerLabel.removeFromParent()
-            timerSeconds = 10
-            abilityTimerLabel.text = String(timerSeconds)
+            abilityTimerSeconds = 10
+            abilityTimerLabel.text = String(abilityTimerSeconds)
             print("ABILITY: time is up")
         }
     }
@@ -160,9 +161,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         camera!.run(zoomOut)
         
         // values that need to be reset at the start of a new level
-        timerSeconds = 10
-        abilityTimerLabel.text = String(timerSeconds)
+        abilityTimerSeconds = 10
+        abilityTimerLabel.text = String(abilityTimerSeconds)
         abilityActive = false
+        abilityUses = 3
         playerHealth = 10
         playerItems = 0
         totalItems = 0
@@ -539,12 +541,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     play(slideMenu)
             }
             
-            // TODO: limit/track uses of ability
             // TODO: move menu nodes offscreen while hidden so they don't block tap functionality (or figure out how to include them)
-            if worldNode.isPaused == false && startPressed == true && abilityActive == false {
-                print("TOUCH: ability tap registered")
+            // conditions: not in a menu, gameplay begun, not already using ability, not out of uses
+            if worldNode.isPaused == false && startPressed == true && abilityActive == false && abilityUses > 0 {
                 abilityActive = true
+                abilityUses -= 1
                 abilityTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: (#selector(updateTimer)), userInfo: nil, repeats: true)
+                print("ABILITY: \(abilityUses) uses left")
                 print("ABILITY: time started")
                 camera!.addChild(abilityTimerLabel)
             }
