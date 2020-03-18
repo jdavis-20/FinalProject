@@ -67,6 +67,8 @@ var abilityTimerLabel = SKLabelNode(text: String(10))
 var abilityTimer = Timer()
 
 // movement and animation
+let moveInFrame = SKAction.move(to: CGPoint(x: 0, y: 0), duration: 0)
+let moveOutOfFrame = SKAction.move(to: CGPoint(x: 4000, y: 7000), duration: 0)
 let away = SKAction.setTexture(SKTexture(imageNamed: "BlueFront"))
 let towards = SKAction.setTexture(SKTexture(imageNamed: "RedFront"))
 
@@ -84,6 +86,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             startPressed = true
             player.isHidden = false
             charSelPopup.invisible()
+            charSelPopup.run(moveOutOfFrame)
             play(slideMenu)
         }
     }
@@ -148,6 +151,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func options(){
         print("MENU: options button pressed")
+        optionsPopup.run(moveInFrame)
         optionsPopup.visible()
         optionsPopupOut = true
         pause(slideMenu)
@@ -173,6 +177,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         playerItems = 0
         totalItems = 0
         
+        charSelPopup.run(moveInFrame)
+        optionsPopup.run(moveOutOfFrame)
+        itemPopup.run(moveOutOfFrame)
+        winPopup.run(moveOutOfFrame)
+        losePopup.run(moveOutOfFrame)
+        
         // only nodes that are children of worldNode will be paused
         // allows menus to work after they are opened
         addChild(worldNode)
@@ -195,8 +205,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         itemLabel.position = CGPoint(x: -frame.size.width/2.6 , y: frame.size.height/2.5)
         camera!.addChild(itemLabel)
         
-        abilityTimerLabel.position = CGPoint(x: frame.size.width/2.1, y: -frame.size.height/2.3)
-        abilityTimerLabel.fontSize = 20
+        abilityTimerLabel.position = CGPoint(x: 0, y: frame.size.height/2.3)
+        abilityTimerLabel.fontSize = 26
         abilityTimerLabel.fontColor = .red
         abilityTimerLabel.fontName = "Arial-BoldMT"
         
@@ -452,6 +462,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     print("COLLISION: player died")
                     
                     camera!.addChild(losePopup)
+                    losePopup.run(moveInFrame)
                     losePopup.visible()
                     pause(slideMenu)
                 }
@@ -506,6 +517,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 playerItems += 1
                 itemPopupOut = true
                 itemPopup.itemName.text = bName
+                itemPopup.run(moveInFrame)
                 itemPopup.visible()
                 pause(slideMenu)
                 
@@ -531,6 +543,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     optionsPopupOut = false
                     optionsPopup.invisible()
                     slideMenu.isPaused = false
+                    optionsPopup.run(moveOutOfFrame)
             }
         
             // touch outside of item popup to close
@@ -539,6 +552,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     itemPopupOut = false;
                     itemPopup.invisible();
                     play(slideMenu)
+                    itemPopup.run(moveOutOfFrame)
             }
             
             // TODO: move menu nodes offscreen while hidden so they don't block tap functionality (or figure out how to include them)
@@ -615,10 +629,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
         
+        if charChoice == "Bot" && abilityActive == true {
+            player.alpha = 0.5
+        }
+        else {
+            player.alpha = 1
+        }
+        
         if itemPopupOut == false && playerWon == true {
             if winPopupOut == false {
                 winPopupOut = true
                 camera!.addChild(winPopup)
+                winPopup.run(moveInFrame)
                 winPopup.visible()
                 pause(slideMenu)
             }

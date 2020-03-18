@@ -26,7 +26,8 @@ class Popup: SKNode {
 
     func char1() {
         character = "Med"
-        print("POPUP: selected character 1")
+        print("POPUP: select 1, Medical, effect enemy slowdown")
+        // effects are located in Enemy.swift pathfinding method
         if char2button.activeButton.isHidden == false {
             char2button.toggle()
         }
@@ -36,7 +37,8 @@ class Popup: SKNode {
     }
     func char2() {
         character = "Bot"
-        print("POPUP: selected character 2")
+        print("POPUP: select 2, Botanical, effect player camo")
+        // effects are located in Enemy.swift pathfinding method, opacity effect in GameScene.swift update method
         if char1button.activeButton.isHidden == false {
             char1button.toggle()
         }
@@ -46,7 +48,8 @@ class Popup: SKNode {
     }
     func char3() {
         character = "Arch"
-        print("POPUP: selected character 3")
+        print("POPUP: select 3, Archaeological, effect item attract")
+        // effects are located in Item.swift attract method
         if char1button.activeButton.isHidden == false {
             char1button.toggle()
         }

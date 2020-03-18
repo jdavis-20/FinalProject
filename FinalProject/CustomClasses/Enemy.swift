@@ -9,17 +9,22 @@
 import SpriteKit
 
 class Enemy: SKSpriteNode {
-    
-    let rayRange: CGFloat = 110
-    let turnDelay = 0.8
+
     var randomOutOf2 = Int(arc4random_uniform(2))
     var randomOutOf3 = Int(arc4random_uniform(3))
     var randomOutOf4 = Int(arc4random_uniform(4))
-    var currentDirection = "none"
     var enemySpeed = 100
+    
+    let normalSpeed = 100
+    let slowSpeed = 60
+    let fastSpeed = 120
+    let rayRange: CGFloat = 110
+    let turnDelay = 0.8
     let reboundImpulse = 150
     let followDirPadding: CGFloat = 10
+    
     var followPlayer = false
+    var currentDirection = "none"
     var wallsState = "none"
     // state options are
     //      open
@@ -113,11 +118,11 @@ class Enemy: SKSpriteNode {
         func followDir() {
             // slow follow cause of sedate
             if (character == "Med" && ability == true) {
-                enemySpeed = 80
+                enemySpeed = slowSpeed
             }
             // normal follow speed
             else {
-                enemySpeed = 120
+                enemySpeed = fastSpeed
             }
             
             if (self.position.x - playerNode.position.x) > followDirPadding {
@@ -211,7 +216,7 @@ class Enemy: SKSpriteNode {
         let nodeLeft = enemyRayLeft?.node
         let nodeRight = enemyRayRight?.node
         
-        //TODO: implement distance limit on sighting? if so, can do with -if playerposition-enemyposition > distance-
+        //TODO: implement distance limit on sighting? if so, can do with /if playerposition-enemyposition > distance/
         
         // enemy detects if player is in sight using raycasting
         // if it is then enemy follows player 
@@ -220,70 +225,10 @@ class Enemy: SKSpriteNode {
             if (ability == false && character == "Bot") || character != "Bot" {
                 followPlayer = true
             }
-            
-            // this section causes enemy movemnt to be only straight or diagonal
-            
-            // if the difference in x is greater than the difference in y, move along x axis only
-            //            if (absXDiff > absYDiff) {
-            //                self.physicsBody?.velocity.dy = CGFloat(0)
-            //                if (self.position.x - playerNode.position.x) > followDirPadding {
-            //                    print("ENEMY: follow left")
-            //                    self.physicsBody?.velocity.dx = CGFloat(-80)
-            //                }
-            //                if (playerNode.position.x - self.position.x) > followDirPadding {
-            //                    self.physicsBody?.velocity.dx = CGFloat(80)
-            //                    print("ENEMY: follow right")
-            //                }
-            //                if (absXDiff < followDirPadding) {
-            //                    self.physicsBody?.velocity.dx = CGFloat(0)
-            //                }
-            //            }
-            // if the difference in y is greater than the difference in x, move along y axis only
-            //            if (absYDiff > absXDiff) {
-            //                self.physicsBody?.velocity.dx = CGFloat(0)
-            //                if (self.position.y - playerNode.position.y) > followDirPadding {
-            //                    self.physicsBody?.velocity.dy = CGFloat(-80)
-            //                    print("ENEMY: follow down")
-            //                }
-            //                if (playerNode.position.y - self.position.y) > followDirPadding {
-            //                    self.physicsBody?.velocity.dy = CGFloat(80)
-            //                    print("ENEMY: follow up")
-            //                }
-            //                if (absYDiff < followDirPadding) {
-            //                    self.physicsBody?.velocity.dy = CGFloat(0)
-            //                }
-            //            }
-            // if the difference in x and y positions is close, move along both axes
-            //        if abs(absYDiff - absXDiff) < followDirPadding {
-            //            if (self.position.x - playerNode.position.x) > followDirPadding {
-            //                print("ENEMY: follow left")
-            //                self.physicsBody?.velocity.dx = CGFloat(-enemySpeed)
-            //            }
-            //            if (playerNode.position.x - self.position.x) > followDirPadding {
-            //                self.physicsBody?.velocity.dx = CGFloat(enemySpeed)
-            //                print("ENEMY: follow right")
-            //            }
-            //            if ((self.position.x - playerNode.position.x) < followDirPadding) &&
-            //                ((playerNode.position.x - self.position.x) < followDirPadding) {
-            //                self.physicsBody?.velocity.dx = CGFloat(0)
-            //            }
-            //            if (self.position.y - playerNode.position.y) > followDirPadding {
-            //                self.physicsBody?.velocity.dy = CGFloat(-enemySpeed)
-            //                print("ENEMY: follow down")
-            //            }
-            //            if (playerNode.position.y - self.position.y) > followDirPadding {
-            //                self.physicsBody?.velocity.dy = CGFloat(enemySpeed)
-            //                print("ENEMY: follow up")
-            //            }
-            //            if ((self.position.y - playerNode.position.y) < followDirPadding) &&
-            //                ((playerNode.position.y - self.position.y) < followDirPadding) {
-            //                self.physicsBody?.velocity.dy = CGFloat(0)
-            //            }
-            //        }
         }
         else {
             followPlayer = false
-            enemySpeed = 100
+            enemySpeed = normalSpeed
         }
 
         // TODO: make sure this is working properly
