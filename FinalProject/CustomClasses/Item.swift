@@ -25,7 +25,7 @@ class Item: SKSpriteNode {
         if character == "Arch" && ability == true {
             if (abs(playerNode.position.x-self.position.x) < 150) &&
                 (abs(playerNode.position.y-self.position.y) < 150) {
-                print("ITEM: distance detected")
+                print("ITEM: attract distance detected")
                 self.run(SKAction.move(to: playerNode.position, duration: 0.2))
             }
         }
@@ -33,7 +33,7 @@ class Item: SKSpriteNode {
         else {
             if (abs(playerNode.position.x-self.position.x) < 70) &&
                 (abs(playerNode.position.y-self.position.y) < 70) {
-                print("ITEM: close distance detected")
+//                print("ITEM: close distance detected")
                 self.run(SKAction.move(to: playerNode.position, duration: 0.2))
             }
         }

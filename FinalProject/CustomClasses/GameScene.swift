@@ -254,6 +254,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         rightRecognizer.direction = .right
         self.view!.addGestureRecognizer(rightRecognizer)
         
+        let doubleTapRecognizer = UITapGestureRecognizer(target: self, action: #selector(doubleTapMade(_:)))
+        doubleTapRecognizer.numberOfTapsRequired = 2
+        self.view!.addGestureRecognizer(doubleTapRecognizer)
+        
         // physics contact delegate
         physicsWorld.contactDelegate = self
         
@@ -425,6 +429,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
+    @IBAction func doubleTapMade(_ sender: UITapGestureRecognizer) {
+        print("TOUCH: double tap")
+        // conditions: not in a menu, gameplay begun, not already using ability, not out of uses
+            if physicsWorld.speed == 1 && startPressed == true && abilityActive == false && abilityUses > 0 {
+                abilityActive = true
+                abilityUses -= 1
+                abilityTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: (#selector(updateTimer)), userInfo: nil, repeats: true)
+                print("ABILITY: \(abilityUses) uses left")
+                print("ABILITY: time started")
+                camera!.addChild(abilityTimerLabel)
+        }
+    }
+    
     
     // collision detection------------------------------------------------------------------------------------------------
     
@@ -553,17 +570,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     itemPopup.invisible();
                     play(slideMenu)
                     itemPopup.run(moveOutOfFrame)
-            }
-            
-            // TODO: move menu nodes offscreen while hidden so they don't block tap functionality (or figure out how to include them)
-            // conditions: not in a menu, gameplay begun, not already using ability, not out of uses
-            if worldNode.isPaused == false && startPressed == true && abilityActive == false && abilityUses > 0 {
-                abilityActive = true
-                abilityUses -= 1
-                abilityTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: (#selector(updateTimer)), userInfo: nil, repeats: true)
-                print("ABILITY: \(abilityUses) uses left")
-                print("ABILITY: time started")
-                camera!.addChild(abilityTimerLabel)
             }
         }
     }
