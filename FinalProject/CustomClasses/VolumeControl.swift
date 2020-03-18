@@ -9,13 +9,14 @@
 import UIKit
 import SpriteKit
 
-var plusButton: Button!
-var minusButton: Button!
-var volumeLabel = SKLabelNode()
-var typeLabel = SKLabelNode()
-var volValue: Int = 10
-
 class VolumeControl: SKNode {
+    
+    var plusButton: Button!
+    var minusButton: Button!
+    var volumeLabel = SKLabelNode()
+    var typeLabel = SKLabelNode()
+    var volValue: Int = 10
+    
     func turnUp() {
         print("VOLUME UP")
         print(volValue)
@@ -38,6 +39,7 @@ class VolumeControl: SKNode {
     }
     
     init(label: String) {
+        volValue = 10
         plusButton = Button(defaultButtonImage: "item_temp", activeButtonImage: "item_temp", label: "+", toggle: false)
         plusButton.setScale(2)
         minusButton = Button(defaultButtonImage: "item_temp", activeButtonImage: "item_temp", label: "-", toggle: false)

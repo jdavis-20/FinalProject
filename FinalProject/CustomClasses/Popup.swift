@@ -15,12 +15,14 @@ class Popup: SKNode {
     var label = SKLabelNode()
     var itemName = SKLabelNode()
     var character: String
+    
     var char1button: Button
     var char2button: Button
     var char3button: Button
     var loseReturnButton: Button
     var winReturnButton: Button
     var startButton: Button
+    
     var sfxVol = VolumeControl(label: "SFX")
     var musicVol = VolumeControl(label: "Music")
 

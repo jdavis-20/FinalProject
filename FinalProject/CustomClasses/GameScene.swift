@@ -651,5 +651,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 pause(slideMenu)
             }
         }
+        
     }
 }
