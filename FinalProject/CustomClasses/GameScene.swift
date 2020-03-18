@@ -26,10 +26,10 @@ var charSelPopup = Popup(image: "pop", type: "charsel", worldNode: worldNode)
 var winPopup = Popup(image: "pop", type: "win", worldNode: worldNode)
 var losePopup = Popup(image: "pop", type: "lose", worldNode: worldNode)
 
-var slideMenuOut = true
-var itemPopupOut = false
-var optionsPopupOut = true
 var charSelOut = true
+var slideMenuOut = true
+var optionsPopupOut = false
+var itemPopupOut = false
 var losePopupOut = false
 var winPopupOut = false
 
@@ -143,9 +143,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
         abilityTimer.invalidate()
         
-        worldNode.removeAllChildren()
-        camera!.removeAllChildren()
-        self.removeAllChildren()
+        for parent in [worldNode, camera!, self] {
+            parent.removeAllChildren()
+        }
+
         self.removeAllActions()
     }
     
@@ -178,10 +179,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         totalItems = 0
         
         charSelPopup.run(moveInFrame)
-        optionsPopup.run(moveOutOfFrame)
-        itemPopup.run(moveOutOfFrame)
-        winPopup.run(moveOutOfFrame)
-        losePopup.run(moveOutOfFrame)
+        for popup in [optionsPopup, itemPopup, winPopup, losePopup] {
+            popup.run(moveOutOfFrame)
+        }
         
         // only nodes that are children of worldNode will be paused
         // allows menus to work after they are opened
@@ -636,10 +636,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         if charChoice == "Bot" && abilityActive == true {
-            player.alpha = 0.5
+            player.alpha = 0.3
+
         }
         else {
             player.alpha = 1
+
         }
         
         if itemPopupOut == false && playerWon == true {
@@ -651,6 +653,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 pause(slideMenu)
             }
         }
-        
+        sfxVol = Float(optionsPopup.sfxVol.volValue/10)
+        musicVol = Float(optionsPopup.musicVol.volValue/10)
     }
 }
