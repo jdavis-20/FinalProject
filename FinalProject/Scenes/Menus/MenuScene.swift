@@ -11,7 +11,6 @@ import SpriteKit
 
 var menuCamera = SKCameraNode()
 
-
 class MenuScene: SKScene {
     
     override func didMove(to view: SKView) {

@@ -78,6 +78,7 @@ let towards = SKAction.setTexture(SKTexture(imageNamed: "RedFront"))
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
 
+    // starts game if a character has been chosen
     func startGame(){
         charChoice = charSelPopup.character
         print("CHARACTER: \(charChoice)")
@@ -91,6 +92,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
+    // pause and play methods for when menus come out and leave
     func pause(_ node: SKNode? = nil){
         worldNode.isPaused = true
         node?.isPaused = true
@@ -108,6 +110,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
+    // method to play sounds & vibration
     func sfx(_ file: String, vibrate: Bool = true) {
         let sound = SKAction.playSoundFileNamed(file, waitForCompletion: false)
         SKAction.changeVolume(to: sfxVol, duration: 0)
@@ -119,6 +122,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
+    // sets the timer as needed and updates the HUD label for it
     @objc func updateTimer() {
         abilityTimerSeconds -= 1
         abilityTimerLabel.text = String(abilityTimerSeconds)
@@ -133,8 +137,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    //buttons on the in-game menu-------------------------------------------------------
-    
+    // for buttons that take the player to the main menu
     func returnToMenu(){
         print("MENU: main menu button pressed")
         let menuScene = SKScene(fileNamed: "MenuScene")
@@ -150,6 +153,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.removeAllActions()
     }
     
+    // for the options button in the in-game menu
     func options(){
         print("MENU: options button pressed")
         optionsPopup.run(moveInFrame)
@@ -295,7 +299,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         player.physicsBody?.restitution = 0
         player.physicsBody?.contactTestBitMask = 0x00000001
         
-        // hidden until start is pressed for cleaner appearance
+        // player hidden until start is pressed for cleaner appearance
         player.isHidden = true
         
         worldNode.addChild(player)
