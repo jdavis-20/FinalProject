@@ -20,7 +20,7 @@ class Button: SKNode {
     init(defaultButtonImage: String,
          activeButtonImage: String,
          label: String = "",
-         toggle: Bool ) {
+         toggle: Bool) {
         
         defaultButton = SKSpriteNode(imageNamed: defaultButtonImage)
         activeButton = SKSpriteNode(imageNamed: activeButtonImage)

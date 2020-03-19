@@ -16,12 +16,8 @@ class Popup: SKNode {
     var itemName = SKLabelNode()
     var character: String
     
-    var char1button: Button
-    var char2button: Button
-    var char3button: Button
-    var loseReturnButton: Button
-    var winReturnButton: Button
-    var startButton: Button
+    var char1button: Button, char2button: Button, char3button: Button
+    var loseReturnButton: Button, winReturnButton: Button, startButton: Button
     
     var sfxVol = VolumeControl(label: "SFX")
     var musicVol = VolumeControl(label: "Music")
@@ -30,33 +26,30 @@ class Popup: SKNode {
         character = "Med"
         print("POPUP: select 1, Medical, effect enemy slowdown")
         // effects are located in Enemy.swift pathfinding method
-        if char2button.activeButton.isHidden == false {
-            char2button.toggle()
-        }
-        if char3button.activeButton.isHidden == false {
-            char3button.toggle()
+        for button in [char2button, char3button] {
+            if button.activeButton.isHidden == false {
+                button.toggle()
+            }
         }
     }
     func char2() {
         character = "Bot"
         print("POPUP: select 2, Botanical, effect player camo")
         // effects are located in Enemy.swift pathfinding method, opacity effect in GameScene.swift update method
-        if char1button.activeButton.isHidden == false {
-            char1button.toggle()
-        }
-        if char3button.activeButton.isHidden == false {
-            char3button.toggle()
+        for button in [char1button, char3button] {
+            if button.activeButton.isHidden == false {
+                button.toggle()
+            }
         }
     }
     func char3() {
         character = "Arch"
         print("POPUP: select 3, Archaeological, effect item attract")
         // effects are located in Item.swift attract method
-        if char1button.activeButton.isHidden == false {
-            char1button.toggle()
-        }
-        if char2button.activeButton.isHidden == false {
-            char2button.toggle()
+        for button in [char1button, char2button] {
+            if button.activeButton.isHidden == false {
+                button.toggle()
+            }
         }
     }
     func resetChar() {
@@ -64,9 +57,9 @@ class Popup: SKNode {
         print("POPUP: character deselected")
     }
     
-    init(image: String, type: String, worldNode: SKNode) {
+    init(type: String, worldNode: SKNode) {
         
-        popupNode = SKSpriteNode(imageNamed: image)
+        popupNode = SKSpriteNode(imageNamed: "pop")
         popupNode.isHidden = true
         label.isHidden = true
         popupNode.zPosition = 2
@@ -157,33 +150,30 @@ class Popup: SKNode {
         
         if type == "charsel"{
             label.text = "character select"
-            self.addChild(char1button)
-            self.addChild(char2button)
-            self.addChild(char3button)
-            self.addChild(startButton)
+            for button in [char1button, char2button, char3button, startButton] {
+                self.addChild(button)
+            }
         }
         
         isUserInteractionEnabled = true
 }
     
     func visible() {
-        popupNode.isHidden = false
-        popupNode.isUserInteractionEnabled = true
-        label.isHidden = false
-        itemName.isHidden = false
         worldNode.isPaused = true
-        
+        popupNode.isUserInteractionEnabled = true
+        for node in [popupNode, label, itemName] as [SKNode] {
+            node.isHidden = false
+        }
         for child in self.children {
             child.isHidden = false
         }
     }
     func invisible() {
-        popupNode.isHidden = true
-        popupNode.isUserInteractionEnabled = false
-        label.isHidden = true
-        itemName.isHidden = true
         worldNode.isPaused = false
-        
+        popupNode.isUserInteractionEnabled = false
+        for node in [popupNode, label, itemName] as [SKNode] {
+            node.isHidden = true
+        }
         for child in self.children {
             child.isHidden = true
         }

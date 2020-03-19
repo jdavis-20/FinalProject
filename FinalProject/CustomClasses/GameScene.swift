@@ -20,18 +20,15 @@ var player = SKSpriteNode()
 // menus and popups
 var slideMenu =  Menu(screenHeight: 375,
                        screenWidth: 667)
-var itemPopup = Popup(image: "pop", type: "item", worldNode: worldNode)
-var optionsPopup = Popup(image: "pop", type: "options", worldNode: worldNode)
-var charSelPopup = Popup(image: "pop", type: "charsel", worldNode: worldNode)
-var winPopup = Popup(image: "pop", type: "win", worldNode: worldNode)
-var losePopup = Popup(image: "pop", type: "lose", worldNode: worldNode)
+var itemPopup = Popup(type: "item", worldNode: worldNode)
+var optionsPopup = Popup(type: "options", worldNode: worldNode)
+var charSelPopup = Popup(type: "charsel", worldNode: worldNode)
+var winPopup = Popup(type: "win", worldNode: worldNode)
+var losePopup = Popup(type: "lose", worldNode: worldNode)
 
-var charSelOut = true
-var slideMenuOut = true
-var optionsPopupOut = false
-var itemPopupOut = false
-var losePopupOut = false
-var winPopupOut = false
+var charSelOut = true, slideMenuOut = true
+var optionsPopupOut = false, itemPopupOut = false
+var losePopupOut = false, winPopupOut = false
 
 // orientation
 var playerTilt: Double?
@@ -40,10 +37,10 @@ var yVelocity: CGFloat = 0.0
 
 // game state values
 var startPressed = false
-var playerAlive = true
-var playerWon = false
 var enemyInit = false
 var abilityActive = false
+var playerWon = false
+var playerAlive = true
 var vibrateOn = true
 
 var charChoice = ""
@@ -69,13 +66,15 @@ var abilityTimer = Timer()
 // movement and animation
 let moveInFrame = SKAction.move(to: CGPoint(x: 0, y: 0), duration: 0)
 let moveOutOfFrame = SKAction.move(to: CGPoint(x: 4000, y: 7000), duration: 0)
-let away = SKAction.setTexture(SKTexture(imageNamed: "BlueFront"))
-let towards = SKAction.setTexture(SKTexture(imageNamed: "RedFront"))
+
+let awaySprite = SKAction.setTexture(SKTexture(imageNamed: "BlueFront"))
+let towardsSprite = SKAction.setTexture(SKTexture(imageNamed: "RedFront"))
+//let leftSprite = SKAction.setTexture(SKTexture(imageNamed: ""))
+//let rightSprite = SKAction.setTexture(SKTexture(imageNamed: ""))
 
 
 // gamescene is the superclass to all game levels-----------------------------------------------------------------------------
 // it contains the fundamental mechanics and nodes that need to persist across levels--------------------------------------
-
 class GameScene: SKScene, SKPhysicsContactDelegate {
 
     // starts game if a character has been chosen
@@ -137,7 +136,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    // for buttons that take the player to the main menu
+    // buttons that take the player to the main menu
     func returnToMenu(){
         print("MENU: main menu button pressed")
         let menuScene = SKScene(fileNamed: "MenuScene")
@@ -153,7 +152,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.removeAllActions()
     }
     
-    // for the options button in the in-game menu
+    // options button in the in-game menu
     func options(){
         print("MENU: options button pressed")
         optionsPopup.run(moveInFrame)
@@ -163,7 +162,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     //executes when the scene is first loaded------------------------------------------------------------------------------
-    
     override func didMove(to view: SKView) {
         // scaling the view
         camera!.setScale(1.5)
@@ -284,7 +282,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         // player-----------------------------------------------------------------------------------------------------------
-        
         player = SKSpriteNode(imageNamed: "RedFront")
         player.position = CGPoint(x: 0, y: 0)
         player.name = "player"
@@ -305,14 +302,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         worldNode.addChild(player)
         
         // popups------------------------------------------------------------------------------------------------------------
-        
         itemPopup.invisible()
         camera!.addChild(itemPopup)
         optionsPopup.invisible()
         camera!.addChild(optionsPopup)
         
-        // accelerometer data--------------------------------------------------------------------------------------------
-        
+        // ACCELEROMETER----------------------------------------------------------------------------------------------------
         if motionManager.isAccelerometerAvailable {
             motionManager.accelerometerUpdateInterval = 0.01
             motionManager.startAccelerometerUpdates(to: .main) {
@@ -411,8 +406,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    // triggers when a swipe is detected------------------------------------------------------------------------------------
-    
+    // SWIPE--------------------------------------------------------------------------------------------------------------
     @IBAction func swipeMade(_ sender: UISwipeGestureRecognizer) {
         //menu in and out (origin of menu object is at 0,0 not at the origin of the rectangle)
         let menuEnter = SKAction.moveTo(x: (frame.size.width / 3), duration: 0.5)
@@ -433,6 +427,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
+    // DOUBLE TAP---------------------------------------------------------------------------------------------------------
     @IBAction func doubleTapMade(_ sender: UITapGestureRecognizer) {
         print("TOUCH: double tap")
         // conditions: not in a menu, gameplay begun, not already using ability, not out of uses
@@ -446,9 +441,34 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
+    // TOUCH--------------------------------------------------------------------------------------------------------------
+    override func touchesEnded(_ touches: Set<UITouch>,
+                               with event: UIEvent?) {
+        
+        for touch in touches {
+            let location = touch.location(in: self)
+            
+            // touch outside of options popup to close
+            if optionsPopupOut == true && !(optionsPopup.popupNode.contains(location)) {
+                print("TOUCH: options popup closed")
+                optionsPopupOut = false
+                optionsPopup.invisible()
+                slideMenu.isPaused = false
+                optionsPopup.run(moveOutOfFrame)
+            }
+            
+            // touch outside of item popup to close
+            if itemPopupOut == true && !(itemPopup.popupNode.contains(location)) {
+                print("TOUCH: item popup closed")
+                itemPopupOut = false;
+                itemPopup.invisible();
+                play(slideMenu)
+                itemPopup.run(moveOutOfFrame)
+            }
+        }
+    }
     
-    // collision detection------------------------------------------------------------------------------------------------
-    
+    // COLLISION----------------------------------------------------------------------------------------------------------
     func didBegin(_ contact: SKPhysicsContact){
         func describeCollision(contactA: SKPhysicsBody,
                                contactB: SKPhysicsBody) {
@@ -460,15 +480,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if (contact.bodyA.node != nil) &&
             (contact.bodyB.node != nil) {
             
-            let aNode = contact.bodyA.node
-            let bNode = contact.bodyB.node
-            let aName = aNode?.name
-            let bName = bNode?.name
+            let aNode = contact.bodyA.node, bNode = contact.bodyB.node
+            let aName = aNode?.name, bName = bNode?.name
 
 //            describeCollision(contactA: contact.bodyA,
 //                              contactB: contact.bodyB)
             
-            // PLAYER-ENEMY
+            // player-enemy
             if ((bName == "player") && (aNode is Enemy)) ||
                 ((aName == "player") && (bNode is Enemy)) {
                 playerHealth -= 1
@@ -477,11 +495,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 AudioServicesPlayAlertSound(kSystemSoundID_Vibrate)
                 print("COLLISION: player touched enemy, health = \(playerHealth)")
                 
-                // lose condition
+                // ---LOSE CONDITION---
                 if playerHealth <= 0 {
-                    playerAlive = false
                     print("COLLISION: player died")
-                    
+                    playerAlive = false
                     camera!.addChild(losePopup)
                     losePopup.run(moveInFrame)
                     losePopup.visible()
@@ -524,7 +541,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
             }
             
-            // PLAYER-ITEM
+            // player-item
             if ((bName == "player") && (aNode! is Item)) ||
                 ((aName == "player") && (bNode! is Item)) {
                 if aNode! is Item {
@@ -542,44 +559,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 itemPopup.visible()
                 pause(slideMenu)
                 
-                // win condition
+                // ---WIN CONDITION---
                 if playerItems >= 5 {
                     playerWon = true
                 }
             }
         }
     }
-   
-    // called on the end of a touch-------------------------------------------------------------------------------------------
-    
-    override func touchesEnded(_ touches: Set<UITouch>,
-                               with event: UIEvent?) {
-
-        for touch in touches {
-            let location = touch.location(in: self)
-            
-            // touch outside of options popup to close
-            if optionsPopupOut == true && !(optionsPopup.popupNode.contains(location)) {
-                    print("TOUCH: options popup closed")
-                    optionsPopupOut = false
-                    optionsPopup.invisible()
-                    slideMenu.isPaused = false
-                    optionsPopup.run(moveOutOfFrame)
-            }
-        
-            // touch outside of item popup to close
-            if itemPopupOut == true && !(itemPopup.popupNode.contains(location)) {
-                    print("TOUCH: item popup closed")
-                    itemPopupOut = false;
-                    itemPopup.invisible();
-                    play(slideMenu)
-                    itemPopup.run(moveOutOfFrame)
-            }
-        }
-    }
     
     // called every frame when not paused-----------------------------------------------------------------------------------
-    
     override func didSimulatePhysics() {
         //camera follows player sprite
         camera?.position.x = player.position.x
@@ -588,39 +576,42 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // texture changes for the direction the player character is facing, will be used for animation
         // TODO: add "still" positions
         if playerYDirection == "up"{
-            player.run(away)
+            player.run(awaySprite)
             
             if playerXDirection == "left"{
-                //player.run(away)
+                //player.run(awaySprite)
             }
             if playerXDirection == "right"{
-                //player.run(away)
+                //player.run(awaySprite)
             }
         }
         if playerYDirection == "down"{
-            player.run(towards)
+            player.run(towardsSprite)
             
             if playerXDirection == "left"{
-                //player.run(towards)
+                //player.run(towardsSprite)
             }
             if playerXDirection == "right"{
-                //player.run(towards)
+                //player.run(towardsSprite)
             }
         }
     }
     
-    
     // called every frame--------------------------------------------------------------------------------------------------
-    
     override func update(_ currentTime: TimeInterval) {
+        // update volume
+        sfxVol = Float(optionsPopup.sfxVol.volValue/10)
+        musicVol = Float(optionsPopup.musicVol.volValue/10)
         
+        //update HUD text
         healthLabel.text = String(playerHealth)
         itemLabel.text = "\(String(playerItems))/\(String(totalItems))"
         
-        // player movement based on tilt
+        // update player movement based on tilt
         player.physicsBody!.velocity = CGVector(dx: xVelocity,
                                                 dy: yVelocity)
 
+        // continuously run pathfinding and attract methods
         if startPressed == true {
             scene?.enumerateChildNodes(withName: "enemy") {
                 (node, stop) in
@@ -639,15 +630,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
         
+        // player is semi-transparent when using camo
         if charChoice == "Bot" && abilityActive == true {
             player.alpha = 0.3
-
         }
         else {
             player.alpha = 1
-
         }
         
+        // if player wins, trigger the win popup after the item popup is dismissed
         if itemPopupOut == false && playerWon == true {
             if winPopupOut == false {
                 winPopupOut = true
@@ -657,7 +648,5 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 pause(slideMenu)
             }
         }
-        sfxVol = Float(optionsPopup.sfxVol.volValue/10)
-        musicVol = Float(optionsPopup.musicVol.volValue/10)
     }
 }
