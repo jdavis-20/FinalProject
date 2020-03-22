@@ -215,18 +215,19 @@ class Enemy: SKSpriteNode {
         let nodeBelow = enemyRayDown?.node
         let nodeLeft = enemyRayLeft?.node
         let nodeRight = enemyRayRight?.node
-                
+        
         // enemy detects if player is in sight using raycasting
-        // if it is then enemy follows player 
+        // if it is then enemy follows player
+        // follow doesn't work when using camo ability
         if enemyRayPlayer?.node == playerNode {
-            // follow doesn't work when using camo ability
-            if (ability == false && character == "Bot") || character != "Bot" {
-                followPlayer = true
+            if character == "Bot" && ability == true {
+                followPlayer = false
+                enemySpeed = normalSpeed
             }
-        }
-        else {
-            followPlayer = false
-            enemySpeed = normalSpeed
+            else {
+                followPlayer = true
+                
+            }
         }
 
         // TODO: make sure this is working properly
@@ -252,6 +253,7 @@ class Enemy: SKSpriteNode {
             left()
         }
         
+//        this was an attempt to fix enemies getting stuck- contains method for random out of dirOptions array
 //        if (self.physicsBody?.velocity.dx)! == 0 && (self.physicsBody?.velocity.dy)! < 10 {
 //            print("BLOCK DETECTED")
 //            let dirNum = Int(arc4random_uniform(UInt32(dirOptions.count)))

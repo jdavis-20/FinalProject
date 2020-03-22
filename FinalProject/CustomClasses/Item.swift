@@ -11,10 +11,10 @@ import SpriteKit
 class Item: SKSpriteNode {
     
     func itemInit() {
-        self.name = "item" // might have to make unique to items
+        self.name = "" // might have to make unique to items
         
         self.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: self.size.width,
-                                                            height: self.size.height))
+                                                             height: self.size.height))
         self.physicsBody?.affectedByGravity = false
         self.physicsBody?.allowsRotation = false
         self.physicsBody?.isDynamic = false
@@ -33,7 +33,6 @@ class Item: SKSpriteNode {
         else {
             if (abs(playerNode.position.x-self.position.x) < 70) &&
                 (abs(playerNode.position.y-self.position.y) < 70) {
-//                print("ITEM: close distance detected")
                 self.run(SKAction.move(to: playerNode.position, duration: 0.2))
             }
         }

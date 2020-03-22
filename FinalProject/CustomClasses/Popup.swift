@@ -18,9 +18,11 @@ class Popup: SKNode {
     
     var char1button: Button, char2button: Button, char3button: Button
     var loseReturnButton: Button, winReturnButton: Button, startButton: Button
+    var tiltResetButton: Button
     
     var sfxVol = VolumeControl(label: "SFX")
     var musicVol = VolumeControl(label: "Music")
+
 
     func char1() {
         character = "Med"
@@ -114,6 +116,13 @@ class Popup: SKNode {
         startButton.position = CGPoint(x: 0,
                                        y: -80)
         startButton.zPosition = 3
+        tiltResetButton = Button(defaultButtonImage: "button",
+                                 activeButtonImage: "buttonflat",
+                                 label: "reset tilt",
+                                 toggle: false)
+        tiltResetButton.position = CGPoint(x: 0,
+                                           y: -80)
+        tiltResetButton.zPosition = 3
         
         super.init()
 
@@ -146,6 +155,7 @@ class Popup: SKNode {
             label.text = "options"
             self.addChild(sfxVol)
             self.addChild(musicVol)
+            self.addChild(tiltResetButton)
         }
         
         if type == "charsel"{

@@ -15,6 +15,7 @@ class Button: SKNode {
     var action: (() -> ())?
     var altAction: (() -> ())?
     var isToggle: Bool
+    let conductiveFont = UIFont(name: "Conductive", size: 24)
     
     //takes a default and active version of the button
     init(defaultButtonImage: String,
@@ -28,7 +29,8 @@ class Button: SKNode {
         action = nil
         altAction = nil
         buttonLabel.text = label
-        buttonLabel.fontColor = .black
+        buttonLabel.fontName = "Conductive"
+        buttonLabel.fontColor = .white
         buttonLabel.fontSize = 24
         buttonLabel.verticalAlignmentMode = .center
         buttonLabel.zPosition = 2

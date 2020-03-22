@@ -37,6 +37,7 @@ var yVelocity: CGFloat = 0.0
 
 // game state values
 var startPressed = false
+var updateTilt = false
 var enemyInit = false
 var abilityActive = false
 var playerWon = false
@@ -90,6 +91,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             charSelPopup.invisible()
             charSelPopup.run(moveOutOfFrame)
             play(slideMenu)
+        }
+        // TODO: set sprites for characters
+        if charChoice == "Med" {
+//
+//            awaySprite =
+//            towardsSprite =
+//            leftSprite =
+//            rightSprite =
+//            idleSprite =
+        }
+        if charChoice == "Bot" {
+            
+        }
+        if charChoice == "Arch" {
+            
         }
     }
     
@@ -161,6 +177,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         optionsPopup.visible()
         optionsPopupOut = true
         pause(slideMenu)
+    }
+    
+    func resetTilt() {
+//        updateTilt = true
+//        if motionManager.isAccelerometerAvailable {
+//            motionManager.accelerometerUpdateInterval = 0.01
+//            motionManager.startAccelerometerUpdates(to: .main) {
+//                (data, error) in
+//                guard let data = data, error == nil else {
+//                    return
+//                }
+//                if updateTilt == true {
+//                    updateTilt = false
+//                    playerTilt = data.acceleration.x
+//                    print(playerTilt)
+//                }
+//            }
+//        }
+        playerTilt = motionManager.accelerometerData?.acceleration.x
     }
     
     //executes when the scene is first loaded------------------------------------------------------------------------------
@@ -304,6 +339,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         worldNode.addChild(player)
         
         // popups------------------------------------------------------------------------------------------------------------
+        optionsPopup.tiltResetButton.action = resetTilt
         itemPopup.invisible()
         camera!.addChild(itemPopup)
         optionsPopup.invisible()
@@ -552,7 +588,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 if bNode! is Item {
                     bNode!.removeFromParent()
                 }
-                print("COLLSION: player got item, item count is \(totalItems)")
+                print("COLLSION: player got item, item count is \(playerItems) out of \(totalItems)")
                 
                 playerItems += 1
                 itemPopupOut = true
@@ -625,12 +661,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                                    character: charChoice,
                                    ability: abilityActive)
             }
-            scene?.enumerateChildNodes(withName: "item") {
-                (node, stop) in
-                let itemNode = node as? Item
-                itemNode?.attract(character: charChoice,
-                                  ability: abilityActive,
-                                  playerNode: player)
+            for child in scene!.children {
+                if child is Item {
+                    if let childItem = child as? Item {
+                        childItem.attract(character: charChoice,
+                                          ability: abilityActive,
+                                          playerNode: player)
+                    }
+                }
             }
         }
         

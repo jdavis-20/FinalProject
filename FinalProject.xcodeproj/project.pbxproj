@@ -92,6 +92,7 @@
 		25C56B7423F6F8C800A61747 /* 835.png in Resources */ = {isa = PBXBuildFile; fileRef = 25C56B7223F6F8C600A61747 /* 835.png */; };
 		25C56B7523F6F8C800A61747 /* 152.png in Resources */ = {isa = PBXBuildFile; fileRef = 25C56B7323F6F8C700A61747 /* 152.png */; };
 		25C97990238D8744001865CC /* GameData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25C9798F238D8744001865CC /* GameData.swift */; };
+		25D21D3C2427F62F00C5B278 /* Conductive.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 25D21D3B2427F52500C5B278 /* Conductive.ttf */; };
 		25EE37F62367438E00C30E82 /* Menu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25EE37F52367438E00C30E82 /* Menu.swift */; };
 /* End PBXBuildFile section */
 
@@ -205,6 +206,7 @@
 		25C56B7223F6F8C600A61747 /* 835.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 835.png; sourceTree = "<group>"; };
 		25C56B7323F6F8C700A61747 /* 152.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 152.png; sourceTree = "<group>"; };
 		25C9798F238D8744001865CC /* GameData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameData.swift; sourceTree = "<group>"; };
+		25D21D3B2427F52500C5B278 /* Conductive.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Conductive.ttf; path = "FinalProject/New Group/Interface/Conductive.ttf"; sourceTree = SOURCE_ROOT; };
 		25EE37F52367438E00C30E82 /* Menu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Menu.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -468,6 +470,7 @@
 			isa = PBXGroup;
 			children = (
 				252CBD2623F4760200CF40E3 /* Level Select */,
+				25D21D3B2427F52500C5B278 /* Conductive.ttf */,
 				258FF9B724198A60008480CE /* ch1.png */,
 				258FF9B624198A60008480CE /* ch2.png */,
 				258FF9B524198A60008480CE /* ch3.png */,
@@ -641,6 +644,7 @@
 				2536DE2823882E8D000FC136 /* playerback.png in Resources */,
 				2585FCD323D9E195005926F5 /* maze1.png in Resources */,
 				25105E8E2353386700CAC3AE /* Level1Scene.sks in Resources */,
+				25D21D3C2427F62F00C5B278 /* Conductive.ttf in Resources */,
 				254C38B62418090600EF4D0A /* yel.png in Resources */,
 				25105E4B23521E2900CAC3AE /* Assets.xcassets in Resources */,
 				253A1C882392C2BA00CBECB9 /* tempiconsmall.png in Resources */,
