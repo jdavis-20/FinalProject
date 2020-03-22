@@ -51,7 +51,7 @@ class VolumeControl: SKNode {
         volumeLabel.fontName = "Conductive"
         typeLabel = SKLabelNode(text: label)
         typeLabel.verticalAlignmentMode = .center
-        typeLabel.fontName = "Conductive`"
+        typeLabel.fontName = "Conductive"
         
         volumeLabel.position = CGPoint(x: 0, y: 0)
         typeLabel.position = CGPoint(x: 0, y: 30)

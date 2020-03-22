@@ -268,8 +268,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         slideMenu.zPosition = 1
         
         // button returning to main menu
-        let returnButton = Button(defaultButtonImage: "menu",
-                                    activeButtonImage: "menuflat",
+        let returnButton = Button(defaultButtonImage: "button",
+                                    activeButtonImage: "buttonflat",
+                                    label: "main menu",
                                     toggle: false)
         returnButton.action = returnToMenu
         returnButton.position = CGPoint(x: 0,
@@ -277,8 +278,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         slideMenu.addChild(returnButton)
         
         // button to accesss options
-        let optionsButton = Button(defaultButtonImage: "options",
-                                  activeButtonImage: "optionsflat",
+        let optionsButton = Button(defaultButtonImage: "button",
+                                  activeButtonImage: "buttonflat",
+                                  label: "options",
                                   toggle: false)
         optionsButton.action = options
         optionsButton.position = CGPoint(x: 0,

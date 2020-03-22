@@ -99,21 +99,24 @@ class Popup: SKNode {
         char3button.position = CGPoint(x: popupNode.frame.size.width/4, y: 0)
         char3button.zPosition = 3
         
-        loseReturnButton = Button(defaultButtonImage: "menu",
-                                      activeButtonImage: "menuflat",
-                                      toggle: false)
+        loseReturnButton = Button(defaultButtonImage: "button",
+                                  activeButtonImage: "buttonflat",
+                                  label: "main menu",
+                                  toggle: false)
         loseReturnButton.position = CGPoint(x: 0, y: 40)
         loseReturnButton.zPosition = 3
         
-        winReturnButton = Button(defaultButtonImage: "menu",
-                                     activeButtonImage: "menuflat",
-                                     toggle: false)
+        winReturnButton = Button(defaultButtonImage: "button",
+                                 activeButtonImage: "buttonflat",
+                                 label: "main menu",
+                                 toggle: false)
         winReturnButton.position = CGPoint(x: 0, y: 40)
         winReturnButton.zPosition = 3
         
-        startButton = Button(defaultButtonImage: "start",
-                                 activeButtonImage: "startflat",
-                                 toggle: false)
+        startButton = Button(defaultButtonImage: "button",
+                             activeButtonImage: "buttonflat",
+                             label: "START",
+                             toggle: false)
         startButton.position = CGPoint(x: 0,
                                        y: -80)
         startButton.zPosition = 3

@@ -47,9 +47,11 @@ class MenuScene: SKScene {
         //button triggers actual transition
         let playButton = Button(defaultButtonImage: "launch",
                                  activeButtonImage: "launch",
+                                 label: "LAUNCH",
                                  toggle: false)
         playButton.setScale(0.8)
         playButton.action = levelSelect
+        playButton.buttonLabel.verticalAlignmentMode = .center
         playButton.position = CGPoint(x: (frame.size.width / 2),
                                       y: (frame.size.height / 2))
         addChild(playButton)
