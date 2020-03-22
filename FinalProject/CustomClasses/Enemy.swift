@@ -215,9 +215,7 @@ class Enemy: SKSpriteNode {
         let nodeBelow = enemyRayDown?.node
         let nodeLeft = enemyRayLeft?.node
         let nodeRight = enemyRayRight?.node
-        
-        //TODO: implement distance limit on sighting? if so, can do with /if playerposition-enemyposition > distance/
-        
+                
         // enemy detects if player is in sight using raycasting
         // if it is then enemy follows player 
         if enemyRayPlayer?.node == playerNode {

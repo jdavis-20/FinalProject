@@ -67,13 +67,15 @@ var abilityTimer = Timer()
 let moveInFrame = SKAction.move(to: CGPoint(x: 0, y: 0), duration: 0)
 let moveOutOfFrame = SKAction.move(to: CGPoint(x: 4000, y: 7000), duration: 0)
 
+// TODO: needs to change based on character choice- script or set additional variables?
 let awaySprite = SKAction.setTexture(SKTexture(imageNamed: "BlueFront"))
 let towardsSprite = SKAction.setTexture(SKTexture(imageNamed: "RedFront"))
 //let leftSprite = SKAction.setTexture(SKTexture(imageNamed: ""))
 //let rightSprite = SKAction.setTexture(SKTexture(imageNamed: ""))
+//let idleSprite = SKAction.setTexture(SKTexture(imageNamed: ""))
 
 
-// gamescene is the superclass to all game levels-----------------------------------------------------------------------------
+// GameScene is the superclass to all game levels-----------------------------------------------------------------------------
 // it contains the fundamental mechanics and nodes that need to persist across levels--------------------------------------
 class GameScene: SKScene, SKPhysicsContactDelegate {
 
@@ -574,10 +576,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         camera?.position.y = player.position.y
         
         // texture changes for the direction the player character is facing, will be used for animation
-        // TODO: add "still" positions
         if playerYDirection == "up"{
+            //comment this one out when implementing up/down specific
             player.run(awaySprite)
-            
             if playerXDirection == "left"{
                 //player.run(awaySprite)
             }
@@ -586,14 +587,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
         if playerYDirection == "down"{
+            //comment this one out when implementing left/right specific
             player.run(towardsSprite)
-            
             if playerXDirection == "left"{
                 //player.run(towardsSprite)
             }
             if playerXDirection == "right"{
                 //player.run(towardsSprite)
             }
+        }
+        if playerYDirection == "still" && playerXDirection == "still" {
+//            player.run(/*new action for still*/)
         }
     }
     
