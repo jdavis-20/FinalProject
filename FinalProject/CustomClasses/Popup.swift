@@ -65,15 +65,16 @@ class Popup: SKNode {
         popupNode.isHidden = true
         label.isHidden = true
         popupNode.zPosition = 2
+        label.fontName = "Conductive"
         label.zPosition = 3
         label.position = CGPoint(x: 0, y: popupNode.frame.size.height/4)
         itemName.zPosition = 3
         popupNode.position = CGPoint(x: 0, y: 0)
         popupNode.alpha = 0.8
         
-        sfxVol.position = CGPoint(x: 0, y: 30)
+        sfxVol.position = CGPoint(x: 0, y: 40)
         sfxVol.zPosition = 3
-        musicVol.position = CGPoint(x: 0, y: -30)
+        musicVol.position = CGPoint(x: 0, y: -40)
         musicVol.zPosition = 3
 
         
@@ -121,7 +122,7 @@ class Popup: SKNode {
                                  label: "reset tilt",
                                  toggle: false)
         tiltResetButton.position = CGPoint(x: 0,
-                                           y: -80)
+                                           y: -100)
         tiltResetButton.zPosition = 3
         
         super.init()

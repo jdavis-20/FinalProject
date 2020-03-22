@@ -93,6 +93,7 @@
 		25C56B7523F6F8C800A61747 /* 152.png in Resources */ = {isa = PBXBuildFile; fileRef = 25C56B7323F6F8C700A61747 /* 152.png */; };
 		25C97990238D8744001865CC /* GameData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25C9798F238D8744001865CC /* GameData.swift */; };
 		25D21D3C2427F62F00C5B278 /* Conductive.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 25D21D3B2427F52500C5B278 /* Conductive.ttf */; };
+		25D21D402427FAF700C5B278 /* volcircle.png in Resources */ = {isa = PBXBuildFile; fileRef = 25D21D3F2427FAF700C5B278 /* volcircle.png */; };
 		25EE37F62367438E00C30E82 /* Menu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25EE37F52367438E00C30E82 /* Menu.swift */; };
 /* End PBXBuildFile section */
 
@@ -207,6 +208,7 @@
 		25C56B7323F6F8C700A61747 /* 152.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 152.png; sourceTree = "<group>"; };
 		25C9798F238D8744001865CC /* GameData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameData.swift; sourceTree = "<group>"; };
 		25D21D3B2427F52500C5B278 /* Conductive.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Conductive.ttf; path = "FinalProject/New Group/Interface/Conductive.ttf"; sourceTree = SOURCE_ROOT; };
+		25D21D3F2427FAF700C5B278 /* volcircle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = volcircle.png; sourceTree = "<group>"; };
 		25EE37F52367438E00C30E82 /* Menu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Menu.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -474,6 +476,7 @@
 				258FF9B724198A60008480CE /* ch1.png */,
 				258FF9B624198A60008480CE /* ch2.png */,
 				258FF9B524198A60008480CE /* ch3.png */,
+				25D21D3F2427FAF700C5B278 /* volcircle.png */,
 				258FF9D0241C03CE008480CE /* menu.png */,
 				258FF9D3241C03D0008480CE /* menuflat.png */,
 				258FF9D4241C03D0008480CE /* options.png */,
@@ -681,6 +684,7 @@
 				254C38BB2418194700EF4D0A /* overlayR.png in Resources */,
 				254C38B42418090600EF4D0A /* purl.png in Resources */,
 				25C56B6823F6DFF900A61747 /* 120.png in Resources */,
+				25D21D402427FAF700C5B278 /* volcircle.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

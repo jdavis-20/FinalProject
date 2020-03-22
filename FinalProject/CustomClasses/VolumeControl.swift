@@ -40,13 +40,19 @@ class VolumeControl: SKNode {
     
     init(label: String) {
         volValue = 10
-        plusButton = Button(defaultButtonImage: "item_temp", activeButtonImage: "item_temp", label: "+", toggle: false)
-        plusButton.setScale(2)
-        minusButton = Button(defaultButtonImage: "item_temp", activeButtonImage: "item_temp", label: "-", toggle: false)
-        minusButton.setScale(2)
+        plusButton = Button(defaultButtonImage: "volcircle", activeButtonImage: "volcircle", label: "+", toggle: false)
+//        plusButton.setScale(0.8)
+        minusButton = Button(defaultButtonImage: "volcircle", activeButtonImage: "volcircle", label: "-", toggle: false)
+//        minusButton.setScale(0.8)
+        
         volumeLabel = SKLabelNode(text: String(volValue))
         volumeLabel.name = "volumeLabel"
+        volumeLabel.verticalAlignmentMode = .center
+        volumeLabel.fontName = "Conductive"
         typeLabel = SKLabelNode(text: label)
+        typeLabel.verticalAlignmentMode = .center
+        typeLabel.fontName = "Conductive`"
+        
         volumeLabel.position = CGPoint(x: 0, y: 0)
         typeLabel.position = CGPoint(x: 0, y: 30)
         plusButton.position = CGPoint(x: 40, y: 0)

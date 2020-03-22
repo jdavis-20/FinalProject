@@ -15,7 +15,6 @@ class Button: SKNode {
     var action: (() -> ())?
     var altAction: (() -> ())?
     var isToggle: Bool
-    let conductiveFont = UIFont(name: "Conductive", size: 24)
     
     //takes a default and active version of the button
     init(defaultButtonImage: String,

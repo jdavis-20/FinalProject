@@ -238,6 +238,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         // add health and item counters to HUD
+        for label in [healthLabel, itemLabel, abilityTimerLabel] {
+            label.fontName = "Conductive"
+        }
+        
         healthLabel.position = CGPoint(x: -frame.size.width/2.2 , y: frame.size.height/2.5)
         camera!.addChild(healthLabel)
         
@@ -247,7 +251,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         abilityTimerLabel.position = CGPoint(x: 0, y: frame.size.height/2.3)
         abilityTimerLabel.fontSize = 26
         abilityTimerLabel.fontColor = .red
-        abilityTimerLabel.fontName = "Arial-BoldMT"
         
         // button actions
         // return to menu after win/lose
