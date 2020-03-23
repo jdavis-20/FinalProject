@@ -37,7 +37,6 @@ var yVelocity: CGFloat = 0.0
 
 // game state values
 var startPressed = false
-var updateTilt = false
 var enemyInit = false
 var abilityActive = false
 var playerWon = false
@@ -53,6 +52,7 @@ var playerItems: Int = 0
 var totalItems = 0
 var abilityTimerSeconds = 10
 var abilityUses = 3
+var orientationMulitplier: Double = 1
 
 var sfxVol: Float = 1
 var musicVol: Float = 1
@@ -180,21 +180,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func resetTilt() {
-//        updateTilt = true
-//        if motionManager.isAccelerometerAvailable {
-//            motionManager.accelerometerUpdateInterval = 0.01
-//            motionManager.startAccelerometerUpdates(to: .main) {
-//                (data, error) in
-//                guard let data = data, error == nil else {
-//                    return
-//                }
-//                if updateTilt == true {
-//                    updateTilt = false
-//                    playerTilt = data.acceleration.x
-//                    print(playerTilt)
-//                }
-//            }
-//        }
         playerTilt = motionManager.accelerometerData?.acceleration.x
     }
     
@@ -204,6 +189,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         camera!.setScale(1.5)
         let zoomOut = SKAction.scale(by: 1.5, duration: 1.2)
         camera!.run(zoomOut)
+        
+        // lock rotation within levels
+//        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+//        appDelegate.enableAllOrientation = false
+        
+//        let value = UIInterfaceOrientation.portrait.rawValue
+//        UIDevice.current.setValue(value, forKey: "orientation")
         
         // values that need to be reset at the start of a new level
         charSelPopup.character = ""
@@ -368,7 +360,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
                 
                 if (startPressed == true) {
-                    let dataXAdjusted = -data.acceleration.x + playerTilt!
+                    let dataXAdjusted = -data.acceleration.x + playerTilt! * orientationMulitplier
+                    
 //                  flat = 0, forward is +, back is -
 //                  tilt foward goes up to 1 fully vertical, past it goes back from 1
 //                  tilt back goes up to -1 fully vertical, past it goes back from -1
@@ -379,22 +372,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         
                         // RIGHT
                         if (data.acceleration.y > 0.06) && (data.acceleration.y < 0.4) {
-                            xVelocity = CGFloat((data.acceleration.y) * 800) // right speed
+                            xVelocity = CGFloat(data.acceleration.y * 800 * orientationMulitplier) // right speed
                             playerXDirection = "right"
                         }
                         if (data.acceleration.y > 0.4){
 //                            print("right cap hit")
-                            xVelocity = CGFloat(0.4 * 800) // max right speed
+                            xVelocity = CGFloat(0.4 * 800 * orientationMulitplier) // max right speed
                             playerXDirection = "right"
                         }
                         // LEFT
                         if (data.acceleration.y < -0.06) && (data.acceleration.y > -0.4) {
-                            xVelocity = CGFloat((data.acceleration.y) * 800) // left speed
+                            xVelocity = CGFloat(data.acceleration.y * 800 * orientationMulitplier) // left speed
                             playerXDirection = "left"
                         }
                         if (data.acceleration.y < -0.4){
 //                            print("left cap hit")
-                            xVelocity = CGFloat(-0.4 * 800) // max left speed
+                            xVelocity = CGFloat(-0.4 * 800 * orientationMulitplier) // max left speed
                             playerXDirection = "left"
                         }
                     }
@@ -411,23 +404,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
                         // UP
                         if (dataXAdjusted > 0.06) && (dataXAdjusted < 0.4) {
-                            yVelocity = CGFloat(dataXAdjusted * 800) // up speed
+                            yVelocity = CGFloat(dataXAdjusted * 800 * orientationMulitplier) // up speed
                             playerYDirection = "up"
                         }
                         if (dataXAdjusted > 0.4) {
 //                            print("forward cap hit")
-                            yVelocity = CGFloat(0.4 * 800) // max up speed
+                            yVelocity = CGFloat(0.4 * 800 * orientationMulitplier) // max up speed
                             playerYDirection = "up"
                         }
                         // DOWN
                         if (dataXAdjusted < -0.06) && (dataXAdjusted > -0.4) {
-                            yVelocity = CGFloat(dataXAdjusted * 1000) // down speed
+                            yVelocity = CGFloat(dataXAdjusted * 1000 * orientationMulitplier) // down speed
                             // is faster because tilting down moves the screen out of the player's view
                             playerYDirection = "down"
                         }
                         if (dataXAdjusted < -0.4) {
 //                            print("backward cap hit")
-                            yVelocity = CGFloat(-0.4 * 1000) // max down speed
+                            yVelocity = CGFloat(-0.4 * 1000 * orientationMulitplier) // max down speed
                             playerYDirection = "down"
                         }
                         
@@ -644,6 +637,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     // called every frame--------------------------------------------------------------------------------------------------
     override func update(_ currentTime: TimeInterval) {
+        if UIDevice.current.orientation == UIDeviceOrientation.landscapeLeft{
+            orientationMulitplier = -1
+            print("ORIENTATION LEFT")
+        }
+        if UIDevice.current.orientation == UIDeviceOrientation.landscapeRight{
+            orientationMulitplier = 1
+            print("ORIENTATION RIGHT")
+        }
+        
         // update volume
         sfxVol = Float(optionsPopup.sfxVol.volValue/10)
         musicVol = Float(optionsPopup.musicVol.volValue/10)
