@@ -35,6 +35,7 @@ class Button: SKNode {
         activeButton.isHidden = true
         action = nil
         altAction = nil
+        buttonLabel.run(textDefault)
         buttonLabel.text = label
         buttonLabel.fontName = "Conductive"
         buttonLabel.fontColor = .white

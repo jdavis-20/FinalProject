@@ -291,7 +291,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // button returning to main menu
         let returnButton = Button(defaultButtonImage: "button",
                                   activeButtonImage: "buttonflat",
-                                  label: "main menu",
+                                  label: "Menu",
                                   toggle: false)
         returnButton.action = returnToMenu
         returnButton.position = CGPoint(x: 0, y: -40)
@@ -300,7 +300,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // button to accesss options
         let optionsButton = Button(defaultButtonImage: "button",
                                    activeButtonImage: "buttonflat",
-                                   label: "options",
+                                   label: "Options",
                                    toggle: false)
         optionsButton.action = options
         optionsButton.position = CGPoint(x: 0, y: 40)
@@ -548,6 +548,27 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 let reboundUp = SKAction.applyImpulse(CGVector(dx: 0, dy: reboundImpulse), duration: 0.1)
                 let reboundDown = SKAction.applyImpulse(CGVector(dx: 0, dy: -reboundImpulse), duration: 0.1)
                 
+                func enemyDelay() {
+                    if aNode! is Enemy {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+//                            aNode!.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
+                            aNode!.physicsBody?.isDynamic = false
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                                aNode!.physicsBody?.isDynamic = true
+                            }
+                        }
+                    }
+                    if bNode! is Enemy {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+//                            bNode!.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
+                            bNode!.physicsBody?.isDynamic = false
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                                bNode!.physicsBody?.isDynamic = true
+                            }
+                        }
+                    }
+                }
+                
                 // enemy & player will rebound only vertical or horizontal,
                 // whichever difference in position is greater
                 if (abs(aNode!.position.x - bNode!.position.x) > abs(aNode!.position.y - bNode!.position.y)) {
@@ -556,11 +577,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         aNode!.run(reboundLeft)
                         bNode!.run(reboundRight)
                         print("ENEMY: rebound left")
+                        enemyDelay()
                     }
                     if (aNode!.position.x > bNode!.position.x) {
                         aNode!.run(reboundRight)
                         bNode!.run(reboundLeft)
                         print("ENEMY: rebound right")
+                        enemyDelay()
                     }
                 }
                 if (abs(aNode!.position.y - bNode!.position.y) > abs(aNode!.position.x - bNode!.position.x)) {
@@ -569,11 +592,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         aNode!.run(reboundDown)
                         bNode!.run(reboundUp)
                         print("ENEMY: rebound down")
+                        enemyDelay()
                     }
                     if (aNode!.position.y > bNode!.position.y) {
                         aNode!.run(reboundUp)
                         bNode!.run(reboundDown)
                         print("ENEMY: rebound up")
+                        enemyDelay()
                     }
                 }
             }
