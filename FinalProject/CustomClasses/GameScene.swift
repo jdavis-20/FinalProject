@@ -187,8 +187,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         // scaling the view
-        camera!.setScale(1.5)
-        let zoomOut = SKAction.scale(by: 1.5, duration: 1.2)
+        camera!.setScale(3) // higher num to zoom out
+        let zoomOut = SKAction.scale(by: 0.7 , duration: 1.2) // lower num to zoom in
         camera!.run(zoomOut)
         
         // values that need to be reset at the start of a new level
@@ -203,75 +203,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         playerItems = 0
         totalItems = 0
         
-        charSelPopup.run(moveInFrame)
-        for popup in [optionsPopup, itemPopup, winPopup, losePopup] {
-            popup.run(moveOutOfFrame)
-        }
-        
         // only nodes that are children of worldNode will be paused
         // allows menus to work after they are opened
         addChild(worldNode)
-        
-        // creates character select popup at the start of the level
-        camera!.addChild(charSelPopup)
-        charSelPopup.visible()
-        charSelOut = true
-        pause(slideMenu)
-        
-        for button in [charSelPopup.char1button, charSelPopup.char2button, charSelPopup.char3button] {
-        button.activeButton.isHidden = true
-        button.defaultButton.isHidden = false
-        }
-        
-        // add health and item counters to HUD
-        for label in [healthLabel, itemLabel, abilityTimerLabel] {
-            label.fontName = "Conductive"
-        }
-        
-        healthLabel.position = CGPoint(x: -frame.size.width/2.2 , y: frame.size.height/2.5)
-        camera!.addChild(healthLabel)
-        
-        itemLabel.position = CGPoint(x: -frame.size.width/2.6 , y: frame.size.height/2.5)
-        camera!.addChild(itemLabel)
-        
-        abilityTimerLabel.position = CGPoint(x: 0, y: frame.size.height/2.3)
-        abilityTimerLabel.fontSize = 26
-        abilityTimerLabel.fontColor = .red
-        
-        // button actions
-        // return to menu after win/lose
-        losePopup.loseReturnButton.action = returnToMenu
-        winPopup.winReturnButton.action = returnToMenu
-        // set tilt and start moving
-        charSelPopup.startButton.action = startGame
-
-        // menu setup
-        slideMenu = Menu(screenHeight: frame.size.height,
-                          screenWidth: frame.size.width)
-        slideMenu.position = CGPoint(x: ((frame.size.width / 3) * 2),
-                                      y: 0)
-        camera!.addChild(slideMenu)
-        slideMenu.zPosition = 1
-        
-        // button returning to main menu
-        let returnButton = Button(defaultButtonImage: "button",
-                                    activeButtonImage: "buttonflat",
-                                    label: "main menu",
-                                    toggle: false)
-        returnButton.action = returnToMenu
-        returnButton.position = CGPoint(x: 0,
-                                        y: -40)
-        slideMenu.addChild(returnButton)
-        
-        // button to accesss options
-        let optionsButton = Button(defaultButtonImage: "button",
-                                  activeButtonImage: "buttonflat",
-                                  label: "options",
-                                  toggle: false)
-        optionsButton.action = options
-        optionsButton.position = CGPoint(x: 0,
-                                        y: 40)
-        slideMenu.addChild(optionsButton)
         
         // prep for swipe detection
         let leftRecognizer = UISwipeGestureRecognizer(target: self,
@@ -329,13 +263,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         worldNode.addChild(player)
         
-        // popups------------------------------------------------------------------------------------------------------------
-        optionsPopup.tiltResetButton.action = resetTilt
-        itemPopup.invisible()
-        camera!.addChild(itemPopup)
-        optionsPopup.invisible()
-        camera!.addChild(optionsPopup)
-        
+        // popups/menus------------------------------------------------------------------------------------------------------
+        // moves popups into initial positions
+        charSelPopup.run(moveInFrame)
+        for popup in [optionsPopup, itemPopup, winPopup, losePopup] {
+            popup.run(moveOutOfFrame)
+        }
         for popup in [itemPopup, optionsPopup, winPopup, losePopup, charSelPopup] {
             popup.zPosition = slideMenu.zPosition + 2
             for child in popup.children {
@@ -348,6 +281,68 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
         
+        // slide menu setup
+        slideMenu = Menu(screenHeight: frame.size.height,
+                         screenWidth: frame.size.width)
+        slideMenu.position = CGPoint(x: ((frame.size.width / 3) * 2),
+                                     y: 0)
+        camera!.addChild(slideMenu)
+        slideMenu.zPosition = 1
+        // button returning to main menu
+        let returnButton = Button(defaultButtonImage: "button",
+                                  activeButtonImage: "buttonflat",
+                                  label: "main menu",
+                                  toggle: false)
+        returnButton.action = returnToMenu
+        returnButton.position = CGPoint(x: 0, y: -40)
+        slideMenu.addChild(returnButton)
+        
+        // button to accesss options
+        let optionsButton = Button(defaultButtonImage: "button",
+                                   activeButtonImage: "buttonflat",
+                                   label: "options",
+                                   toggle: false)
+        optionsButton.action = options
+        optionsButton.position = CGPoint(x: 0, y: 40)
+        slideMenu.addChild(optionsButton)
+        
+        // character select popup setup
+        camera!.addChild(charSelPopup)
+        // button sets tilt and start moving
+        charSelPopup.startButton.action = startGame
+        charSelPopup.visible()
+        charSelOut = true
+        pause(slideMenu)
+        for button in [charSelPopup.char1button, charSelPopup.char2button, charSelPopup.char3button] {
+            button.activeButton.isHidden = true
+            button.defaultButton.isHidden = false
+        }
+        
+        // item popup setup
+        itemPopup.invisible()
+        camera!.addChild(itemPopup)
+        // options popup setup
+        optionsPopup.tiltResetButton.action = resetTilt
+        optionsPopup.invisible()
+        camera!.addChild(optionsPopup)
+        
+        // add health and item counters to HUD
+        for label in [healthLabel, itemLabel, abilityTimerLabel] {
+            label.fontName = "Conductive"
+            label.verticalAlignmentMode = .center
+        }
+        healthLabel.position = CGPoint(x: -frame.size.width/2 + 25 , y: frame.size.height/2 - 20)
+        camera!.addChild(healthLabel)
+        itemLabel.position = CGPoint(x: -frame.size.width/2 + 85 , y: frame.size.height/2 - 20)
+        camera!.addChild(itemLabel)
+        abilityTimerLabel.position = CGPoint(x: 0, y: frame.size.height/2 - 20)
+        abilityTimerLabel.fontSize = 26
+        abilityTimerLabel.fontColor = .red
+        
+        // return to menu after win/lose
+        losePopup.loseReturnButton.action = returnToMenu
+        winPopup.winReturnButton.action = returnToMenu
+
         // ACCELEROMETER----------------------------------------------------------------------------------------------------
         if motionManager.isAccelerometerAvailable {
             motionManager.accelerometerUpdateInterval = 0.01
@@ -686,7 +681,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         // player is semi-transparent when using camo
         if charChoice == "Bot" && abilityActive == true {
-            player.alpha = 0.3
+            player.alpha = 0.4
         }
         else {
             player.alpha = 1
