@@ -67,6 +67,7 @@ var abilityTimer = Timer()
 // movement and animation
 let moveInFrame = SKAction.move(to: CGPoint(x: 0, y: 0), duration: 0)
 let moveOutOfFrame = SKAction.move(to: CGPoint(x: 4000, y: 7000), duration: 0)
+let appDelegate = UIApplication.shared.delegate as! AppDelegate
 
 // TODO: needs to change based on character choice- script or set additional variables?
 let awaySprite = SKAction.setTexture(SKTexture(imageNamed: "BlueFront"))
@@ -160,14 +161,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let menuScene = SKScene(fileNamed: "MenuScene")
         let transition: SKTransition = SKTransition.fade(withDuration: 1)
         self.view?.presentScene(menuScene!, transition: transition)
-
-        abilityTimer.invalidate()
-        
-        for parent in [worldNode, camera!, self] {
-            parent.removeAllChildren()
-        }
-
-        self.removeAllActions()
     }
     
     // options button in the in-game menu
@@ -186,8 +179,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     //executes when the scene is first loaded------------------------------------------------------------------------------
     override func didMove(to view: SKView) {
         // lock rotation within levels
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-
         if UIApplication.shared.statusBarOrientation == .landscapeLeft {
             appDelegate.restrictRotation = .landscapeLeft
         }
@@ -713,7 +704,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     override func willMove(from view: SKView) {
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
         appDelegate.restrictRotation = .landscape
+        abilityTimer.invalidate()
+        
+        for parent in [worldNode, camera!, self] {
+            parent.removeAllChildren()
+        }
+        
+        self.removeAllActions()
     }
 }

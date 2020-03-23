@@ -229,6 +229,10 @@ class Enemy: SKSpriteNode {
                 
             }
         }
+        else {
+            followPlayer = false
+            enemySpeed = normalSpeed
+        }
 
         // TODO: make sure this is working properly
         // bounce back and switch directions if colliding with another enemy
