@@ -63,19 +63,21 @@ class Popup: SKNode {
         
         popupNode = SKSpriteNode(imageNamed: "pop")
         popupNode.isHidden = true
+        popupNode.name = "popupNode"
         label.isHidden = true
-        popupNode.zPosition = 2
+        popupNode.zPosition = 3
         label.fontName = "Conductive"
-        label.zPosition = 3
+//        label.zPosition = 4
         label.position = CGPoint(x: 0, y: popupNode.frame.size.height/4)
-        itemName.zPosition = 3
+//        itemName.zPosition = 4
         popupNode.position = CGPoint(x: 0, y: 0)
         popupNode.alpha = 0.8
+        itemName.fontName = "Conductive"
         
         sfxVol.position = CGPoint(x: 0, y: 40)
-        sfxVol.zPosition = 3
+//        sfxVol.zPosition = 4
         musicVol.position = CGPoint(x: 0, y: -40)
-        musicVol.zPosition = 3
+//        musicVol.zPosition = 4
 
         
         character = ""
@@ -85,33 +87,33 @@ class Popup: SKNode {
                              label: "ch1",
                              toggle: true)
         char1button.position = CGPoint(x: -popupNode.frame.size.width/4, y: 0)
-        char1button.zPosition = 3
+//        char1button.zPosition = 3
         char2button = Button(defaultButtonImage: "button",
                              activeButtonImage: "buttonflat",
                              label: "ch2",
                              toggle: true)
         char2button.position = CGPoint(x: 0, y: 0)
-        char2button.zPosition = 3
+//        char2button.zPosition = 3
         char3button = Button(defaultButtonImage: "button",
                              activeButtonImage: "buttonflat",
                              label: "ch3",
                              toggle: true)
         char3button.position = CGPoint(x: popupNode.frame.size.width/4, y: 0)
-        char3button.zPosition = 3
+//        char3button.zPosition = 3
         
         loseReturnButton = Button(defaultButtonImage: "button",
                                   activeButtonImage: "buttonflat",
                                   label: "main menu",
                                   toggle: false)
         loseReturnButton.position = CGPoint(x: 0, y: 40)
-        loseReturnButton.zPosition = 3
+//        loseReturnButton.zPosition = 3
         
         winReturnButton = Button(defaultButtonImage: "button",
                                  activeButtonImage: "buttonflat",
                                  label: "main menu",
                                  toggle: false)
         winReturnButton.position = CGPoint(x: 0, y: 40)
-        winReturnButton.zPosition = 3
+//        winReturnButton.zPosition = 3
         
         startButton = Button(defaultButtonImage: "button",
                              activeButtonImage: "buttonflat",
@@ -119,14 +121,14 @@ class Popup: SKNode {
                              toggle: false)
         startButton.position = CGPoint(x: 0,
                                        y: -80)
-        startButton.zPosition = 3
+//        startButton.zPosition = 3
         tiltResetButton = Button(defaultButtonImage: "button",
                                  activeButtonImage: "buttonflat",
                                  label: "reset tilt",
                                  toggle: false)
         tiltResetButton.position = CGPoint(x: 0,
                                            y: -100)
-        tiltResetButton.zPosition = 3
+//        tiltResetButton.zPosition = 3
         
         super.init()
 

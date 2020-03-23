@@ -15,12 +15,20 @@ class Button: SKNode {
     var action: (() -> ())?
     var altAction: (() -> ())?
     var isToggle: Bool
+    var textActive: SKAction = SKAction.move(to: CGPoint(x: -3, y: 3), duration: 0)
+    var textDefault: SKAction = SKAction.move(to: CGPoint(x: 3, y: -3), duration: 0)
     
     //takes a default and active version of the button
     init(defaultButtonImage: String,
          activeButtonImage: String,
          label: String = "",
-         toggle: Bool) {
+         toggle: Bool,
+         textMove: Bool = true) {
+        
+        if textMove == false {
+            textActive = SKAction.move(by: CGVector(dx: 0, dy: 0), duration: 0)
+            textDefault = SKAction.move(by: CGVector(dx: 0, dy: 0), duration: 0)
+        }
         
         defaultButton = SKSpriteNode(imageNamed: defaultButtonImage)
         activeButton = SKSpriteNode(imageNamed: activeButtonImage)
@@ -32,7 +40,7 @@ class Button: SKNode {
         buttonLabel.fontColor = .white
         buttonLabel.fontSize = 24
         buttonLabel.verticalAlignmentMode = .center
-        buttonLabel.zPosition = 2
+        buttonLabel.zPosition = 1
         isToggle = toggle
         
         super.init()
@@ -52,10 +60,12 @@ class Button: SKNode {
         if activeButton.isHidden == true && defaultButton.isHidden == false {
             activeButton.isHidden = false
             defaultButton.isHidden = true
+            buttonLabel.run(textActive)
         }
         else if activeButton.isHidden == false && defaultButton.isHidden == true {
             activeButton.isHidden = true
             defaultButton.isHidden = false
+            buttonLabel.run(textDefault)
         }
     }
     
@@ -64,6 +74,7 @@ class Button: SKNode {
         if isToggle == false {
             activeButton.isHidden = false
             defaultButton.isHidden = true
+            buttonLabel.run(textActive)
         }
         if isToggle == true {
             toggle()
@@ -79,9 +90,12 @@ class Button: SKNode {
                 if defaultButton.contains(location) {
                     activeButton.isHidden = false
                     defaultButton.isHidden = true
+                    buttonLabel.run(textActive)
+                    
                 } else {
                     activeButton.isHidden = true
                     defaultButton.isHidden = false
+                    buttonLabel.run(textDefault)
                 }
             }
         }
@@ -104,6 +118,7 @@ class Button: SKNode {
             if isToggle == false {
                 activeButton.isHidden = true
                 defaultButton.isHidden = false
+                buttonLabel.run(textDefault)
             }
         }
     }

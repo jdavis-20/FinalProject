@@ -40,9 +40,13 @@ class VolumeControl: SKNode {
     
     init(label: String) {
         volValue = 10
-        plusButton = Button(defaultButtonImage: "volcircle", activeButtonImage: "volcircle", label: "+", toggle: false)
+        plusButton = Button(defaultButtonImage: "volcircle", activeButtonImage: "volcircle",
+                            label: "+",
+                            toggle: false, textMove: false)
 //        plusButton.setScale(0.8)
-        minusButton = Button(defaultButtonImage: "volcircle", activeButtonImage: "volcircle", label: "-", toggle: false)
+        minusButton = Button(defaultButtonImage: "volcircle", activeButtonImage: "volcircle",
+                             label: "-",
+                             toggle: false, textMove: false)
 //        minusButton.setScale(0.8)
         
         volumeLabel = SKLabelNode(text: String(volValue))

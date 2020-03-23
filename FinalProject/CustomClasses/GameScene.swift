@@ -185,17 +185,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     //executes when the scene is first loaded------------------------------------------------------------------------------
     override func didMove(to view: SKView) {
+        // lock rotation within levels
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+
+        if UIApplication.shared.statusBarOrientation == .landscapeLeft {
+            appDelegate.restrictRotation = .landscapeLeft
+        }
+        if UIApplication.shared.statusBarOrientation == .landscapeRight {
+            appDelegate.restrictRotation = .landscapeRight
+        }
+        
         // scaling the view
         camera!.setScale(1.5)
         let zoomOut = SKAction.scale(by: 1.5, duration: 1.2)
         camera!.run(zoomOut)
-        
-        // lock rotation within levels
-//        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-//        appDelegate.enableAllOrientation = false
-        
-//        let value = UIInterfaceOrientation.portrait.rawValue
-//        UIDevice.current.setValue(value, forKey: "orientation")
         
         // values that need to be reset at the start of a new level
         charSelPopup.character = ""
@@ -342,6 +345,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         optionsPopup.invisible()
         camera!.addChild(optionsPopup)
         
+        for popup in [itemPopup, optionsPopup, winPopup, losePopup, charSelPopup] {
+            popup.zPosition = slideMenu.zPosition + 2
+            for child in popup.children {
+                if child.name != "popupNode" {
+                    child.zPosition = popup.zPosition + 1
+                }
+                if child.name == "popupNode" {
+                    child.zPosition = popup.zPosition
+                }
+            }
+        }
+        
         // ACCELEROMETER----------------------------------------------------------------------------------------------------
         if motionManager.isAccelerometerAvailable {
             motionManager.accelerometerUpdateInterval = 0.01
@@ -360,7 +375,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
                 
                 if (startPressed == true) {
-                    let dataXAdjusted = -data.acceleration.x + playerTilt! * orientationMulitplier
+                    let dataXAdjusted = -data.acceleration.x + playerTilt! //* orientationMulitplier
                     
 //                  flat = 0, forward is +, back is -
 //                  tilt foward goes up to 1 fully vertical, past it goes back from 1
@@ -582,15 +597,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 ((aName == "player") && (bNode! is Item)) {
                 if aNode! is Item {
                     aNode!.removeFromParent()
+                    itemPopup.itemName.text = aName
                 }
                 if bNode! is Item {
                     bNode!.removeFromParent()
+                    itemPopup.itemName.text = bName
                 }
                 print("COLLSION: player got item, item count is \(playerItems) out of \(totalItems)")
                 
                 playerItems += 1
                 itemPopupOut = true
-                itemPopup.itemName.text = bName
                 itemPopup.run(moveInFrame)
                 itemPopup.visible()
                 pause(slideMenu)
@@ -639,11 +655,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override func update(_ currentTime: TimeInterval) {
         if UIDevice.current.orientation == UIDeviceOrientation.landscapeLeft{
             orientationMulitplier = -1
-            print("ORIENTATION LEFT")
         }
         if UIDevice.current.orientation == UIDeviceOrientation.landscapeRight{
             orientationMulitplier = 1
-            print("ORIENTATION RIGHT")
         }
         
         // update volume
@@ -697,5 +711,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 pause(slideMenu)
             }
         }
+    }
+    override func willMove(from view: SKView) {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        appDelegate.restrictRotation = .landscape
     }
 }
