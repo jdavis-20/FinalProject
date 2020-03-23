@@ -18,7 +18,7 @@ class Popup: SKNode {
     
     var char1button: Button, char2button: Button, char3button: Button
     var loseReturnButton: Button, winReturnButton: Button, startButton: Button
-    var tiltResetButton: Button
+    var tiltResetButton: Button, vibrateButton: Button
     
     var sfxVol = VolumeControl(label: "SFX")
     var musicVol = VolumeControl(label: "Music")
@@ -74,61 +74,33 @@ class Popup: SKNode {
         popupNode.alpha = 0.8
         itemName.fontName = "Conductive"
         
-        sfxVol.position = CGPoint(x: 0, y: 40)
-//        sfxVol.zPosition = 4
-        musicVol.position = CGPoint(x: 0, y: -40)
-//        musicVol.zPosition = 4
+        sfxVol.position = CGPoint(x: -75, y: 40)
+        musicVol.position = CGPoint(x: 75, y: 40)
 
-        
         character = ""
 
-        char1button = Button(defaultButtonImage: "button",
-                             activeButtonImage: "buttonflat",
-                             label: "Slow",
-                             toggle: true)
+        char1button = Button(label: "Slow", toggle: true)
         char1button.position = CGPoint(x: -popupNode.frame.size.width/4, y: 0)
-//        char1button.zPosition = 3
-        char2button = Button(defaultButtonImage: "button",
-                             activeButtonImage: "buttonflat",
-                             label: "Camo",
-                             toggle: true)
+        char2button = Button(label: "Camo", toggle: true)
         char2button.position = CGPoint(x: 0, y: 0)
-//        char2button.zPosition = 3
-        char3button = Button(defaultButtonImage: "button",
-                             activeButtonImage: "buttonflat",
-                             label: "Pull",
-                             toggle: true)
+        char3button = Button(label: "Pull", toggle: true)
         char3button.position = CGPoint(x: popupNode.frame.size.width/4, y: 0)
-//        char3button.zPosition = 3
         
-        loseReturnButton = Button(defaultButtonImage: "button",
-                                  activeButtonImage: "buttonflat",
-                                  label: "Menu",
-                                  toggle: false)
+        loseReturnButton = Button(label: "Menu")
         loseReturnButton.position = CGPoint(x: 0, y: 40)
-//        loseReturnButton.zPosition = 3
         
-        winReturnButton = Button(defaultButtonImage: "button",
-                                 activeButtonImage: "buttonflat",
-                                 label: "Menu",
-                                 toggle: false)
+        winReturnButton = Button(label: "Menu")
         winReturnButton.position = CGPoint(x: 0, y: 40)
-//        winReturnButton.zPosition = 3
         
-        startButton = Button(defaultButtonImage: "button",
-                             activeButtonImage: "buttonflat",
-                             label: "Start",
-                             toggle: false)
-        startButton.position = CGPoint(x: 0,
-                                       y: -80)
-//        startButton.zPosition = 3
-        tiltResetButton = Button(defaultButtonImage: "buttonwide",
-                                 activeButtonImage: "flatwide",
-                                 label: "Recalibrate",
-                                 toggle: false)
-        tiltResetButton.position = CGPoint(x: 0,
-                                           y: -100)
-//        tiltResetButton.zPosition = 3
+        startButton = Button(label: "Start")
+        startButton.position = CGPoint(x: 0, y: -80)
+        
+        tiltResetButton = Button(defaultButtonImage: "buttonwide", activeButtonImage: "flatwide",
+                                 label: "Recalibrate")
+        tiltResetButton.position = CGPoint(x: 0, y: -30)
+        vibrateButton = Button(defaultButtonImage: "buttonwide", activeButtonImage: "flatwide",
+                               label: "Vibrate On", toggle: true)
+        vibrateButton.position = CGPoint(x: 0, y: -100)
         
         super.init()
 
@@ -162,6 +134,7 @@ class Popup: SKNode {
             self.addChild(sfxVol)
             self.addChild(musicVol)
             self.addChild(tiltResetButton)
+            self.addChild(vibrateButton)
         }
         
         if type == "charsel"{

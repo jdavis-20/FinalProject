@@ -19,10 +19,10 @@ class Button: SKNode {
     var textDefault: SKAction = SKAction.move(to: CGPoint(x: 3, y: -3), duration: 0)
     
     //takes a default and active version of the button
-    init(defaultButtonImage: String,
-         activeButtonImage: String,
+    init(defaultButtonImage: String = "button",
+         activeButtonImage: String = "buttonflat",
          label: String = "",
-         toggle: Bool,
+         toggle: Bool = false,
          textMove: Bool = true) {
         
         if textMove == false {

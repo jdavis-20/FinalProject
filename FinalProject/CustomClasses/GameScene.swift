@@ -129,14 +129,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     // method to play sounds & vibration
-    func sfx(_ file: String, vibrate: Bool = true) {
-        let sound = SKAction.playSoundFileNamed(file, waitForCompletion: false)
-        SKAction.changeVolume(to: sfxVol, duration: 0)
-        self.run(sound)
-        // TODO: vibration response
+    func sfx(_ file: String? = nil, vibrate: Bool = true) {
+        if file != nil {
+            let sound = SKAction.playSoundFileNamed(file!, waitForCompletion: false)
+            SKAction.changeVolume(to: sfxVol, duration: 0)
+            self.run(sound)
+        }
         if vibrate == true && vibrateOn == true {
-            AudioServicesPlaySystemSound(1519)
-//          AudioServicesPlayAlertSound(kSystemSoundID_Vibrate)
+//            AudioServicesPlaySystemSound(1519)
+          AudioServicesPlayAlertSound(kSystemSoundID_Vibrate)
         }
     }
     
@@ -174,6 +175,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func resetTilt() {
         playerTilt = motionManager.accelerometerData?.acceleration.x
+        print("INIT: new tilt angle is \(Int(playerTilt! * 90))")
+    }
+    
+    func vibOn() {
+        optionsPopup.vibrateButton.buttonLabel.text = "Vibrate On"
+        vibrateOn = true
+    }
+    func vibOff() {
+        optionsPopup.vibrateButton.buttonLabel.text = "Vibrate Off"
+        vibrateOn = false
     }
     
     //executes when the scene is first loaded------------------------------------------------------------------------------
@@ -325,6 +336,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         optionsPopup.tiltResetButton.action = resetTilt
         optionsPopup.invisible()
         camera!.addChild(optionsPopup)
+        
+        optionsPopup.vibrateButton.action = vibOff
+        optionsPopup.vibrateButton.altAction = vibOn
         
         // add health and item counters to HUD
         for label in [healthLabel, itemLabel, abilityTimerLabel] {
@@ -528,8 +542,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 ((aName == "player") && (bNode is Enemy)) {
                 playerHealth -= 1
                 // TODO: play sound & vibration
-                // sfx("filename")
-                AudioServicesPlayAlertSound(kSystemSoundID_Vibrate)
+                 sfx()
+//                AudioServicesPlayAlertSound(kSystemSoundID_Vibrate)
                 print("COLLISION: player touched enemy, health = \(playerHealth)")
                 
                 // ---LOSE CONDITION---
@@ -549,9 +563,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 let reboundDown = SKAction.applyImpulse(CGVector(dx: 0, dy: -reboundImpulse), duration: 0.1)
                 
                 func enemyDelay() {
+                    // delay after rebound to avoid enemy bouncing against player until health is gone
                     if aNode! is Enemy {
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-//                            aNode!.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
                             aNode!.physicsBody?.isDynamic = false
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                                 aNode!.physicsBody?.isDynamic = true
@@ -560,7 +574,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     }
                     if bNode! is Enemy {
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-//                            bNode!.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
                             bNode!.physicsBody?.isDynamic = false
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                                 bNode!.physicsBody?.isDynamic = true
