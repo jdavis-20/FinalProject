@@ -296,7 +296,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             popup.zPosition = slideMenu.zPosition + 2
             for child in popup.children {
                 if child.name != "popupNodeButton" {
-                    child.zPosition = popup..zPosition + 1
+                    child.zPosition = popup.zPosition + 1
                 }
                 if child.name == "popupNodeButton" {
                     child.zPosition = popup.zPosition

@@ -11,6 +11,8 @@ import SpriteKit
 
 class VolumeControl: SKNode {
     
+    // TODO: add mute button
+    
     var plusButton: Button!
     var minusButton: Button!
     var volumeLabel = SKLabelNode()
