@@ -11,7 +11,8 @@ import UIKit
 
 class Popup: SKNode {
     
-    let popupNode: SKSpriteNode
+//    let popupNode: SKSpriteNode
+    let popupNodeButton: Button
     var label = SKLabelNode()
     var itemName = SKLabelNode()
     var character: String
@@ -61,18 +62,15 @@ class Popup: SKNode {
     
     init(type: String, worldNode: SKNode) {
         
-        popupNode = SKSpriteNode(imageNamed: "pop")
-        popupNode.isHidden = true
-        popupNode.name = "popupNode"
-        popupNode.isUserInteractionEnabled = true
+        popupNodeButton = Button(defaultButtonImage: "pop", activeButtonImage: "pop", textMove: false)
+        popupNodeButton.name = "popupNodeButton"
+        popupNodeButton.isHidden = true
         label.isHidden = true
-        popupNode.zPosition = 3
+        popupNodeButton.zPosition = 3
         label.fontName = "Conductive"
-//        label.zPosition = 4
-        label.position = CGPoint(x: 0, y: popupNode.frame.size.height/4)
-//        itemName.zPosition = 4
-        popupNode.position = CGPoint(x: 0, y: 0)
-        popupNode.alpha = 0.8
+        label.position = CGPoint(x: 0, y: popupNodeButton.defaultButton.frame.size.height/4)
+        popupNodeButton.position = CGPoint(x: 0, y: 0)
+        popupNodeButton.alpha = 0.8
         itemName.fontName = "Conductive"
         
         sfxVol.position = CGPoint(x: -75, y: 40)
@@ -81,11 +79,11 @@ class Popup: SKNode {
         character = ""
 
         char1button = Button(label: "Slow", toggle: true)
-        char1button.position = CGPoint(x: -popupNode.frame.size.width/4, y: 0)
+        char1button.position = CGPoint(x: -popupNodeButton.defaultButton.frame.size.width/4, y: 0)
         char2button = Button(label: "Camo", toggle: true)
         char2button.position = CGPoint(x: 0, y: 0)
         char3button = Button(label: "Pull", toggle: true)
-        char3button.position = CGPoint(x: popupNode.frame.size.width/4, y: 0)
+        char3button.position = CGPoint(x: popupNodeButton.defaultButton.frame.size.width/4, y: 0)
         
         loseReturnButton = Button(label: "Menu")
         loseReturnButton.position = CGPoint(x: 0, y: 40)
@@ -112,8 +110,10 @@ class Popup: SKNode {
         char2button.altAction = resetChar
         char3button.altAction = resetChar
         
-        self.addChild(popupNode)
+        self.addChild(popupNodeButton)
         self.addChild(label)
+        self.isUserInteractionEnabled = true
+        self.name = "popup"
         
         if type == "win" {
             label.text = "Win"
@@ -144,14 +144,11 @@ class Popup: SKNode {
                 self.addChild(button)
             }
         }
-        
-        isUserInteractionEnabled = true
 }
     
     func visible() {
         worldNode.isPaused = true
-        popupNode.isUserInteractionEnabled = true
-        for node in [popupNode, label, itemName] as [SKNode] {
+        for node in [popupNodeButton, label, itemName] as [SKNode] {
             node.isHidden = false
         }
         for child in self.children {
@@ -160,8 +157,7 @@ class Popup: SKNode {
     }
     func invisible() {
         worldNode.isPaused = false
-        popupNode.isUserInteractionEnabled = false
-        for node in [popupNode, label, itemName] as [SKNode] {
+        for node in [popupNodeButton, label, itemName] as [SKNode] {
             node.isHidden = true
         }
         for child in self.children {

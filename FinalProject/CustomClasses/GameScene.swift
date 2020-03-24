@@ -173,6 +173,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         pause(slideMenu)
     }
     
+    func closeItemPopup() {
+        print("TOUCH: item popup closed")
+        itemPopupOut = false
+        itemPopup.invisible()
+        resume(slideMenu)
+        itemPopup.run(moveOutOfFrame)
+    }
+    
     func resetTilt() {
         playerTilt = motionManager.accelerometerData?.acceleration.x
         print("INIT: new tilt angle is \(Int(playerTilt! * 90))")
@@ -287,10 +295,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         for popup in [itemPopup, optionsPopup, winPopup, losePopup, charSelPopup] {
             popup.zPosition = slideMenu.zPosition + 2
             for child in popup.children {
-                if child.name != "popupNode" {
-                    child.zPosition = popup.zPosition + 1
+                if child.name != "popupNodeButton" {
+                    child.zPosition = popup..zPosition + 1
                 }
-                if child.name == "popupNode" {
+                if child.name == "popupNodeButton" {
                     child.zPosition = popup.zPosition
                 }
             }
@@ -330,6 +338,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // item popup setup
         itemPopup.invisible()
         itemPopup.isUserInteractionEnabled = true
+        itemPopup.popupNodeButton.action = closeItemPopup
         camera!.addChild(itemPopup)
         // options popup setup
         optionsPopup.tiltResetButton.action = resetTilt
@@ -494,20 +503,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // TOUCH--------------------------------------------------------------------------------------------------------------
     override func touchesEnded(_ touches: Set<UITouch>,
                                with event: UIEvent?) {
+        print("touch detected")
+        
         for touch in touches {
             let location = touch.location(in: self)
             
             // touch outside of item popup to close (change to anywhere?)
-            if itemPopupOut == true && !(itemPopup.popupNode.contains(location)) {
-                print("TOUCH: item popup closed")
-                itemPopupOut = false
-                itemPopup.invisible()
-                resume(slideMenu)
-                itemPopup.run(moveOutOfFrame)
+            if itemPopupOut == true && !(itemPopup.popupNodeButton.contains(location)) {
+                closeItemPopup()
             }
             
             // touch outside of options popup to close
-            if optionsPopupOut == true && !(optionsPopup.popupNode.contains(location)) {
+            if optionsPopupOut == true && !(optionsPopup.popupNodeButton.contains(location)) {
                 print("TOUCH: options popup closed")
                 optionsPopupOut = false
                 optionsPopup.invisible()
