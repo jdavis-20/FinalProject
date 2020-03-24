@@ -91,7 +91,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             player.isHidden = false
             charSelPopup.invisible()
             charSelPopup.run(moveOutOfFrame)
-            play(slideMenu)
+            resume(slideMenu)
         }
         // TODO: set sprites for characters
         if charChoice == "Med" {
@@ -110,7 +110,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    // pause and play methods for when menus come out and leave
+    // pause and resume methods for when menus come out and leave
     func pause(_ node: SKNode? = nil){
         worldNode.isPaused = true
         node?.isPaused = true
@@ -119,7 +119,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             abilityTimer.invalidate()
         }
     }
-    func play(_ node: SKNode? = nil) {
+    func resume(_ node: SKNode? = nil) {
         worldNode.isPaused = false
         node?.isPaused = false
         physicsWorld.speed = 1
@@ -329,6 +329,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         // item popup setup
         itemPopup.invisible()
+        itemPopup.isUserInteractionEnabled = true
         camera!.addChild(itemPopup)
         // options popup setup
         optionsPopup.tiltResetButton.action = resetTilt
@@ -471,7 +472,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 print("MENU: right swipe")
                     slideMenu.run(menuLeave)
                     slideMenuOut = false
-                    play()
+                    resume()
             }
         }
     }
@@ -493,9 +494,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // TOUCH--------------------------------------------------------------------------------------------------------------
     override func touchesEnded(_ touches: Set<UITouch>,
                                with event: UIEvent?) {
-        
         for touch in touches {
             let location = touch.location(in: self)
+            
+            // touch outside of item popup to close (change to anywhere?)
+            if itemPopupOut == true && !(itemPopup.popupNode.contains(location)) {
+                print("TOUCH: item popup closed")
+                itemPopupOut = false
+                itemPopup.invisible()
+                resume(slideMenu)
+                itemPopup.run(moveOutOfFrame)
+            }
             
             // touch outside of options popup to close
             if optionsPopupOut == true && !(optionsPopup.popupNode.contains(location)) {
@@ -504,15 +513,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 optionsPopup.invisible()
                 slideMenu.isPaused = false
                 optionsPopup.run(moveOutOfFrame)
-            }
-            
-            // touch outside of item popup to close
-            if itemPopupOut == true && !(itemPopup.popupNode.contains(location)) {
-                print("TOUCH: item popup closed")
-                itemPopupOut = false;
-                itemPopup.invisible();
-                play(slideMenu)
-                itemPopup.run(moveOutOfFrame)
             }
         }
     }

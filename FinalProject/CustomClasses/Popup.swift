@@ -64,6 +64,7 @@ class Popup: SKNode {
         popupNode = SKSpriteNode(imageNamed: "pop")
         popupNode.isHidden = true
         popupNode.name = "popupNode"
+        popupNode.isUserInteractionEnabled = true
         label.isHidden = true
         popupNode.zPosition = 3
         label.fontName = "Conductive"
