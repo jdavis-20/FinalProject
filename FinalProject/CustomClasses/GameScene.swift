@@ -213,6 +213,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         playerHealth = 10
         playerItems = 0
         totalItems = 0
+        playerWon = false
+        winPopupOut = false
+        losePopupOut = false
         
         // only nodes that are children of worldNode will be paused
         // allows menus to work after they are opened
@@ -279,6 +282,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         charSelPopup.run(moveInFrame)
         for popup in [optionsPopup, itemPopup, winPopup, losePopup] {
             popup.run(moveOutOfFrame)
+            popup.invisible()
         }
         for popup in [itemPopup, optionsPopup, winPopup, losePopup, charSelPopup] {
             popup.zPosition = slideMenu.zPosition + 2
@@ -300,19 +304,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         camera!.addChild(slideMenu)
         slideMenu.zPosition = 1
         // button returning to main menu
-        let returnButton = Button(defaultButtonImage: "button",
-                                  activeButtonImage: "buttonflat",
-                                  label: "Menu",
-                                  toggle: false)
+        let returnButton = Button(label: "Menu")
         returnButton.action = returnToMenu
         returnButton.position = CGPoint(x: 0, y: -40)
         slideMenu.addChild(returnButton)
         
         // button to accesss options
-        let optionsButton = Button(defaultButtonImage: "button",
-                                   activeButtonImage: "buttonflat",
-                                   label: "Options",
-                                   toggle: false)
+        let optionsButton = Button(label: "Options")
         optionsButton.action = options
         optionsButton.position = CGPoint(x: 0, y: 40)
         slideMenu.addChild(optionsButton)

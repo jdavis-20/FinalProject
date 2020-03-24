@@ -48,7 +48,6 @@ class MenuScene: SKScene {
         let playButton = Button(defaultButtonImage: "launch",
                                  activeButtonImage: "launch",
                                  label: "Launch",
-                                 toggle: false,
                                  textMove: false)
         playButton.setScale(0.8)
         playButton.action = levelSelect

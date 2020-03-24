@@ -93,8 +93,7 @@ class LevelSelectScene : SKScene {
         //buttons to trigger functions
         
         let l1Button = Button(defaultButtonImage: "yel",
-                                 activeButtonImage: "yell",
-                                 toggle: false)
+                                 activeButtonImage: "yell")
         l1Button.action = playL1
         l1Button.setScale(0.38)
         l1Button.defaultButton.anchorPoint = CGPoint(x: 0, y: 1)
@@ -104,8 +103,7 @@ class LevelSelectScene : SKScene {
         addChild(l1Button)
         
         let l2Button = Button(defaultButtonImage: "blu",
-                              activeButtonImage: "blul",
-                              toggle: false)
+                              activeButtonImage: "blul")
         l2Button.action = playL2
         l2Button.setScale(0.38)
         l2Button.defaultButton.anchorPoint = CGPoint(x: 0.5, y: 0)
@@ -115,8 +113,7 @@ class LevelSelectScene : SKScene {
         addChild(l2Button)
         
         let l3Button = Button(defaultButtonImage: "pur",
-                              activeButtonImage: "purl",
-                              toggle: false)
+                              activeButtonImage: "purl")
         l3Button.action = playL3
         l3Button.setScale(0.38)
         l3Button.defaultButton.anchorPoint = CGPoint(x: 0.5, y: 1)
@@ -126,8 +123,7 @@ class LevelSelectScene : SKScene {
         addChild(l3Button)
         
         let l4Button = Button(defaultButtonImage: "red",
-                              activeButtonImage: "redl",
-                              toggle: false)
+                              activeButtonImage: "redl")
         l4Button.action = playL4
         l4Button.setScale(0.38)
         l4Button.defaultButton.anchorPoint = CGPoint(x: 1, y: 0.5)
