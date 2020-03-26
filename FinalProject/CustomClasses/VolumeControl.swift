@@ -15,8 +15,10 @@ class VolumeControl: SKNode {
     
     var plusButton: Button!
     var minusButton: Button!
+    var muteButton: Button!
     var volumeLabel = SKLabelNode()
     var typeLabel = SKLabelNode()
+    var muted = false
     var volValue: Int = 10
     
     func turnUp() {
@@ -39,6 +41,16 @@ class VolumeControl: SKNode {
             }
         }
     }
+    func mute() {
+        if muted == true {
+            muted = false
+            print("UNMUTE")
+        }
+        else if muted == false {
+            muted = true
+            print("MUTE")
+        }
+    }
     
     init(label: String) {
         volValue = 10
@@ -50,6 +62,9 @@ class VolumeControl: SKNode {
                              label: "-",
                              textMove: false)
 //        minusButton.setScale(0.8)
+        muteButton = Button(defaultButtonImage: "volcircle", activeButtonImage: "volcircle",
+                            label: "M", toggle: true,
+                            textMove: false)
         
         volumeLabel = SKLabelNode(text: String(volValue))
         volumeLabel.name = "volumeLabel"
@@ -63,13 +78,17 @@ class VolumeControl: SKNode {
         typeLabel.position = CGPoint(x: 0, y: 30)
         plusButton.position = CGPoint(x: 40, y: 0)
         minusButton.position = CGPoint(x: -40, y: 0)
+        muteButton.position = CGPoint(x: 70, y: 0)
 
         super.init()
         
         plusButton.action = turnUp
         minusButton.action = turnDown
+        muteButton.action = mute
+        muteButton.altAction = mute
         
         self.addChild(plusButton)
+        self.addChild(muteButton)
         self.addChild(minusButton)
         self.addChild(volumeLabel)
         self.addChild(typeLabel)

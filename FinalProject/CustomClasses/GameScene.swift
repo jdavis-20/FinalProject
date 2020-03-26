@@ -55,7 +55,9 @@ var abilityUses = 3
 var orientationMulitplier: Double = 1
 
 var sfxVol: Float = 1
+var sfxMuted = false
 var musicVol: Float = 1
+var musicMuted = false
 
 // HUD labels
 var healthLabel = SKLabelNode(text: String(10))
@@ -132,7 +134,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func sfx(_ file: String? = nil, vibrate: Bool = true) {
         if file != nil {
             let sound = SKAction.playSoundFileNamed(file!, waitForCompletion: false)
-            SKAction.changeVolume(to: sfxVol, duration: 0)
+            if sfxMuted == false {
+                SKAction.changeVolume(to: sfxVol, duration: 0)
+            }
+            if sfxMuted == true {
+                SKAction.changeVolume(to: 0, duration: 0)
+            }
             self.run(sound)
         }
         if vibrate == true && vibrateOn == true {
@@ -691,7 +698,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         // update volume
         sfxVol = Float(optionsPopup.sfxVol.volValue/10)
+        sfxMuted = optionsPopup.sfxVol.muted
         musicVol = Float(optionsPopup.musicVol.volValue/10)
+        musicMuted = optionsPopup.musicVol.muted
         
         //update HUD text
         healthLabel.text = String(playerHealth)
