@@ -283,7 +283,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         player.physicsBody?.allowsRotation = false
         player.physicsBody?.isDynamic = true
         
-        player.physicsBody?.mass = 0.8
+//        player.physicsBody?.mass = 0.8
         player.physicsBody?.restitution = 0
         player.physicsBody?.contactTestBitMask = 0x00000001
         

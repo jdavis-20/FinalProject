@@ -15,7 +15,7 @@ class MazeWall: SKSpriteNode {
 //        self.name = "wall" //change to individual names later?
         
         self.physicsBody?.isDynamic = false
-        self.physicsBody?.restitution = 1
+        self.physicsBody?.restitution = 0
         self.physicsBody?.categoryBitMask = 0x00000001
 //        print("init maze wall")
     }

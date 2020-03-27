@@ -78,13 +78,13 @@ class VolumeControl: SKNode {
         typeLabel.fontName = "Conductive"
         
         numBkd.position = CGPoint(x: 3, y: -3)
-        labelBkd.position = CGPoint(x: 3, y: 27)
+        labelBkd.position = CGPoint(x: 3, y: 45-3)
         
         volumeLabel.position = CGPoint(x: 0, y: 0)
-        typeLabel.position = CGPoint(x: -50, y: 30)
+        typeLabel.position = CGPoint(x: -50, y: 45)
         plusButton.position = CGPoint(x: 30, y: 0)
         minusButton.position = CGPoint(x: -30, y: 0)
-        muteButton.position = CGPoint(x: 50, y: 30)
+        muteButton.position = CGPoint(x: 45, y: 45)
 
         super.init()
         

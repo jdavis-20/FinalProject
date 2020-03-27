@@ -56,5 +56,16 @@ class MenuScene: SKScene {
         playButton.position = CGPoint(x: (frame.size.width / 2),
                                       y: (frame.size.height / 2))
         addChild(playButton)
+        
+        func exitApp() {
+            print("EXIT")
+            UIControl().sendAction(#selector(NSXPCConnection.suspend), to: UIApplication.shared, for: nil)
+        }
+        
+        let exitButton = Button(label: "Exit")
+        exitButton.action = exitApp
+        exitButton.position = CGPoint(x: frame.size.width/10, y: frame.size.height/10)
+        
+        addChild(exitButton)
     }
 }
