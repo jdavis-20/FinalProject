@@ -10,9 +10,9 @@ import UIKit
 import SpriteKit
 
 class VolumeControl: SKNode {
-    
-    // TODO: add mute button
-    
+        
+    let numBkd = SKSpriteNode(imageNamed: "buttonflat")
+    let labelBkd = SKSpriteNode(imageNamed: "flatwide")
     var plusButton: Button!
     var minusButton: Button!
     var muteButton: Button!
@@ -23,32 +23,34 @@ class VolumeControl: SKNode {
     
     func turnUp() {
         print("VOLUME UP")
-        print(volValue)
-        if volValue <= 9 {
+        if volValue < 10 {
             volValue += 1
             if let label = self.childNode(withName: "volumeLabel") as? SKLabelNode {
                 label.text = String(volValue)
             }
         }
+        print(volValue)
     }
     func turnDown() {
         print("VOLUME DOWN")
-        print(volValue)
-        if volValue >= 1 {
+        if volValue > 0 {
             volValue -= 1
             if let label = self.childNode(withName: "volumeLabel") as? SKLabelNode {
                 label.text = String(volValue)
             }
         }
+        print(volValue)
     }
     func mute() {
         if muted == true {
             muted = false
             print("UNMUTE")
+            muteButton.buttonLabel.text = "✓"
         }
         else if muted == false {
             muted = true
             print("MUTE")
+            muteButton.buttonLabel.text = "✗"
         }
     }
     
@@ -63,7 +65,7 @@ class VolumeControl: SKNode {
                              textMove: false)
 //        minusButton.setScale(0.8)
         muteButton = Button(defaultButtonImage: "volcircle", activeButtonImage: "volcircle",
-                            label: "M", toggle: true,
+                            label: "✓", toggle: true,
                             textMove: false)
         
         volumeLabel = SKLabelNode(text: String(volValue))
@@ -71,27 +73,38 @@ class VolumeControl: SKNode {
         volumeLabel.verticalAlignmentMode = .center
         volumeLabel.fontName = "Conductive"
         typeLabel = SKLabelNode(text: label)
+        typeLabel.horizontalAlignmentMode = .left
         typeLabel.verticalAlignmentMode = .center
         typeLabel.fontName = "Conductive"
         
+        numBkd.position = CGPoint(x: 3, y: -3)
+        labelBkd.position = CGPoint(x: 3, y: 27)
+        
         volumeLabel.position = CGPoint(x: 0, y: 0)
-        typeLabel.position = CGPoint(x: 0, y: 30)
-        plusButton.position = CGPoint(x: 40, y: 0)
-        minusButton.position = CGPoint(x: -40, y: 0)
-        muteButton.position = CGPoint(x: 70, y: 0)
+        typeLabel.position = CGPoint(x: -50, y: 30)
+        plusButton.position = CGPoint(x: 30, y: 0)
+        minusButton.position = CGPoint(x: -30, y: 0)
+        muteButton.position = CGPoint(x: 50, y: 30)
 
         super.init()
+        
+        for node in [numBkd, labelBkd] {
+            node.zPosition = self.zPosition + 1
+        }
+        for node in [volumeLabel, typeLabel, plusButton, minusButton, muteButton] as [SKNode] {
+            node.zPosition = self.zPosition + 2
+        }
         
         plusButton.action = turnUp
         minusButton.action = turnDown
         muteButton.action = mute
         muteButton.altAction = mute
         
-        self.addChild(plusButton)
-        self.addChild(muteButton)
-        self.addChild(minusButton)
-        self.addChild(volumeLabel)
-        self.addChild(typeLabel)
+        for node in [plusButton, minusButton, muteButton,
+                     volumeLabel, typeLabel,
+                     numBkd, labelBkd] as [SKNode] {
+            self.addChild(node)
+        }
     }
     
     required init(coder aDecoder: NSCoder) {
