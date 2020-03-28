@@ -20,11 +20,11 @@ var player = SKSpriteNode()
 // menus and popups
 var slideMenu =  Menu(screenHeight: 375,
                        screenWidth: 667)
-var itemPopup = Popup(type: "item", worldNode: worldNode)
-var optionsPopup = Popup(type: "options", worldNode: worldNode)
-var charSelPopup = Popup(type: "charsel", worldNode: worldNode)
-var winPopup = Popup(type: "win", worldNode: worldNode)
-var losePopup = Popup(type: "lose", worldNode: worldNode)
+var itemPopup = Popup(type: "item")
+var optionsPopup = Popup(type: "options")
+var charSelPopup = Popup(type: "charsel")
+var winPopup = Popup(type: "win")
+var losePopup = Popup(type: "lose")
 
 var charSelOut = true, slideMenuOut = true
 var optionsPopupOut = false, itemPopupOut = false
@@ -235,6 +235,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // only nodes that are children of worldNode will be paused
         // allows menus to work after they are opened
         addChild(worldNode)
+        worldNode.name = "worldNode"
         
         // prep for swipe detection
         let leftRecognizer = UISwipeGestureRecognizer(target: self,
@@ -283,7 +284,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         player.physicsBody?.allowsRotation = false
         player.physicsBody?.isDynamic = true
         
-//        player.physicsBody?.mass = 0.8
+//      player.physicsBody?.mass = 0.8
         player.physicsBody?.restitution = 0
         player.physicsBody?.contactTestBitMask = 0x00000001
         

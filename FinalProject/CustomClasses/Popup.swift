@@ -16,6 +16,7 @@ class Popup: SKNode {
     var label = SKLabelNode()
     var itemName = SKLabelNode()
     var character: String
+    let gameScene = GameScene.self()
     
     var char1button: Button, char2button: Button, char3button: Button
     var loseReturnButton: Button, winReturnButton: Button, startButton: Button
@@ -60,8 +61,7 @@ class Popup: SKNode {
         print("POPUP: character deselected")
     }
     
-    init(type: String, worldNode: SKNode) {
-        
+    init(type: String) {
         popupNodeButton = Button(defaultButtonImage: "pop", activeButtonImage: "pop", textMove: false)
         popupNodeButton.name = "popupNodeButton"
         popupNodeButton.isHidden = true
@@ -147,7 +147,9 @@ class Popup: SKNode {
 }
     
     func visible() {
-        worldNode.isPaused = true
+        if let worldNode = gameScene.childNode(withName: "worldNode") {
+            worldNode.isPaused = true
+        }
         for node in [popupNodeButton, label, itemName] as [SKNode] {
             node.isHidden = false
         }
@@ -156,7 +158,9 @@ class Popup: SKNode {
         }
     }
     func invisible() {
-        worldNode.isPaused = false
+        if let worldNode = gameScene.childNode(withName: "worldNode") {
+            worldNode.isPaused = false
+        }
         for node in [popupNodeButton, label, itemName] as [SKNode] {
             node.isHidden = true
         }
