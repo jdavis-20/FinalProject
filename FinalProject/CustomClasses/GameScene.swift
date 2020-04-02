@@ -69,7 +69,7 @@ var abilityTimer = Timer()
 // movement and animation
 let moveInFrame = SKAction.move(to: CGPoint(x: 0, y: 0), duration: 0)
 let moveOutOfFrame = SKAction.move(to: CGPoint(x: 4000, y: 7000), duration: 0)
-let appDelegate = UIApplication.shared.delegate as! AppDelegate
+let appDelegate = UIApplication.shared.delegate as! AppDelegate // currently being used for restricting rotation
 
 // TODO: needs to change based on character choice- script or set additional variables?
 let awaySprite = SKAction.setTexture(SKTexture(imageNamed: "BlueFront"))
@@ -77,6 +77,7 @@ let towardsSprite = SKAction.setTexture(SKTexture(imageNamed: "RedFront"))
 //let leftSprite = SKAction.setTexture(SKTexture(imageNamed: ""))
 //let rightSprite = SKAction.setTexture(SKTexture(imageNamed: ""))
 //let idleSprite = SKAction.setTexture(SKTexture(imageNamed: ""))
+let test = AnimationFrames(frontAtlas: "test", backAtlas: "test", leftAtlas: "test", rightAtlas: "test", key: "test")
 
 
 // GameScene is the superclass to all game levels-----------------------------------------------------------------------------
@@ -97,18 +98,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         // TODO: set sprites for characters
         if charChoice == "Med" {
-//
-//            awaySprite =
-//            towardsSprite =
-//            leftSprite =
-//            rightSprite =
-//            idleSprite =
+//            awaySprite = SKAction.setTexture(SKTexture(imageNamed: "MedBack"))
+//            towardsSprite = SKAction.setTexture(SKTexture(imageNamed: "MedFront"))
+//            leftSprite = SKAction.setTexture(SKTexture(imageNamed: "MedLeft"))
+//            rightSprite = SKAction.setTexture(SKTexture(imageNamed: "MedRight"))
+//            idleSprite = SKAction.setTexture(SKTexture(imageNamed: "MedIdle"))
         }
         if charChoice == "Bot" {
-            
+//            awaySprite = SKAction.setTexture(SKTexture(imageNamed: "BotBack"))
+//            towardsSprite = SKAction.setTexture(SKTexture(imageNamed: "BotFront"))
+//            leftSprite = SKAction.setTexture(SKTexture(imageNamed: "BotLeft"))
+//            rightSprite = SKAction.setTexture(SKTexture(imageNamed: "BotRight"))
+//            idleSprite = SKAction.setTexture(SKTexture(imageNamed: "BotIdle"))
         }
         if charChoice == "Arch" {
-            
+//            awaySprite = SKAction.setTexture(SKTexture(imageNamed: "ArchBack"))
+//            towardsSprite = SKAction.setTexture(SKTexture(imageNamed: "ArchFront"))
+//            leftSprite = SKAction.setTexture(SKTexture(imageNamed: "ArchLeft"))
+//            rightSprite = SKAction.setTexture(SKTexture(imageNamed: "ArchRight"))
+//            idleSprite = SKAction.setTexture(SKTexture(imageNamed: "ArchIdle"))
         }
     }
     
@@ -202,6 +210,26 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         vibrateOn = false
     }
     
+    func medAnimations() {
+        
+        
+        
+//        player.run(SKAction.repeatForever(
+//                      SKAction.animate(with: SKTextureAtlas(named: "test"),
+//                                              timePerFrame: 0.1,
+//                                              resize: false,
+//                                              restore: true)),
+//                                      withKey:"whateverMedAnim")
+    }
+    
+    func botAnimations() {
+        
+    }
+    
+    func archAnimations() {
+        
+    }
+    
     //executes when the scene is first loaded------------------------------------------------------------------------------
     override func didMove(to view: SKView) {
         // lock rotation within levels
@@ -292,6 +320,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         player.isHidden = true
         
         worldNode.addChild(player)
+        
+        addChild(test)
         
         // popups/menus------------------------------------------------------------------------------------------------------
         // moves popups into initial positions
@@ -661,30 +691,34 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //camera follows player sprite
         camera?.position.x = player.position.x
         camera?.position.y = player.position.y
+        print("\(playerXDirection), \(playerYDirection)")
         
         // texture changes for the direction the player character is facing, will be used for animation
         if playerYDirection == "up"{
+            test.animatePlayerBack()
             //comment this one out when implementing up/down specific
-            player.run(awaySprite)
-            if playerXDirection == "left"{
-                //player.run(awaySprite)
-            }
-            if playerXDirection == "right"{
-                //player.run(awaySprite)
-            }
+//            player.run(awaySprite)
+//            if playerXDirection == "left"{
+//                //player.run(awaySprite)
+//            }
+//            if playerXDirection == "right"{
+//                //player.run(awaySprite)
+//            }
         }
         if playerYDirection == "down"{
+            test.animatePlayerFront()
             //comment this one out when implementing left/right specific
-            player.run(towardsSprite)
-            if playerXDirection == "left"{
-                //player.run(towardsSprite)
-            }
-            if playerXDirection == "right"{
-                //player.run(towardsSprite)
-            }
+//            player.run(towardsSprite)
+//            if playerXDirection == "left"{
+//                //player.run(towardsSprite)
+//            }
+//            if playerXDirection == "right"{
+//                //player.run(towardsSprite)
+//            }
         }
         if playerYDirection == "still" && playerXDirection == "still" {
 //            player.run(/*new action for still*/)
+//            player.run(awaySprite)
         }
     }
     
