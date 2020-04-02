@@ -42,6 +42,7 @@ var abilityActive = false
 var playerWon = false
 var playerAlive = true
 var vibrateOn = true
+var upAnimating = false, downAnimating = false
 
 var charChoice = ""
 var playerYDirection = "up"
@@ -252,6 +253,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         abilityActive = false
         playerTilt = nil
         startPressed = false
+        upAnimating = false
+        downAnimating = false
         abilityUses = 3
         playerHealth = 10
         playerItems = 0
@@ -695,7 +698,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         // texture changes for the direction the player character is facing, will be used for animation
         if playerYDirection == "up"{
-            test.animatePlayerBack()
+//            test.animSpeed = Double(yVelocity / 800)
+            if upAnimating == false {
+                test.animatePlayerBack()
+                upAnimating = true
+                downAnimating = false
+            }
             //comment this one out when implementing up/down specific
 //            player.run(awaySprite)
 //            if playerXDirection == "left"{
@@ -706,7 +714,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 //            }
         }
         if playerYDirection == "down"{
-            test.animatePlayerFront()
+//            test.animSpeed = Double(yVelocity / 1000)
+            if downAnimating == false {
+                test.animatePlayerFront()
+                downAnimating = true
+                upAnimating = false
+            }
             //comment this one out when implementing left/right specific
 //            player.run(towardsSprite)
 //            if playerXDirection == "left"{
