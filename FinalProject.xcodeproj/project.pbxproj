@@ -32,6 +32,8 @@
 		253A1C8A2392C3B400CBECB9 /* tempiconsmall2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 253A1C892392C3B300CBECB9 /* tempiconsmall2x.png */; };
 		253A1C8E2392C4DF00CBECB9 /* tempiconsmalliPad2xios9.png in Resources */ = {isa = PBXBuildFile; fileRef = 253A1C8C2392C4DE00CBECB9 /* tempiconsmalliPad2xios9.png */; };
 		253A1C8F2392C4DF00CBECB9 /* tempiconiPad2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 253A1C8D2392C4DF00CBECB9 /* tempiconiPad2x.png */; };
+		254BB3B124368D0C0049C3D5 /* front.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 254BB3AF24368D0B0049C3D5 /* front.atlas */; };
+		254BB3B224368D0C0049C3D5 /* back.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 254BB3B024368D0B0049C3D5 /* back.atlas */; };
 		254C38A72418086800EF4D0A /* skynewvert.png in Resources */ = {isa = PBXBuildFile; fileRef = 254C38A62418086700EF4D0A /* skynewvert.png */; };
 		254C38B02418090600EF4D0A /* blul.png in Resources */ = {isa = PBXBuildFile; fileRef = 254C38A82418090300EF4D0A /* blul.png */; };
 		254C38B12418090600EF4D0A /* red.png in Resources */ = {isa = PBXBuildFile; fileRef = 254C38A92418090300EF4D0A /* red.png */; };
@@ -82,7 +84,6 @@
 		25C56B7523F6F8C800A61747 /* 152.png in Resources */ = {isa = PBXBuildFile; fileRef = 25C56B7323F6F8C700A61747 /* 152.png */; };
 		25C97990238D8744001865CC /* GameData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25C9798F238D8744001865CC /* GameData.swift */; };
 		25CC4A68243634E100064F05 /* AnimationFrames.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CC4A67243634E100064F05 /* AnimationFrames.swift */; };
-		25CC4A6A2436413800064F05 /* test.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 25CC4A692436413800064F05 /* test.atlas */; };
 		25CC4A6C2436418400064F05 /* skynew.png in Resources */ = {isa = PBXBuildFile; fileRef = 25CC4A6B2436418400064F05 /* skynew.png */; };
 		25D21D3C2427F62F00C5B278 /* Conductive.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 25D21D3B2427F52500C5B278 /* Conductive.ttf */; };
 		25D21D442428018E00C5B278 /* volcircle.png in Resources */ = {isa = PBXBuildFile; fileRef = 25D21D432428018D00C5B278 /* volcircle.png */; };
@@ -141,6 +142,8 @@
 		253A1C892392C3B300CBECB9 /* tempiconsmall2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tempiconsmall2x.png; sourceTree = "<group>"; };
 		253A1C8C2392C4DE00CBECB9 /* tempiconsmalliPad2xios9.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tempiconsmalliPad2xios9.png; sourceTree = "<group>"; };
 		253A1C8D2392C4DF00CBECB9 /* tempiconiPad2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tempiconiPad2x.png; sourceTree = "<group>"; };
+		254BB3AF24368D0B0049C3D5 /* front.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = front.atlas; sourceTree = "<group>"; };
+		254BB3B024368D0B0049C3D5 /* back.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = back.atlas; sourceTree = "<group>"; };
 		254C38A62418086700EF4D0A /* skynewvert.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = skynewvert.png; sourceTree = "<group>"; };
 		254C38A82418090300EF4D0A /* blul.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blul.png; sourceTree = "<group>"; };
 		254C38A92418090300EF4D0A /* red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = red.png; sourceTree = "<group>"; };
@@ -192,7 +195,6 @@
 		25C56B7323F6F8C700A61747 /* 152.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 152.png; sourceTree = "<group>"; };
 		25C9798F238D8744001865CC /* GameData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameData.swift; sourceTree = "<group>"; };
 		25CC4A67243634E100064F05 /* AnimationFrames.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationFrames.swift; sourceTree = "<group>"; };
-		25CC4A692436413800064F05 /* test.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = test.atlas; sourceTree = "<group>"; };
 		25CC4A6B2436418400064F05 /* skynew.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = skynew.png; path = "../../../../../../../Pictures/School/Final Project/Interface/skynew.png"; sourceTree = "<group>"; };
 		25D21D3B2427F52500C5B278 /* Conductive.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Conductive.ttf; path = "FinalProject/New Group/Interface/Conductive.ttf"; sourceTree = SOURCE_ROOT; };
 		25D21D432428018D00C5B278 /* volcircle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = volcircle.png; sourceTree = "<group>"; };
@@ -369,7 +371,8 @@
 		254C97C523EF277D0036FBB6 /* Temp */ = {
 			isa = PBXGroup;
 			children = (
-				25CC4A692436413800064F05 /* test.atlas */,
+				254BB3B024368D0B0049C3D5 /* back.atlas */,
+				254BB3AF24368D0B0049C3D5 /* front.atlas */,
 				25C56B6223F6D7D200A61747 /* popup.png */,
 				2506F6C423E31C4200F639D3 /* item_temp.png */,
 				2536DE2723882E8C000FC136 /* playerback.png */,
@@ -615,10 +618,10 @@
 				2506F6C523E31C4200F639D3 /* item_temp.png in Resources */,
 				25642EF7235373E500650F9C /* MenuScene.sks in Resources */,
 				25D21D492429409900C5B278 /* buttonwide.png in Resources */,
+				254BB3B124368D0C0049C3D5 /* front.atlas in Resources */,
 				254C38B72418090600EF4D0A /* yell.png in Resources */,
 				258FF9CB241BC73F008480CE /* buttonflat.png in Resources */,
 				254C38B22418090600EF4D0A /* blu.png in Resources */,
-				25CC4A6A2436413800064F05 /* test.atlas in Resources */,
 				25C56B7523F6F8C800A61747 /* 152.png in Resources */,
 				252CBD2923F4761D00CF40E3 /* sky.png in Resources */,
 				254C97D523EF29510036FBB6 /* enemy.png in Resources */,
@@ -637,6 +640,7 @@
 				253A1C882392C2BA00CBECB9 /* tempiconsmall.png in Resources */,
 				258FF9B424196F02008480CE /* pop.png in Resources */,
 				25C56B6F23F6EDC400A61747 /* 76.png in Resources */,
+				254BB3B224368D0C0049C3D5 /* back.atlas in Resources */,
 				2561E9482354C5A000B23812 /* Level3Scene.sks in Resources */,
 				254C38B12418090600EF4D0A /* red.png in Resources */,
 				257CAFD4240FE610002E7EA3 /* maze3.png in Resources */,
