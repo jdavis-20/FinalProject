@@ -17,7 +17,6 @@ class AnimationFrames: SKNode {
     var rightFrames: [SKTexture] = []
     var leftFrames: [SKTexture] = []
     var animKey: String
-    var animSpeed: Double = 1
     
     init(frontAtlas: String, backAtlas: String, leftAtlas: String, rightAtlas: String, key: String) {
         animKey = key
@@ -59,8 +58,8 @@ class AnimationFrames: SKNode {
             player.setScale(0.5)
             (player as! SKSpriteNode).texture = firstFrameFront
         }
-        player.run(SKAction.repeatForever(SKAction.animate(with: frontFrames, timePerFrame: 0.1 * animSpeed,
-                                                           resize: false, restore: false)), withKey: "down")
+        player.run(SKAction.repeatForever(SKAction.animate(with: frontFrames, timePerFrame: 0.1,
+                                                           resize: false, restore: false)), withKey: "anim")
     }
     func animatePlayerBack() {
         let firstFrameBack = backFrames[0]
@@ -68,8 +67,8 @@ class AnimationFrames: SKNode {
             player.setScale(0.5)
             (player as! SKSpriteNode).texture = firstFrameBack
         }
-        player.run(SKAction.repeatForever(SKAction.animate(with: backFrames, timePerFrame: 0.1 * animSpeed,
-                                                           resize: false, restore: false)), withKey: "up")
+        player.run(SKAction.repeatForever(SKAction.animate(with: backFrames, timePerFrame: 0.1,
+                                                           resize: false, restore: false)), withKey: "anim")
     }
     func animatePlayerLeft() {
         let firstFrameLeft = leftFrames[0]
@@ -77,8 +76,8 @@ class AnimationFrames: SKNode {
             player.setScale(0.5)
             (player as! SKSpriteNode).texture = firstFrameLeft
         }
-        player.run(SKAction.repeatForever(SKAction.animate(with: leftFrames, timePerFrame: 0.1 * animSpeed,
-                                                           resize: false, restore: false)), withKey: "left")
+        player.run(SKAction.repeatForever(SKAction.animate(with: leftFrames, timePerFrame: 0.1,
+                                                           resize: false, restore: false)), withKey: "anim")
     }
     func animatePlayerRight() {
         let firstFrameRight = frontFrames[0]
@@ -86,8 +85,8 @@ class AnimationFrames: SKNode {
             player.setScale(0.5)
             (player as! SKSpriteNode).texture = firstFrameRight
         }
-        player.run(SKAction.repeatForever(SKAction.animate(with: rightFrames, timePerFrame: 0.1 * animSpeed,
-                                                           resize: false, restore: false)), withKey: "right")
+        player.run(SKAction.repeatForever(SKAction.animate(with: rightFrames, timePerFrame: 0.1,
+                                                           resize: false, restore: false)), withKey: "anim")
     }
     
     required init(coder aDecoder: NSCoder) {
