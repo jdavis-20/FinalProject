@@ -32,8 +32,10 @@
 		253A1C8A2392C3B400CBECB9 /* tempiconsmall2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 253A1C892392C3B300CBECB9 /* tempiconsmall2x.png */; };
 		253A1C8E2392C4DF00CBECB9 /* tempiconsmalliPad2xios9.png in Resources */ = {isa = PBXBuildFile; fileRef = 253A1C8C2392C4DE00CBECB9 /* tempiconsmalliPad2xios9.png */; };
 		253A1C8F2392C4DF00CBECB9 /* tempiconiPad2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 253A1C8D2392C4DF00CBECB9 /* tempiconiPad2x.png */; };
-		254BB3B124368D0C0049C3D5 /* front.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 254BB3AF24368D0B0049C3D5 /* front.atlas */; };
-		254BB3B224368D0C0049C3D5 /* back.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 254BB3B024368D0B0049C3D5 /* back.atlas */; };
+		254BB3B4243797340049C3D5 /* front.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 254BB3B3243797340049C3D5 /* front.atlas */; };
+		254BB3B624379B1B0049C3D5 /* back.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 254BB3B524379B1B0049C3D5 /* back.atlas */; };
+		254BB3B82437C2F50049C3D5 /* right.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 254BB3B72437C2F50049C3D5 /* right.atlas */; };
+		254BB3BA2437C3760049C3D5 /* left.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 254BB3B92437C3760049C3D5 /* left.atlas */; };
 		254C38A72418086800EF4D0A /* skynewvert.png in Resources */ = {isa = PBXBuildFile; fileRef = 254C38A62418086700EF4D0A /* skynewvert.png */; };
 		254C38B02418090600EF4D0A /* blul.png in Resources */ = {isa = PBXBuildFile; fileRef = 254C38A82418090300EF4D0A /* blul.png */; };
 		254C38B12418090600EF4D0A /* red.png in Resources */ = {isa = PBXBuildFile; fileRef = 254C38A92418090300EF4D0A /* red.png */; };
@@ -142,8 +144,10 @@
 		253A1C892392C3B300CBECB9 /* tempiconsmall2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tempiconsmall2x.png; sourceTree = "<group>"; };
 		253A1C8C2392C4DE00CBECB9 /* tempiconsmalliPad2xios9.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tempiconsmalliPad2xios9.png; sourceTree = "<group>"; };
 		253A1C8D2392C4DF00CBECB9 /* tempiconiPad2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tempiconiPad2x.png; sourceTree = "<group>"; };
-		254BB3AF24368D0B0049C3D5 /* front.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = front.atlas; sourceTree = "<group>"; };
-		254BB3B024368D0B0049C3D5 /* back.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = back.atlas; sourceTree = "<group>"; };
+		254BB3B3243797340049C3D5 /* front.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = front.atlas; sourceTree = "<group>"; };
+		254BB3B524379B1B0049C3D5 /* back.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = back.atlas; sourceTree = "<group>"; };
+		254BB3B72437C2F50049C3D5 /* right.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = right.atlas; sourceTree = "<group>"; };
+		254BB3B92437C3760049C3D5 /* left.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = left.atlas; sourceTree = "<group>"; };
 		254C38A62418086700EF4D0A /* skynewvert.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = skynewvert.png; sourceTree = "<group>"; };
 		254C38A82418090300EF4D0A /* blul.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blul.png; sourceTree = "<group>"; };
 		254C38A92418090300EF4D0A /* red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = red.png; sourceTree = "<group>"; };
@@ -371,8 +375,10 @@
 		254C97C523EF277D0036FBB6 /* Temp */ = {
 			isa = PBXGroup;
 			children = (
-				254BB3B024368D0B0049C3D5 /* back.atlas */,
-				254BB3AF24368D0B0049C3D5 /* front.atlas */,
+				254BB3B524379B1B0049C3D5 /* back.atlas */,
+				254BB3B3243797340049C3D5 /* front.atlas */,
+				254BB3B72437C2F50049C3D5 /* right.atlas */,
+				254BB3B92437C3760049C3D5 /* left.atlas */,
 				25C56B6223F6D7D200A61747 /* popup.png */,
 				2506F6C423E31C4200F639D3 /* item_temp.png */,
 				2536DE2723882E8C000FC136 /* playerback.png */,
@@ -618,7 +624,6 @@
 				2506F6C523E31C4200F639D3 /* item_temp.png in Resources */,
 				25642EF7235373E500650F9C /* MenuScene.sks in Resources */,
 				25D21D492429409900C5B278 /* buttonwide.png in Resources */,
-				254BB3B124368D0C0049C3D5 /* front.atlas in Resources */,
 				254C38B72418090600EF4D0A /* yell.png in Resources */,
 				258FF9CB241BC73F008480CE /* buttonflat.png in Resources */,
 				254C38B22418090600EF4D0A /* blu.png in Resources */,
@@ -632,6 +637,7 @@
 				25D21D4C242E623E00C5B278 /* flatwide.png in Resources */,
 				253A1C8F2392C4DF00CBECB9 /* tempiconiPad2x.png in Resources */,
 				2536DE2823882E8D000FC136 /* playerback.png in Resources */,
+				254BB3BA2437C3760049C3D5 /* left.atlas in Resources */,
 				2585FCD323D9E195005926F5 /* maze1.png in Resources */,
 				25105E8E2353386700CAC3AE /* Level1Scene.sks in Resources */,
 				25D21D3C2427F62F00C5B278 /* Conductive.ttf in Resources */,
@@ -640,15 +646,17 @@
 				253A1C882392C2BA00CBECB9 /* tempiconsmall.png in Resources */,
 				258FF9B424196F02008480CE /* pop.png in Resources */,
 				25C56B6F23F6EDC400A61747 /* 76.png in Resources */,
-				254BB3B224368D0C0049C3D5 /* back.atlas in Resources */,
 				2561E9482354C5A000B23812 /* Level3Scene.sks in Resources */,
+				254BB3B624379B1B0049C3D5 /* back.atlas in Resources */,
 				254C38B12418090600EF4D0A /* red.png in Resources */,
 				257CAFD4240FE610002E7EA3 /* maze3.png in Resources */,
 				257CAFD5240FE610002E7EA3 /* maze2.png in Resources */,
 				25105E4E23521E2900CAC3AE /* LaunchScreen.storyboard in Resources */,
+				254BB3B4243797340049C3D5 /* front.atlas in Resources */,
 				25C56B6923F6DFF900A61747 /* icon.png in Resources */,
 				254C38B02418090600EF4D0A /* blul.png in Resources */,
 				25105E83235322B500CAC3AE /* button_active.png in Resources */,
+				254BB3B82437C2F50049C3D5 /* right.atlas in Resources */,
 				254C97D323EF28E90036FBB6 /* play.png in Resources */,
 				2561E9442354C58000B23812 /* Level2Scene.sks in Resources */,
 				258FF9BE24198F4D008480CE /* menuloop.wav in Resources */,
