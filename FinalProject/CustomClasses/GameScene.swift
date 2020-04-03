@@ -783,6 +783,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     test.animatePlayerBack()
                     upAnimating = true
                     downAnimating = false
+                    leftAnimating = false
+                    rightAnimating = false
                 }
             }
             if playerYDirection == "down"{
@@ -790,6 +792,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     test.animatePlayerFront()
                     downAnimating = true
                     upAnimating = false
+                    leftAnimating = false
+                    rightAnimating = false
                 }
             }
         }
