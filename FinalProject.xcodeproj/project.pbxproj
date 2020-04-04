@@ -84,8 +84,10 @@
 		25C56B7123F6F03B00A61747 /* skyvert.png in Resources */ = {isa = PBXBuildFile; fileRef = 25C56B7023F6F03800A61747 /* skyvert.png */; };
 		25C56B7423F6F8C800A61747 /* 835.png in Resources */ = {isa = PBXBuildFile; fileRef = 25C56B7223F6F8C600A61747 /* 835.png */; };
 		25C56B7523F6F8C800A61747 /* 152.png in Resources */ = {isa = PBXBuildFile; fileRef = 25C56B7323F6F8C700A61747 /* 152.png */; };
+		25C691D52438D0DA00154AED /* Animator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25C691D42438D0DA00154AED /* Animator.swift */; };
+		25C691D72438D58500154AED /* item.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 25C691D62438D58400154AED /* item.atlas */; };
 		25C97990238D8744001865CC /* GameData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25C9798F238D8744001865CC /* GameData.swift */; };
-		25CC4A68243634E100064F05 /* AnimationFrames.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CC4A67243634E100064F05 /* AnimationFrames.swift */; };
+		25CC4A68243634E100064F05 /* PlayerAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CC4A67243634E100064F05 /* PlayerAnimator.swift */; };
 		25CC4A6C2436418400064F05 /* skynew.png in Resources */ = {isa = PBXBuildFile; fileRef = 25CC4A6B2436418400064F05 /* skynew.png */; };
 		25D21D3C2427F62F00C5B278 /* Conductive.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 25D21D3B2427F52500C5B278 /* Conductive.ttf */; };
 		25D21D442428018E00C5B278 /* volcircle.png in Resources */ = {isa = PBXBuildFile; fileRef = 25D21D432428018D00C5B278 /* volcircle.png */; };
@@ -197,8 +199,10 @@
 		25C56B7023F6F03800A61747 /* skyvert.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = skyvert.png; sourceTree = "<group>"; };
 		25C56B7223F6F8C600A61747 /* 835.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 835.png; sourceTree = "<group>"; };
 		25C56B7323F6F8C700A61747 /* 152.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 152.png; sourceTree = "<group>"; };
+		25C691D42438D0DA00154AED /* Animator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Animator.swift; sourceTree = "<group>"; };
+		25C691D62438D58400154AED /* item.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = item.atlas; sourceTree = "<group>"; };
 		25C9798F238D8744001865CC /* GameData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameData.swift; sourceTree = "<group>"; };
-		25CC4A67243634E100064F05 /* AnimationFrames.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationFrames.swift; sourceTree = "<group>"; };
+		25CC4A67243634E100064F05 /* PlayerAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerAnimator.swift; sourceTree = "<group>"; };
 		25CC4A6B2436418400064F05 /* skynew.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = skynew.png; path = "../../../../../../../Pictures/School/Final Project/Interface/skynew.png"; sourceTree = "<group>"; };
 		25D21D3B2427F52500C5B278 /* Conductive.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Conductive.ttf; path = "FinalProject/New Group/Interface/Conductive.ttf"; sourceTree = SOURCE_ROOT; };
 		25D21D432428018D00C5B278 /* volcircle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = volcircle.png; sourceTree = "<group>"; };
@@ -302,7 +306,8 @@
 				25B9C4172374C07F00BAFC36 /* Enemy.swift */,
 				2563DFDF23E1ED380099B21D /* Item.swift */,
 				258FF9DB241C1F99008480CE /* VolumeControl.swift */,
-				25CC4A67243634E100064F05 /* AnimationFrames.swift */,
+				25CC4A67243634E100064F05 /* PlayerAnimator.swift */,
+				25C691D42438D0DA00154AED /* Animator.swift */,
 			);
 			path = CustomClasses;
 			sourceTree = "<group>";
@@ -379,6 +384,7 @@
 				254BB3B3243797340049C3D5 /* front.atlas */,
 				254BB3B72437C2F50049C3D5 /* right.atlas */,
 				254BB3B92437C3760049C3D5 /* left.atlas */,
+				25C691D62438D58400154AED /* item.atlas */,
 				25C56B6223F6D7D200A61747 /* popup.png */,
 				2506F6C423E31C4200F639D3 /* item_temp.png */,
 				2536DE2723882E8C000FC136 /* playerback.png */,
@@ -629,6 +635,7 @@
 				254C38B22418090600EF4D0A /* blu.png in Resources */,
 				25C56B7523F6F8C800A61747 /* 152.png in Resources */,
 				252CBD2923F4761D00CF40E3 /* sky.png in Resources */,
+				25C691D72438D58500154AED /* item.atlas in Resources */,
 				254C97D523EF29510036FBB6 /* enemy.png in Resources */,
 				25C56B6723F6DFF900A61747 /* 180.png in Resources */,
 				254C38BC2418194700EF4D0A /* overlayL.png in Resources */,
@@ -700,10 +707,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				25C691D52438D0DA00154AED /* Animator.swift in Sources */,
 				25105E7E2353228600CAC3AE /* Button.swift in Sources */,
 				25105E4423521E2900CAC3AE /* GameScene.swift in Sources */,
 				25B9C4182374C07F00BAFC36 /* Enemy.swift in Sources */,
-				25CC4A68243634E100064F05 /* AnimationFrames.swift in Sources */,
+				25CC4A68243634E100064F05 /* PlayerAnimator.swift in Sources */,
 				2561E9462354C59000B23812 /* Level2Scene.swift in Sources */,
 				2563DFE023E1ED380099B21D /* Item.swift in Sources */,
 				258FF9DC241C1F99008480CE /* VolumeControl.swift in Sources */,

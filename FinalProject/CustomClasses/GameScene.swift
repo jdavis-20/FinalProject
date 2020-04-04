@@ -80,7 +80,7 @@ let towardsSprite = SKAction.setTexture(SKTexture(imageNamed: "RedFront"))
 //let leftSprite = SKAction.setTexture(SKTexture(imageNamed: ""))
 //let rightSprite = SKAction.setTexture(SKTexture(imageNamed: ""))
 //let idleSprite = SKAction.setTexture(SKTexture(imageNamed: ""))
-let test = AnimationFrames(frontAtlas: "front", backAtlas: "back", leftAtlas: "left", rightAtlas: "right", key: "test")
+let purpleAnimator = PlayerAnimator(frontAtlas: "front", backAtlas: "back", leftAtlas: "left", rightAtlas: "right", key: "test")
 
 
 // GameScene is the superclass to all game levels-----------------------------------------------------------------------------
@@ -99,27 +99,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             charSelPopup.run(moveOutOfFrame)
             resume(slideMenu)
         }
-        // TODO: set sprites for characters
+        
         if charChoice == "Med" {
-//            awaySprite = SKAction.setTexture(SKTexture(imageNamed: "MedBack"))
-//            towardsSprite = SKAction.setTexture(SKTexture(imageNamed: "MedFront"))
-//            leftSprite = SKAction.setTexture(SKTexture(imageNamed: "MedLeft"))
-//            rightSprite = SKAction.setTexture(SKTexture(imageNamed: "MedRight"))
-//            idleSprite = SKAction.setTexture(SKTexture(imageNamed: "MedIdle"))
+//            medAnimations()
         }
         if charChoice == "Bot" {
-//            awaySprite = SKAction.setTexture(SKTexture(imageNamed: "BotBack"))
-//            towardsSprite = SKAction.setTexture(SKTexture(imageNamed: "BotFront"))
-//            leftSprite = SKAction.setTexture(SKTexture(imageNamed: "BotLeft"))
-//            rightSprite = SKAction.setTexture(SKTexture(imageNamed: "BotRight"))
-//            idleSprite = SKAction.setTexture(SKTexture(imageNamed: "BotIdle"))
+//            botAnimations()
         }
         if charChoice == "Arch" {
-//            awaySprite = SKAction.setTexture(SKTexture(imageNamed: "ArchBack"))
-//            towardsSprite = SKAction.setTexture(SKTexture(imageNamed: "ArchFront"))
-//            leftSprite = SKAction.setTexture(SKTexture(imageNamed: "ArchLeft"))
-//            rightSprite = SKAction.setTexture(SKTexture(imageNamed: "ArchRight"))
-//            idleSprite = SKAction.setTexture(SKTexture(imageNamed: "ArchIdle"))
+//            archAnimations()
         }
     }
     
@@ -214,23 +202,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func medAnimations() {
-        
-        
-        
-//        player.run(SKAction.repeatForever(
-//                      SKAction.animate(with: SKTextureAtlas(named: "test"),
-//                                              timePerFrame: 0.1,
-//                                              resize: false,
-//                                              restore: true)),
-//                                      withKey:"whateverMedAnim")
+        addChild(purpleAnimator)
     }
     
     func botAnimations() {
-        
+//        addChild(blueAnimator)
     }
     
     func archAnimations() {
-        
+//        addChild(redAnimator)
     }
     
     //executes when the scene is first loaded------------------------------------------------------------------------------
@@ -300,6 +280,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             (node, stop) in
             let itemNode = node as? Item
             itemNode?.itemInit()
+            let itemAnim = Animator(animNode: itemNode!, atlas: "item", animSpeed: 1.5)
+            self.addChild(itemAnim)
             totalItems += 1
         }
         scene?.enumerateChildNodes(withName: "enemy") {
@@ -328,7 +310,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         worldNode.addChild(player)
         
-        addChild(test)
+        addChild(purpleAnimator)
         
         // popups/menus------------------------------------------------------------------------------------------------------
         // moves popups into initial positions
@@ -440,7 +422,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         
                         // RIGHT (in landscape left)
                         if (data.acceleration.y > 0.06) && (data.acceleration.y < 0.4) {
-                            xVelocity = CGFloat(data.acceleration.y * 800 * orientationMultiplier) // right speed
+                            xVelocity = CGFloat(data.acceleration.y * 1000 * orientationMultiplier) // right speed
                             if orientationLeft == false {
                                 playerXDirection = "right"
                             }
@@ -450,7 +432,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         }
                         if (data.acceleration.y > 0.4){
 //                            print("right cap hit")
-                            xVelocity = CGFloat(0.4 * 800 * orientationMultiplier) // max right speed
+                            xVelocity = CGFloat(0.4 * 1000 * orientationMultiplier) // max right speed
                             if orientationLeft == false {
                                 playerXDirection = "right"
                             }
@@ -460,7 +442,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         }
                         // LEFT (in landscape left)
                         if (data.acceleration.y < -0.06) && (data.acceleration.y > -0.4) {
-                            xVelocity = CGFloat(data.acceleration.y * 800 * orientationMultiplier) // left speed
+                            xVelocity = CGFloat(data.acceleration.y * 1000 * orientationMultiplier) // left speed
                             if orientationLeft == false {
                                 playerXDirection = "left"
                             }
@@ -469,7 +451,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                             }                        }
                         if (data.acceleration.y < -0.4){
 //                            print("left cap hit")
-                            xVelocity = CGFloat(-0.4 * 800 * orientationMultiplier) // max left speed
+                            xVelocity = CGFloat(-0.4 * 1000 * orientationMultiplier) // max left speed
                             if orientationLeft == true {
                                 playerXDirection = "left"
                             }
@@ -491,7 +473,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
                         // UP (in landscape left)
                         if (dataXAdjusted > 0.06) && (dataXAdjusted < 0.4) {
-                            yVelocity = CGFloat(dataXAdjusted * 800 * orientationMultiplier) // up speed
+                            yVelocity = CGFloat(dataXAdjusted * 1000 * orientationMultiplier) // up speed
                             if orientationLeft == false {
                                 playerYDirection = "up"
                             }
@@ -502,7 +484,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         }
                         if (dataXAdjusted > 0.4) {
 //                            print("forward cap hit")
-                            yVelocity = CGFloat(0.4 * 800 * orientationMultiplier) // max up speed
+                            yVelocity = CGFloat(0.4 * 1000 * orientationMultiplier) // max up speed
                             if orientationLeft == false {
                                 playerYDirection = "up"
                             }
@@ -514,7 +496,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         // DOWN (in landscape left)
                         if (dataXAdjusted < -0.06) && (dataXAdjusted > -0.4) {
                             // * 800 * 1.25
-                            yVelocity = CGFloat(dataXAdjusted * 800 * orientationMultiplier) // down speed
+                            yVelocity = CGFloat(dataXAdjusted * 1000 * orientationMultiplier) // down speed
                             // is faster because tilting down moves the screen out of the player's view
                             if orientationLeft == false {
                                 playerYDirection = "down"
@@ -526,7 +508,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         }
                         if (dataXAdjusted < -0.4) {
 //                            print("backward cap hit")
-                            yVelocity = CGFloat(-0.4 * 800 * orientationMultiplier) // max down speed
+                            yVelocity = CGFloat(-0.4 * 1000 * orientationMultiplier) // max down speed
                             if orientationLeft == false {
                                 playerYDirection = "down"
                                 yVelocity *= 1.25
@@ -744,63 +726,63 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         camera?.position.y = player.position.y
         print("X: \(playerXDirection), Y: \(playerYDirection)")
         
-        var speedAdjustMultiplier: CGFloat = 1
-        if playerYDirection == "down" {
-            speedAdjustMultiplier = 0.8
-        }
-        if playerYDirection == "up" {
-            speedAdjustMultiplier = 1
-        }
+//        var speedAdjustMultiplier: CGFloat = 1
+//        if playerYDirection == "down" {
+//            speedAdjustMultiplier = 0.8
+//        }
+//        if playerYDirection == "up" {
+//            speedAdjustMultiplier = 1
+//        }
         // if x movement is greater than y, use U/D animations
-        if abs(xVelocity) > abs(yVelocity * speedAdjustMultiplier) {
+        if abs(xVelocity) > abs(yVelocity) {
             // left and right animations
             player.action(forKey: "anim")?.speed = CGFloat((abs(xVelocity) / 250))
             if playerXDirection == "left"{
                 if leftAnimating == false {
-                      test.animatePlayerLeft()
-                      leftAnimating = true
-                      rightAnimating = false
-                      upAnimating = false
-                      downAnimating = false
+                    leftAnimating = true
+                    rightAnimating = false
+                    upAnimating = false
+                    downAnimating = false
+                    purpleAnimator.animatePlayerLeft()
                 }
             }
             if playerXDirection == "right"{
                 if rightAnimating == false {
-                      test.animatePlayerRight()
-                      rightAnimating = true
-                      leftAnimating = false
-                      upAnimating = false
-                      downAnimating = false
+                    rightAnimating = true
+                    leftAnimating = false
+                    upAnimating = false
+                    downAnimating = false
+                    purpleAnimator.animatePlayerRight()
                 }
             }
         }
         // if y movement is greater than x, use L/R animations
-        if abs(yVelocity * speedAdjustMultiplier) > abs(xVelocity){
+        if abs(yVelocity) > abs(xVelocity){
             // up and down animations
-            player.action(forKey: "anim")?.speed = CGFloat((abs(yVelocity) / 250) * speedAdjustMultiplier)
+            player.action(forKey: "anim")?.speed = CGFloat((abs(yVelocity) / 250))
             if playerYDirection == "up"{
                 if upAnimating == false {
-                    test.animatePlayerBack()
                     upAnimating = true
-                    downAnimating = false
-                    leftAnimating = false
                     rightAnimating = false
+                    leftAnimating = false
+                    downAnimating = false
+                    purpleAnimator.animatePlayerBack()
                 }
             }
             if playerYDirection == "down"{
                 if downAnimating == false {
-                    test.animatePlayerFront()
                     downAnimating = true
+                    rightAnimating = false
                     upAnimating = false
                     leftAnimating = false
-                    rightAnimating = false
+                    purpleAnimator.animatePlayerFront()
                 }
             }
         }
         
       
         if playerYDirection == "still" && playerXDirection == "still" {
-            // not sure if this condition is necessary anymore- could implement an idle animation?
+            player.action(forKey: "anim")?.speed = 0
         }
     }
 

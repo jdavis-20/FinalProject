@@ -1,16 +1,15 @@
 //
-//  AnimationFrames.swift
+//  PlayerAnimator.swift
 //  FinalProject
 //
 //  Created by Julian Davis on 4/2/20.
 //  Copyright © 2020 Julian Davis. All rights reserved.
 //
 
-import UIKit
 import SpriteKit
 
 
-class AnimationFrames: SKNode {
+class PlayerAnimator: SKNode {
     let gameScene = GameScene.self()
     var frontFrames: [SKTexture] = []
     var backFrames: [SKTexture] = []

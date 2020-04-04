@@ -15,9 +15,9 @@ class Enemy: SKSpriteNode {
     var randomOutOf4 = Int(arc4random_uniform(4))
     var enemySpeed = 100
     
-    let normalSpeed = 100
+    let normalSpeed = 110
     let slowSpeed = 60
-    let fastSpeed = 120
+    let fastSpeed = 140
     let rayRange: CGFloat = 110
     let turnDelay = 0.8
     let reboundImpulse = 150
