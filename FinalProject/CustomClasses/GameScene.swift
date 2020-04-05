@@ -61,6 +61,10 @@ var sfxVol: Float = 1
 var sfxMuted = false
 var musicVol: Float = 1
 var musicMuted = false
+let song = SKAudioNode(fileNamed: "menuloop.wav")
+var setMusicVol: SKAction?
+let mute = SKAction.changeVolume(to: 0, duration: 0)
+let fadeIn = SKAction.changeVolume(to: 1, duration: 2)
 
 // HUD labels
 var healthLabel = SKLabelNode(text: String(10))
@@ -209,6 +213,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     //executes when the scene is first loaded------------------------------------------------------------------------------
     override func didMove(to view: SKView) {
+        
+        song.autoplayLooped = true
+//        let sequence = SKAction.sequence([mute, fadeIn])
+//        let fadeOut = SKAction.changeVolume(to: 0, duration: 1)
+        song.run(mute)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            self.addChild(song)
+            song.run(fadeIn)
+        }
+        
         // lock rotation within levels
         if UIApplication.shared.statusBarOrientation == .landscapeLeft {
             appDelegate.restrictRotation = .landscapeLeft
@@ -718,15 +732,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //camera follows player sprite
         camera?.position.x = player.position.x
         camera?.position.y = player.position.y
-        print("X: \(playerXDirection), Y: \(playerYDirection)")
+//        print("X: \(playerXDirection), Y: \(playerYDirection)")
         
-//        var speedAdjustMultiplier: CGFloat = 1
-//        if playerYDirection == "down" {
-//            speedAdjustMultiplier = 0.8
-//        }
-//        if playerYDirection == "up" {
-//            speedAdjustMultiplier = 1
-//        }
         // if x movement is greater than y, use U/D animations
         if abs(xVelocity) > abs(yVelocity) {
             // left and right animations
@@ -734,18 +741,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if playerXDirection == "left"{
                 if leftAnimating == false {
                     leftAnimating = true
-                    rightAnimating = false
-                    upAnimating = false
-                    downAnimating = false
+                    rightAnimating = false; upAnimating = false; downAnimating = false
                     purpleAnimator.animatePlayerLeft()
                 }
             }
             if playerXDirection == "right"{
                 if rightAnimating == false {
                     rightAnimating = true
-                    leftAnimating = false
-                    upAnimating = false
-                    downAnimating = false
+                    leftAnimating = false; upAnimating = false; downAnimating = false
                     purpleAnimator.animatePlayerRight()
                 }
             }
@@ -757,18 +760,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if playerYDirection == "up"{
                 if upAnimating == false {
                     upAnimating = true
-                    rightAnimating = false
-                    leftAnimating = false
-                    downAnimating = false
+                    rightAnimating = false; leftAnimating = false; downAnimating = false
                     purpleAnimator.animatePlayerBack()
                 }
             }
             if playerYDirection == "down"{
                 if downAnimating == false {
                     downAnimating = true
-                    rightAnimating = false
-                    upAnimating = false
-                    leftAnimating = false
+                    rightAnimating = false; upAnimating = false; leftAnimating = false
                     purpleAnimator.animatePlayerFront()
                 }
             }
@@ -792,10 +791,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         // update volume
-        sfxVol = Float(optionsPopup.sfxVol.volValue/10)
+        sfxVol = Float(optionsPopup.sfxVol.volValue)/10
         sfxMuted = optionsPopup.sfxVol.muted
-        musicVol = Float(optionsPopup.musicVol.volValue/10)
+        musicVol = Float(optionsPopup.musicVol.volValue)/10
         musicMuted = optionsPopup.musicVol.muted
+        if musicMuted == false {
+            setMusicVol = SKAction.changeVolume(to: musicVol, duration: 0)
+            song.run(setMusicVol!)
+        }
+        else {
+            song.run(mute)
+        }
         
         //update HUD text
         healthLabel.text = String(playerHealth)

@@ -29,7 +29,6 @@ class Item: SKSpriteNode {
                 self.run(SKAction.move(to: playerNode.position, duration: 0.2))
             }
         }
-        // TODO: testing effect of attract from close distance for all characters
         else {
             if (abs(playerNode.position.x-self.position.x) < 60) &&
                 (abs(playerNode.position.y-self.position.y) < 60) {
