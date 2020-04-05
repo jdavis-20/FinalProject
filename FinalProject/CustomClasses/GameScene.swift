@@ -59,10 +59,11 @@ var orientationLeft = true
 
 var sfxVol: Float = 1
 var sfxMuted = false
+var setSfxVol: SKAction?
 var musicVol: Float = 1
 var musicMuted = false
-let song = SKAudioNode(fileNamed: "menuloop.wav")
 var setMusicVol: SKAction?
+let song = SKAudioNode(fileNamed: "menuloop.wav")
 let mute = SKAction.changeVolume(to: 0, duration: 0)
 let fadeIn = SKAction.changeVolume(to: 1, duration: 2)
 
@@ -793,6 +794,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // update volume
         sfxVol = Float(optionsPopup.sfxVol.volValue)/10
         sfxMuted = optionsPopup.sfxVol.muted
+//        TODO: implement sound effects and find a way to identify them (name, type, key?) to adjust volume
+        if sfxMuted == false {
+            setSfxVol = SKAction.changeVolume(to: sfxVol, duration: 0)
+//            soundeffect.run(setSfxVol!)
+        }
+        else {
+//            soundeffect.run(mute)
+        }
         musicVol = Float(optionsPopup.musicVol.volValue)/10
         musicMuted = optionsPopup.musicVol.muted
         if musicMuted == false {
