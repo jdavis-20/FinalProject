@@ -15,9 +15,9 @@ class Enemy: SKSpriteNode {
     var randomOutOf4 = Int(arc4random_uniform(4))
     var enemySpeed = 100
     
-    let normalSpeed = 110
+    let normalSpeed = 120
     let slowSpeed = 60
-    let fastSpeed = 140
+    let fastSpeed = 160
     let rayRange: CGFloat = 110
     let turnDelay = 0.8
     let reboundImpulse = 150
@@ -234,7 +234,6 @@ class Enemy: SKSpriteNode {
             enemySpeed = normalSpeed
         }
 
-        // TODO: make sure this is working properly
         // bounce back and switch directions if colliding with another enemy
         if (nodeAbove is Enemy) {
             print("ENEMY: X4 turned around")

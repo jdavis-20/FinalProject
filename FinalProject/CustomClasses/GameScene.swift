@@ -74,12 +74,6 @@ let moveInFrame = SKAction.move(to: CGPoint(x: 0, y: 0), duration: 0)
 let moveOutOfFrame = SKAction.move(to: CGPoint(x: 4000, y: 7000), duration: 0)
 let appDelegate = UIApplication.shared.delegate as! AppDelegate // currently being used for restricting rotation
 
-// TODO: needs to change based on character choice- script or set additional variables?
-let awaySprite = SKAction.setTexture(SKTexture(imageNamed: "BlueFront"))
-let towardsSprite = SKAction.setTexture(SKTexture(imageNamed: "RedFront"))
-//let leftSprite = SKAction.setTexture(SKTexture(imageNamed: ""))
-//let rightSprite = SKAction.setTexture(SKTexture(imageNamed: ""))
-//let idleSprite = SKAction.setTexture(SKTexture(imageNamed: ""))
 let purpleAnimator = PlayerAnimator(frontAtlas: "front", backAtlas: "back", leftAtlas: "left", rightAtlas: "right", key: "test")
 
 
@@ -712,7 +706,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 pause(slideMenu)
                 
                 // ---WIN CONDITION---
-                if playerItems >= 5 {
+                if playerItems >= totalItems {
                     playerWon = true
                 }
             }
@@ -827,6 +821,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         childItem.attract(character: charChoice,
                                           ability: abilityActive,
                                           playerNode: player)
+                        if worldNode.isPaused == true {
+                            childItem.action(forKey: "item")?.speed = 0
+                        }
+                        else {
+                            childItem.action(forKey: "item")?.speed = 1
+                        }
                     }
                 }
             }
