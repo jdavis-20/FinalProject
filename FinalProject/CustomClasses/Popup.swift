@@ -20,6 +20,7 @@ class Popup: SKNode {
     
     var char1button: Button, char2button: Button, char3button: Button
     var loseReturnButton: Button, winReturnButton: Button, startButton: Button
+    var retryButton: Button, levSelButton: Button
     var tiltResetButton: Button, vibrateButton: Button
     
     var sfxVol = VolumeControl(label: "SFX")
@@ -88,8 +89,14 @@ class Popup: SKNode {
         loseReturnButton = Button(label: "Menu")
         loseReturnButton.position = CGPoint(x: 0, y: 40)
         
+        retryButton = Button(label: "Retry")
+        retryButton.position = CGPoint(x: 0, y: -40)
+        
         winReturnButton = Button(label: "Menu")
         winReturnButton.position = CGPoint(x: 0, y: 40)
+
+        levSelButton = Button(label: "Continue")
+        levSelButton.position = CGPoint(x: 0, y: -40)
         
         startButton = Button(label: "Start")
         startButton.position = CGPoint(x: 0, y: -80)
@@ -116,13 +123,15 @@ class Popup: SKNode {
         self.name = "popup"
         
         if type == "win" {
-            label.text = "Win"
+            label.text = "You win!"
             self.addChild(winReturnButton)
+            self.addChild(levSelButton)
         }
             
         if type == "lose"{
-            label.text = "Lose"
+            label.text = "You lost!"
             self.addChild(loseReturnButton)
+            self.addChild(retryButton)
         }
             
         if type == "item"{

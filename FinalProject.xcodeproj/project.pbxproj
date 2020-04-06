@@ -32,6 +32,7 @@
 		253A1C8A2392C3B400CBECB9 /* tempiconsmall2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 253A1C892392C3B300CBECB9 /* tempiconsmall2x.png */; };
 		253A1C8E2392C4DF00CBECB9 /* tempiconsmalliPad2xios9.png in Resources */ = {isa = PBXBuildFile; fileRef = 253A1C8C2392C4DE00CBECB9 /* tempiconsmalliPad2xios9.png */; };
 		253A1C8F2392C4DF00CBECB9 /* tempiconiPad2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 253A1C8D2392C4DF00CBECB9 /* tempiconiPad2x.png */; };
+		25498A44243B9851009B29FC /* Test.sks in Resources */ = {isa = PBXBuildFile; fileRef = 25498A43243B9851009B29FC /* Test.sks */; };
 		254BB3B4243797340049C3D5 /* front.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 254BB3B3243797340049C3D5 /* front.atlas */; };
 		254BB3B624379B1B0049C3D5 /* back.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 254BB3B524379B1B0049C3D5 /* back.atlas */; };
 		254BB3B82437C2F50049C3D5 /* right.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 254BB3B72437C2F50049C3D5 /* right.atlas */; };
@@ -86,6 +87,7 @@
 		25C56B7523F6F8C800A61747 /* 152.png in Resources */ = {isa = PBXBuildFile; fileRef = 25C56B7323F6F8C700A61747 /* 152.png */; };
 		25C691D52438D0DA00154AED /* Animator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25C691D42438D0DA00154AED /* Animator.swift */; };
 		25C691D72438D58500154AED /* item.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 25C691D62438D58400154AED /* item.atlas */; };
+		25C691DA243B8D2500154AED /* Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25C691D9243B8D2500154AED /* Test.swift */; };
 		25C97990238D8744001865CC /* GameData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25C9798F238D8744001865CC /* GameData.swift */; };
 		25CC4A68243634E100064F05 /* PlayerAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CC4A67243634E100064F05 /* PlayerAnimator.swift */; };
 		25CC4A6C2436418400064F05 /* skynew.png in Resources */ = {isa = PBXBuildFile; fileRef = 25CC4A6B2436418400064F05 /* skynew.png */; };
@@ -146,6 +148,7 @@
 		253A1C892392C3B300CBECB9 /* tempiconsmall2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tempiconsmall2x.png; sourceTree = "<group>"; };
 		253A1C8C2392C4DE00CBECB9 /* tempiconsmalliPad2xios9.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tempiconsmalliPad2xios9.png; sourceTree = "<group>"; };
 		253A1C8D2392C4DF00CBECB9 /* tempiconiPad2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tempiconiPad2x.png; sourceTree = "<group>"; };
+		25498A43243B9851009B29FC /* Test.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Test.sks; sourceTree = "<group>"; };
 		254BB3B3243797340049C3D5 /* front.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = front.atlas; sourceTree = "<group>"; };
 		254BB3B524379B1B0049C3D5 /* back.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = back.atlas; sourceTree = "<group>"; };
 		254BB3B72437C2F50049C3D5 /* right.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = right.atlas; sourceTree = "<group>"; };
@@ -201,6 +204,7 @@
 		25C56B7323F6F8C700A61747 /* 152.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 152.png; sourceTree = "<group>"; };
 		25C691D42438D0DA00154AED /* Animator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Animator.swift; sourceTree = "<group>"; };
 		25C691D62438D58400154AED /* item.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = item.atlas; sourceTree = "<group>"; };
+		25C691D9243B8D2500154AED /* Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Test.swift; sourceTree = "<group>"; };
 		25C9798F238D8744001865CC /* GameData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameData.swift; sourceTree = "<group>"; };
 		25CC4A67243634E100064F05 /* PlayerAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerAnimator.swift; sourceTree = "<group>"; };
 		25CC4A6B2436418400064F05 /* skynew.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = skynew.png; path = "../../../../../../../Pictures/School/Final Project/Interface/skynew.png"; sourceTree = "<group>"; };
@@ -402,6 +406,7 @@
 			children = (
 				2561E93E2354896000B23812 /* Levels */,
 				2561E93D2354895900B23812 /* Menus */,
+				25C691D8243B8CFA00154AED /* Other */,
 			);
 			path = Scenes;
 			sourceTree = "<group>";
@@ -505,6 +510,15 @@
 				258FF9BD24198F4D008480CE /* menuloop.wav */,
 			);
 			path = Music;
+			sourceTree = "<group>";
+		};
+		25C691D8243B8CFA00154AED /* Other */ = {
+			isa = PBXGroup;
+			children = (
+				25498A43243B9851009B29FC /* Test.sks */,
+				25C691D9243B8D2500154AED /* Test.swift */,
+			);
+			path = Other;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -651,6 +665,7 @@
 				254C38B62418090600EF4D0A /* yel.png in Resources */,
 				25105E4B23521E2900CAC3AE /* Assets.xcassets in Resources */,
 				253A1C882392C2BA00CBECB9 /* tempiconsmall.png in Resources */,
+				25498A44243B9851009B29FC /* Test.sks in Resources */,
 				258FF9B424196F02008480CE /* pop.png in Resources */,
 				25C56B6F23F6EDC400A61747 /* 76.png in Resources */,
 				2561E9482354C5A000B23812 /* Level3Scene.sks in Resources */,
@@ -724,6 +739,7 @@
 				25105E8C2353384300CAC3AE /* Level1Scene.swift in Sources */,
 				2585FCD023D9C935005926F5 /* Level4Scene.swift in Sources */,
 				252EE1D323DB40440045115B /* MazeWall.swift in Sources */,
+				25C691DA243B8D2500154AED /* Test.swift in Sources */,
 				25642EF5235373C100650F9C /* MenuScene.swift in Sources */,
 				25105E3E23521E2900CAC3AE /* AppDelegate.swift in Sources */,
 				2561E94023548BFC00B23812 /* LevelSelectScene.swift in Sources */,

@@ -75,6 +75,7 @@ var abilityTimerLabel = SKLabelNode(text: String(10))
 var abilityTimer = Timer()
 
 // movement and animation
+let transition = SKTransition.fade(withDuration: 1)
 let moveInFrame = SKAction.move(to: CGPoint(x: 0, y: 0), duration: 0)
 let moveOutOfFrame = SKAction.move(to: CGPoint(x: 4000, y: 7000), duration: 0)
 let appDelegate = UIApplication.shared.delegate as! AppDelegate // currently being used for restricting rotation
@@ -119,7 +120,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             abilityTimer.invalidate()
         }
     }
-    func resume(_ node: SKNode? = nil) {
+    func resume(_ node: SKNode? = nil){
         worldNode.isPaused = false
         node?.isPaused = false
         physicsWorld.speed = 1
@@ -147,7 +148,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     // sets the timer as needed and updates the HUD label for it
-    @objc func updateTimer() {
+    @objc func updateTimer(){
         abilityTimerSeconds -= 1
         abilityTimerLabel.text = String(abilityTimerSeconds)
         print("ABILITY: \(abilityTimerSeconds) seconds left")
@@ -161,12 +162,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    // buttons that take the player to the main menu
+    // buttons that take the player to other scenes
     func returnToMenu(){
         print("MENU: main menu button pressed")
         let menuScene = SKScene(fileNamed: "MenuScene")
-        let transition: SKTransition = SKTransition.fade(withDuration: 1)
         self.view?.presentScene(menuScene!, transition: transition)
+    }
+    
+    func resetLevel(){
+        print("LOSE: reset button pressed")
+        let testScene = SKScene(fileNamed: "Test")
+        self.view?.presentScene(testScene!, transition: transition)
+    }
+    
+    func levelSelect(){
+        print("WIN: level select button pressed")
+        let levSelScene = SKScene(fileNamed: "LevelSelectScene")
+        self.view?.presentScene(levSelScene!, transition: transition)
+        
     }
     
     // options button in the in-game menu
@@ -397,9 +410,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         abilityTimerLabel.fontSize = 26
         abilityTimerLabel.fontColor = .red
         
-        // return to menu after win/lose
+        // actions available after win/lose
         losePopup.loseReturnButton.action = returnToMenu
+        losePopup.retryButton.action = resetLevel
         winPopup.winReturnButton.action = returnToMenu
+        winPopup.levSelButton.action = levelSelect
 
         // ACCELEROMETER----------------------------------------------------------------------------------------------------
         if motionManager.isAccelerometerAvailable {
@@ -782,6 +797,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
     // called every frame--------------------------------------------------------------------------------------------------
     override func update(_ currentTime: TimeInterval) {
+        // track orientation
         if UIDevice.current.orientation == UIDeviceOrientation.landscapeLeft{
             orientationMultiplier = -1
             orientationLeft = true
@@ -812,15 +828,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             song.run(mute)
         }
         
-        //update HUD text
+        // update HUD text
         healthLabel.text = String(playerHealth)
         itemLabel.text = "\(String(playerItems))/\(String(totalItems))"
         
-        // update player movement based on tilt
+        // update player velocity based on tilt
         player.physicsBody!.velocity = CGVector(dx: xVelocity,
                                                 dy: yVelocity)
 
-        // continuously run pathfinding and attract methods
+        // continuously run pathfinding on all enemies and attract on all items
         if startPressed == true {
             scene?.enumerateChildNodes(withName: "enemy") {
                 (node, stop) in
@@ -836,6 +852,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         childItem.attract(character: charChoice,
                                           ability: abilityActive,
                                           playerNode: player)
+                        // pause item animation
                         if worldNode.isPaused == true {
                             childItem.action(forKey: "item")?.speed = 0
                         }
@@ -866,14 +883,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
     }
-    override func willMove(from view: SKView) {
-        appDelegate.restrictRotation = .landscape
-        abilityTimer.invalidate()
-        
+    
+    func removeAll() {
         for parent in [worldNode, camera!, self] {
             parent.removeAllChildren()
         }
-        
         self.removeAllActions()
+    }
+    
+    override func willMove(from view: SKView) {
+        appDelegate.restrictRotation = .landscape
+        abilityTimer.invalidate()
+        let sceneToMoveTo = SKScene(fileNamed: "")
+        sceneToMoveTo?.userData = ["previousScene":self]
+        
+        // remove everything from the scene
+        // failing to do so causes duplicates/crashes
+        removeAll()
     }
 }
