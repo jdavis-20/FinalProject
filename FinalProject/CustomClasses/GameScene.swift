@@ -41,6 +41,7 @@ var enemyInit = false
 var abilityActive = false
 var playerWon = false
 var playerAlive = true
+var healthSubtracted = false
 var vibrateOn = true
 var upAnimating = false, downAnimating = false
 var leftAnimating = false, rightAnimating = false
@@ -640,9 +641,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             // player-enemy
             if ((bName == "player") && (aNode is Enemy)) ||
                 ((aName == "player") && (bNode is Enemy)) {
-                playerHealth -= 1
-                // TODO: play sound & vibration
-                 sfx()
+                sfx()
+                if healthSubtracted == false {
+                    healthSubtracted = true
+                    playerHealth -= 1
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                        healthSubtracted = false
+                    }
+                    
+                }
 //                AudioServicesPlayAlertSound(kSystemSoundID_Vibrate)
                 print("COLLISION: player touched enemy, health = \(playerHealth)")
                 
@@ -885,6 +892,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func removeAll() {
+        abilityTimer.invalidate()
         for parent in [worldNode, camera!, self] {
             parent.removeAllChildren()
         }
@@ -893,9 +901,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func willMove(from view: SKView) {
         appDelegate.restrictRotation = .landscape
-        abilityTimer.invalidate()
-        let sceneToMoveTo = SKScene(fileNamed: "")
-        sceneToMoveTo?.userData = ["previousScene":self]
+        
+//        let inbetweenScene = SKScene(fileNamed: "Test")
+//        inbetweenScene?.userData = ["previousScene":SKScene(fileNamed: self.name!)]
         
         // remove everything from the scene
         // failing to do so causes duplicates/crashes
