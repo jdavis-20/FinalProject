@@ -238,12 +238,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             song.run(fadeIn)
         }
         
-        // lock rotation within levels
+        // lock rotation within levels and get orientation for tilt
         if UIApplication.shared.statusBarOrientation == .landscapeLeft {
             appDelegate.restrictRotation = .landscapeLeft
+            orientationMultiplier = 1
+            orientationLeft = true
         }
         if UIApplication.shared.statusBarOrientation == .landscapeRight {
             appDelegate.restrictRotation = .landscapeRight
+            orientationMultiplier = -1
+            orientationLeft = false
         }
         
         // scaling the view
@@ -306,6 +310,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let itemAnim = Animator(animNode: itemNode!, atlas: "item", animSpeed: 1.5)
             self.addChild(itemAnim)
             totalItems += 1
+            let itemName = itemNode?.userData?["name"]
+            if  itemName != nil {
+                print("Item with identifier \(itemName!) initialized")
+            }
         }
         scene?.enumerateChildNodes(withName: "enemy") {
             (node, stop) in
@@ -445,10 +453,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     if (data.acceleration.y > 0.06 ||
                         data.acceleration.y < -0.06) {
                         
-                        // RIGHT (in landscape left)
+                        // RIGHT (in landscape right)
                         if (data.acceleration.y > 0.06) && (data.acceleration.y < 0.4) {
-                            xVelocity = CGFloat(data.acceleration.y * 1000 * orientationMultiplier) // right speed
-                            if orientationLeft == false {
+                            xVelocity = CGFloat(data.acceleration.y * 900 * orientationMultiplier) // right speed
+                            if orientationLeft == true {
                                 playerXDirection = "right"
                             }
                             else {
@@ -457,18 +465,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         }
                         if (data.acceleration.y > 0.4){
 //                            print("right cap hit")
-                            xVelocity = CGFloat(0.4 * 1000 * orientationMultiplier) // max right speed
-                            if orientationLeft == false {
+                            xVelocity = CGFloat(0.4 * 900 * orientationMultiplier) // max right speed
+                            if orientationLeft == true {
                                 playerXDirection = "right"
                             }
                             else {
                                 playerXDirection = "left"
                             }
                         }
-                        // LEFT (in landscape left)
+                        // LEFT (in landscape right)
                         if (data.acceleration.y < -0.06) && (data.acceleration.y > -0.4) {
-                            xVelocity = CGFloat(data.acceleration.y * 1000 * orientationMultiplier) // left speed
-                            if orientationLeft == false {
+                            xVelocity = CGFloat(data.acceleration.y * 900 * orientationMultiplier) // left speed
+                            if orientationLeft == true {
                                 playerXDirection = "left"
                             }
                             else {
@@ -476,7 +484,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                             }                        }
                         if (data.acceleration.y < -0.4){
 //                            print("left cap hit")
-                            xVelocity = CGFloat(-0.4 * 1000 * orientationMultiplier) // max left speed
+                            xVelocity = CGFloat(-0.4 * 900 * orientationMultiplier) // max left speed
                             if orientationLeft == true {
                                 playerXDirection = "left"
                             }
@@ -496,21 +504,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     if (dataXAdjusted > 0.06) ||
                         (dataXAdjusted < -0.06) {
         
-                        // UP (in landscape left)
+                        // UP (in landscape right)
                         if (dataXAdjusted > 0.06) && (dataXAdjusted < 0.4) {
-                            yVelocity = CGFloat(dataXAdjusted * 1000 * orientationMultiplier) // up speed
-                            if orientationLeft == false {
+                            yVelocity = CGFloat(dataXAdjusted * 900 * orientationMultiplier) // up speed
+                            if orientationLeft == true {
                                 playerYDirection = "up"
                             }
                             else {
                                 playerYDirection = "down"
-                                yVelocity *= 1.25
+                                yVelocity *= 1.25 // is faster because tilting down moves the screen out of the player's view
                             }
                         }
                         if (dataXAdjusted > 0.4) {
 //                            print("forward cap hit")
-                            yVelocity = CGFloat(0.4 * 1000 * orientationMultiplier) // max up speed
-                            if orientationLeft == false {
+                            yVelocity = CGFloat(0.4 * 900 * orientationMultiplier) // max up speed
+                            if orientationLeft == true {
                                 playerYDirection = "up"
                             }
                             else {
@@ -518,12 +526,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                                 yVelocity *= 1.25
                             }
                         }
-                        // DOWN (in landscape left)
+                        // DOWN (in landscape right)
                         if (dataXAdjusted < -0.06) && (dataXAdjusted > -0.4) {
-                            // * 800 * 1.25
-                            yVelocity = CGFloat(dataXAdjusted * 1000 * orientationMultiplier) // down speed
-                            // is faster because tilting down moves the screen out of the player's view
-                            if orientationLeft == false {
+                            yVelocity = CGFloat(dataXAdjusted * 900 * orientationMultiplier) // down speed
+                            if orientationLeft == true {
                                 playerYDirection = "down"
                                 yVelocity *= 1.25
                             }
@@ -533,8 +539,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         }
                         if (dataXAdjusted < -0.4) {
 //                            print("backward cap hit")
-                            yVelocity = CGFloat(-0.4 * 1000 * orientationMultiplier) // max down speed
-                            if orientationLeft == false {
+                            yVelocity = CGFloat(-0.4 * 900 * orientationMultiplier) // max down speed
+                            if orientationLeft == true {
                                 playerYDirection = "down"
                                 yVelocity *= 1.25
                             }
@@ -622,6 +628,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     // COLLISION----------------------------------------------------------------------------------------------------------
     func didBegin(_ contact: SKPhysicsContact){
+        // currently unused function for testing collision detection
         func describeCollision(contactA: SKPhysicsBody,
                                contactB: SKPhysicsBody) {
             print("COLLISION: \n  bodyA is \(contactA.node?.name! ?? "unidentified")\n  bodyB is \(contactB.node?.name! ?? "unidentified")")
@@ -634,9 +641,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             let aNode = contact.bodyA.node, bNode = contact.bodyB.node
             let aName = aNode?.name, bName = bNode?.name
-
-//            describeCollision(contactA: contact.bodyA,
-//                              contactB: contact.bodyB)
             
             // player-enemy
             if ((bName == "player") && (aNode is Enemy)) ||
@@ -727,12 +731,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if ((bName == "player") && (aNode! is Item)) ||
                 ((aName == "player") && (bNode! is Item)) {
                 if aNode! is Item {
+                    let itemName = aNode!.userData?["name"]
+                    if  itemName != nil {
+                        itemPopup.itemName.text = "You found \(itemName!)"
+                    }
                     aNode!.removeFromParent()
-                    itemPopup.itemName.text = aName
                 }
                 if bNode! is Item {
+                    let itemName = bNode!.userData?["name"]
+                    if  itemName != nil {
+                        itemPopup.itemName.text = "You found \(itemName!)"
+                    }
                     bNode!.removeFromParent()
-                    itemPopup.itemName.text = bName
                 }
                 print("COLLSION: player got item, item count is \(playerItems) out of \(totalItems)")
                 
@@ -755,13 +765,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //camera follows player sprite
         camera?.position.x = player.position.x
         camera?.position.y = player.position.y
-//        print("X: \(playerXDirection), Y: \(playerYDirection)")
+        print("X: \(playerXDirection), Y: \(playerYDirection)")
         
         // if x movement is greater than y, use U/D animations
         if abs(xVelocity) > abs(yVelocity) {
             // left and right animations
             player.action(forKey: "anim")?.speed = CGFloat((abs(xVelocity) / 250))
             if playerXDirection == "left"{
+                print("animate left")
                 if leftAnimating == false {
                     leftAnimating = true
                     rightAnimating = false; upAnimating = false; downAnimating = false
@@ -769,6 +780,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
             }
             if playerXDirection == "right"{
+                print("animate right")
                 if rightAnimating == false {
                     rightAnimating = true
                     leftAnimating = false; upAnimating = false; downAnimating = false
@@ -781,6 +793,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             // up and down animations
             player.action(forKey: "anim")?.speed = CGFloat((abs(yVelocity) / 250))
             if playerYDirection == "up"{
+                print("animate up")
                 if upAnimating == false {
                     upAnimating = true
                     rightAnimating = false; leftAnimating = false; downAnimating = false
@@ -788,6 +801,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
             }
             if playerYDirection == "down"{
+                print("animate down")
                 if downAnimating == false {
                     downAnimating = true
                     rightAnimating = false; upAnimating = false; leftAnimating = false
@@ -804,16 +818,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
     // called every frame--------------------------------------------------------------------------------------------------
     override func update(_ currentTime: TimeInterval) {
-        // track orientation
-        if UIDevice.current.orientation == UIDeviceOrientation.landscapeLeft{
-            orientationMultiplier = -1
-            orientationLeft = true
-        }
-        if UIDevice.current.orientation == UIDeviceOrientation.landscapeRight{
-            orientationMultiplier = 1
-            orientationLeft = false
-        }
-        
         // update volume
         sfxVol = Float(optionsPopup.sfxVol.volValue)/10
         sfxMuted = optionsPopup.sfxVol.muted

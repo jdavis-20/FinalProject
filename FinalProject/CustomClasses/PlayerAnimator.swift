@@ -19,10 +19,8 @@ class PlayerAnimator: SKNode {
     
     init(frontAtlas: String, backAtlas: String, leftAtlas: String, rightAtlas: String, key: String) {
         animKey = key
+        
         let frontTextureAtlas = SKTextureAtlas(named: frontAtlas)
-        let backTextureAtlas = SKTextureAtlas(named: backAtlas)
-        let leftTextureAtlas = SKTextureAtlas(named: leftAtlas)
-        let rightTextureAtlas = SKTextureAtlas(named: rightAtlas)
         
         let frontFrameImages = frontTextureAtlas.textureNames.count
         for i in 1...frontFrameImages {
@@ -30,17 +28,23 @@ class PlayerAnimator: SKNode {
             frontFrames.append(frontTextureAtlas.textureNamed(textureName))
         }
         
+        let backTextureAtlas = SKTextureAtlas(named: backAtlas)
+        
         let backFrameImages = backTextureAtlas.textureNames.count
         for i in 1...backFrameImages {
             let textureName = "frame\(i)"
             backFrames.append(backTextureAtlas.textureNamed(textureName))
         }
         
+        let leftTextureAtlas = SKTextureAtlas(named: leftAtlas)
+        
         let leftFrameImages = leftTextureAtlas.textureNames.count
         for i in 1...leftFrameImages {
             let textureName = "frame\(i)"
             leftFrames.append(leftTextureAtlas.textureNamed(textureName))
         }
+        
+         let rightTextureAtlas = SKTextureAtlas(named: rightAtlas)
         
         let rightFrameImages = rightTextureAtlas.textureNames.count
         for i in 1...rightFrameImages {
