@@ -151,7 +151,7 @@ class Enemy: SKSpriteNode {
             }
             
 
-            // this method was meant to make follow similar to regular pathfinding but it didn't work
+            // this method was meant to make follow similar to regular pathfinding but it didn't work as intended
 //            if (absXDiff - absYDiff) > 100 {
 //                print("ENEMY: follow x")
 //                if playerLeft == true && dirOptions.contains("left") {

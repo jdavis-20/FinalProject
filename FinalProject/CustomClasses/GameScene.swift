@@ -81,7 +81,10 @@ let moveInFrame = SKAction.move(to: CGPoint(x: 0, y: 0), duration: 0)
 let moveOutOfFrame = SKAction.move(to: CGPoint(x: 4000, y: 7000), duration: 0)
 let appDelegate = UIApplication.shared.delegate as! AppDelegate // currently being used for restricting rotation
 
-let purpleAnimator = PlayerAnimator(frontAtlas: "front", backAtlas: "back", leftAtlas: "left", rightAtlas: "right", key: "test")
+let purpleAnimator = PlayerAnimator(frontAtlas: "front", backAtlas: "back", leftAtlas: "left", rightAtlas: "right", key: "purple")
+let blueAnimator = PlayerAnimator(frontAtlas: "front", backAtlas: "back", leftAtlas: "left", rightAtlas: "right", key: "blue")
+let redAnimator = PlayerAnimator(frontAtlas: "front", backAtlas: "back", leftAtlas: "left", rightAtlas: "right", key: "red")
+
 
 
 // GameScene is the superclass to all game levels-----------------------------------------------------------------------------
@@ -102,13 +105,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         if charChoice == "Med" {
-//            medAnimations()
+            addChild(purpleAnimator)
         }
         if charChoice == "Bot" {
-//            botAnimations()
+            addChild(blueAnimator)
         }
         if charChoice == "Arch" {
-//            archAnimations()
+            addChild(redAnimator)
         }
     }
     
@@ -214,18 +217,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         vibrateOn = false
     }
     
-    func medAnimations() {
-        addChild(purpleAnimator)
-    }
-    
-    func botAnimations() {
-//        addChild(blueAnimator)
-    }
-    
-    func archAnimations() {
-//        addChild(redAnimator)
-    }
-    
     //executes when the scene is first loaded------------------------------------------------------------------------------
     override func didMove(to view: SKView) {
         
@@ -239,6 +230,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         // lock rotation within levels and get orientation for tilt
+        // orientationMultiplier directly impacts velocity, orientationLeft passes direction to animations etc
         if UIApplication.shared.statusBarOrientation == .landscapeLeft {
             appDelegate.restrictRotation = .landscapeLeft
             orientationMultiplier = 1
@@ -262,17 +254,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         abilityActive = false
         playerTilt = nil
         startPressed = false
-        upAnimating = false
-        downAnimating = false
-        leftAnimating = false
-        rightAnimating = false
+        upAnimating = false; downAnimating = false
+        leftAnimating = false; rightAnimating = false
         abilityUses = 3
         playerHealth = 10
         playerItems = 0
         totalItems = 0
         playerWon = false
-        winPopupOut = false
-        losePopupOut = false
+        winPopupOut = false; losePopupOut = false
         
         // only nodes that are children of worldNode will be paused
         // allows menus to work after they are opened
@@ -642,6 +631,51 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let aNode = contact.bodyA.node, bNode = contact.bodyB.node
             let aName = aNode?.name, bName = bNode?.name
             
+            let reboundImpulse = 300
+            let reboundLeft = SKAction.applyImpulse(CGVector(dx: -reboundImpulse, dy: 0), duration: 0.1)
+            let reboundRight = SKAction.applyImpulse(CGVector(dx: reboundImpulse, dy: 0), duration: 0.1)
+            let reboundUp = SKAction.applyImpulse(CGVector(dx: 0, dy: reboundImpulse), duration: 0.1)
+            let reboundDown = SKAction.applyImpulse(CGVector(dx: 0, dy: -reboundImpulse), duration: 0.1)
+            
+            
+            //enemy-wall
+            if (aNode is Enemy) && (bNode is Wall) {
+                if (aNode!.position.x < bNode!.position.x) {
+                    aNode!.run(reboundLeft)
+                    print("ENEMY: wall rebound left")
+                }
+                if (aNode!.position.x > bNode!.position.x) {
+                    aNode!.run(reboundRight)
+                    print("ENEMY: wall rebound right")
+                }
+                if (aNode!.position.y < bNode!.position.y) {
+                    aNode!.run(reboundDown)
+                    print("ENEMY: wall rebound down")
+                }
+                if (aNode!.position.y > bNode!.position.y) {
+                    aNode!.run(reboundUp)
+                    print("ENEMY: wall rebound up")
+                }
+            }
+            if (aNode is Wall) && (bNode is Enemy) {
+                if (aNode!.position.x < bNode!.position.x) {
+                    bNode!.run(reboundRight)
+                    print("ENEMY: wall rebound left")
+                }
+                if (aNode!.position.x > bNode!.position.x) {
+                    bNode!.run(reboundLeft)
+                    print("ENEMY: wall rebound right")
+                }
+                if (aNode!.position.y < bNode!.position.y) {
+                    bNode!.run(reboundUp)
+                    print("ENEMY: wall rebound down")
+                }
+                if (aNode!.position.y > bNode!.position.y) {
+                    bNode!.run(reboundDown)
+                    print("ENEMY: wall rebound up")
+                }
+            }
+            
             // player-enemy
             if ((bName == "player") && (aNode is Enemy)) ||
                 ((aName == "player") && (bNode is Enemy)) {
@@ -666,12 +700,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     losePopup.visible()
                     pause(slideMenu)
                 }
-                
-                let reboundImpulse = 300
-                let reboundLeft = SKAction.applyImpulse(CGVector(dx: -reboundImpulse, dy: 0), duration: 0.1)
-                let reboundRight = SKAction.applyImpulse(CGVector(dx: reboundImpulse, dy: 0), duration: 0.1)
-                let reboundUp = SKAction.applyImpulse(CGVector(dx: 0, dy: reboundImpulse), duration: 0.1)
-                let reboundDown = SKAction.applyImpulse(CGVector(dx: 0, dy: -reboundImpulse), duration: 0.1)
                 
                 func enemyDelay() {
                     // delay after rebound to avoid enemy bouncing against player until health is gone
