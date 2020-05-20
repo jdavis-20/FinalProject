@@ -330,7 +330,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         worldNode.addChild(player)
         
-        addChild(purpleAnimator)
+//        addChild(purpleAnimator)
         
         // popups/menus------------------------------------------------------------------------------------------------------
         // moves popups into initial positions
