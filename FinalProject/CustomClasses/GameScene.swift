@@ -36,7 +36,7 @@ var xVelocity: CGFloat = 0.0
 var yVelocity: CGFloat = 0.0
 
 // game state values
-var redo = false
+var levelName = ""
 var startPressed = false
 var enemyInit = false
 var abilityActive = false
@@ -184,10 +184,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
     }
     
-    func levelSelect(){
+    func nextLevel(){
         print("WIN: level select button pressed")
-        let levSelScene = SKScene(fileNamed: "LevelSelectScene")
-        self.view?.presentScene(levSelScene!, transition: transition)
+        removeAll(exitLevel: true)
+        switch levelName {
+        case "Level1Scene":
+            self.view?.presentScene(SKScene(fileNamed: "Level2Scene")!, transition: transition)
+        case "Level2Scene":
+            self.view?.presentScene(SKScene(fileNamed: "Level3Scene")!, transition: transition)
+        case "Level3Scene":
+            self.view?.presentScene(SKScene(fileNamed: "Level4Scene")!, transition: transition)
+        case "Level4Scene":
+            self.view?.presentScene(SKScene(fileNamed: "LevelSelectScene")!, transition: transition)
+        default:
+            self.view?.presentScene(SKScene(fileNamed: "LevelSelectScene")!, transition: transition)
+        }
+        
+        
         
     }
     
@@ -272,6 +285,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         print("STARTED?: \(startPressed)")
         print("CHARCHOSEN?: \(charChoice)")
+        levelName = self.name!
         
         addChild(worldNode)
         worldNode.name = "worldNode"
@@ -426,7 +440,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         losePopup.loseReturnButton.action = returnToMenu
         losePopup.retryButton.action = resetLevel
         winPopup.winReturnButton.action = returnToMenu
-        winPopup.levSelButton.action = levelSelect
+        winPopup.levSelButton.action = nextLevel
         
         // ACCELEROMETER------------------------------------------------------------------------------------------------
         if motionManager.isAccelerometerAvailable {
@@ -969,9 +983,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func willMove(from view: SKView) {
         appDelegate.restrictRotation = .landscape
-        
-        //        let inbetweenScene = SKScene(fileNamed: "Test")
-        //        inbetweenScene?.userData = ["previousScene":SKScene(fileNamed: self.name!)]
         
         // remove everything from the scene
         // failing to do so causes duplicates/crashes
