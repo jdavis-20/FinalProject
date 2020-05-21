@@ -120,7 +120,7 @@ class Popup: SKNode {
         self.addChild(popupNodeButton)
         self.addChild(label)
         self.isUserInteractionEnabled = true
-        self.name = "popup"
+        self.name = type
         
         if type == "win" {
             label.text = "You win!"

@@ -19,7 +19,7 @@ var player = SKSpriteNode()
 
 // menus and popups
 var slideMenu =  Menu(screenHeight: 375,
-                       screenWidth: 667)
+                      screenWidth: 667)
 var itemPopup = Popup(type: "item")
 var optionsPopup = Popup(type: "options")
 var charSelPopup = Popup(type: "charsel")
@@ -36,6 +36,7 @@ var xVelocity: CGFloat = 0.0
 var yVelocity: CGFloat = 0.0
 
 // game state values
+var redo = false
 var startPressed = false
 var enemyInit = false
 var abilityActive = false
@@ -90,11 +91,12 @@ let redAnimator = PlayerAnimator(frontAtlas: "front", backAtlas: "back", leftAtl
 // GameScene is the superclass to all game levels-----------------------------------------------------------------------------
 // it contains the fundamental mechanics and nodes that need to persist across levels--------------------------------------
 class GameScene: SKScene, SKPhysicsContactDelegate {
-
+    
     // starts game if a character has been chosen
     func startGame(){
         charChoice = charSelPopup.character
         print("CHARACTER: \(charChoice)")
+        
         if charChoice != "" {
             // this bool signals the start of gameplay to tilt, menu, and item/enemy class actions
             startPressed = true
@@ -146,8 +148,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             self.run(sound)
         }
         if vibrate == true && vibrateOn == true {
-//            AudioServicesPlaySystemSound(1519)
-          AudioServicesPlayAlertSound(kSystemSoundID_Vibrate)
+            //            AudioServicesPlaySystemSound(1519)
+            AudioServicesPlayAlertSound(kSystemSoundID_Vibrate)
         }
     }
     
@@ -173,10 +175,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.view?.presentScene(menuScene!, transition: transition)
     }
     
+    //TODO: fix level reset
     func resetLevel(){
         print("LOSE: reset button pressed")
-        let testScene = SKScene(fileNamed: "Test")
-        self.view?.presentScene(testScene!, transition: transition)
+        redo = true
+        removeAll(exitLevel: false)
+        let levelScene = SKScene(fileNamed: self.name!)
+        self.view?.presentScene(levelScene!, transition: transition)
     }
     
     func levelSelect(){
@@ -217,37 +222,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         vibrateOn = false
     }
     
-    //executes when the scene is first loaded------------------------------------------------------------------------------
-    override func didMove(to view: SKView) {
-        
-        song.autoplayLooped = true
-//        let sequence = SKAction.sequence([mute, fadeIn])
-//        let fadeOut = SKAction.changeVolume(to: 0, duration: 1)
-        song.run(mute)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            self.addChild(song)
-            song.run(fadeIn)
-        }
-        
-        // lock rotation within levels and get orientation for tilt
-        // orientationMultiplier directly impacts velocity, orientationLeft passes direction to animations etc
-        if UIApplication.shared.statusBarOrientation == .landscapeLeft {
-            appDelegate.restrictRotation = .landscapeLeft
-            orientationMultiplier = 1
-            orientationLeft = true
-        }
-        if UIApplication.shared.statusBarOrientation == .landscapeRight {
-            appDelegate.restrictRotation = .landscapeRight
-            orientationMultiplier = -1
-            orientationLeft = false
-        }
-        
-        // scaling the view
-        camera!.setScale(3) // higher num to zoom out
-        let zoomOut = SKAction.scale(by: 0.7 , duration: 1.2) // lower num to zoom in
-        camera!.run(zoomOut)
-        
-        // values that need to be reset at the start of a new level
+    func setDefaults() {
+        // values that need to be reset at the start of a level
         charSelPopup.character = ""
         abilityTimerSeconds = 10
         abilityTimerLabel.text = String(abilityTimerSeconds)
@@ -262,298 +238,337 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         totalItems = 0
         playerWon = false
         winPopupOut = false; losePopupOut = false
+    }
+    
+    //executes when the scene is first loaded------------------------------------------------------------------------------
+    override func didMove(to view: SKView) {
         
-        // only nodes that are children of worldNode will be paused
-        // allows menus to work after they are opened
-        addChild(worldNode)
-        worldNode.name = "worldNode"
-        
-        // prep for swipe detection
-        let leftRecognizer = UISwipeGestureRecognizer(target: self,
-                                                      action: #selector(swipeMade(_:)))
-        leftRecognizer.direction = .left
-        self.view!.addGestureRecognizer(leftRecognizer)
-        
-        let rightRecognizer = UISwipeGestureRecognizer(target: self,
-                                                       action: #selector(swipeMade(_:)))
-        rightRecognizer.direction = .right
-        self.view!.addGestureRecognizer(rightRecognizer)
-        
-        let doubleTapRecognizer = UITapGestureRecognizer(target: self, action: #selector(doubleTapMade(_:)))
-        doubleTapRecognizer.numberOfTapsRequired = 2
-        self.view!.addGestureRecognizer(doubleTapRecognizer)
-        
-        // physics contact delegate
-        physicsWorld.contactDelegate = self
-        
-        // iterates through sks nodes and runs the neccesary functions based on class
-        scene?.enumerateChildNodes(withName: "MazeWall") {
-            (node, stop) in
-            let mazeNode = node as? MazeWall
-            mazeNode?.setWallPhysics()
-        }
-        scene?.enumerateChildNodes(withName: "item") {
-            (node, stop) in
-            let itemNode = node as? Item
-            itemNode?.itemInit()
-            let itemAnim = Animator(animNode: itemNode!, atlas: "item", animSpeed: 1.5)
-            self.addChild(itemAnim)
-            totalItems += 1
-            let itemName = itemNode?.userData?["name"]
-            if  itemName != nil {
-                print("Item with identifier \(itemName!) initialized")
+        func runGameScene() {
+            print("STARTED?: \(startPressed)")
+            setDefaults()
+            
+            addChild(worldNode)
+            worldNode.name = "worldNode"
+            
+            redo = false
+            
+            song.autoplayLooped = true
+            song.run(mute)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                self.addChild(song)
+                song.run(fadeIn)
             }
-        }
-        scene?.enumerateChildNodes(withName: "enemy") {
-            (node, stop) in
-            let enemy = node as? Enemy
-            enemy?.enemyInit()
-        }
-        
-        // player-----------------------------------------------------------------------------------------------------------
-        player = SKSpriteNode(imageNamed: "RedFront")
-        player.position = CGPoint(x: 0, y: 0)
-        player.name = "player"
-        
-        player.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: player.size.width,
-                                                               height: player.size.height))
-        player.physicsBody?.affectedByGravity = false
-        player.physicsBody?.allowsRotation = false
-        player.physicsBody?.isDynamic = true
-        
-//      player.physicsBody?.mass = 0.8
-        player.physicsBody?.restitution = 0
-        player.physicsBody?.contactTestBitMask = 0x00000001
-        
-        // player hidden until start is pressed for cleaner appearance
-        player.isHidden = true
-        
-        worldNode.addChild(player)
-        
-//        addChild(purpleAnimator)
-        
-        // popups/menus------------------------------------------------------------------------------------------------------
-        // moves popups into initial positions
-        charSelPopup.run(moveInFrame)
-        for popup in [optionsPopup, itemPopup, winPopup, losePopup] {
-            popup.run(moveOutOfFrame)
-            popup.invisible()
-        }
-        for popup in [itemPopup, optionsPopup, winPopup, losePopup, charSelPopup] {
-            popup.zPosition = slideMenu.zPosition + 2
-            for child in popup.children {
-                if child.name != "popupNodeButton" {
-                    child.zPosition = popup.zPosition + 1
-                }
-                if child.name == "popupNodeButton" {
-                    child.zPosition = popup.zPosition
+            
+            // lock rotation within levels and get orientation for tilt
+            // orientationMultiplier directly impacts velocity, orientationLeft passes direction to animations etc
+            if UIApplication.shared.statusBarOrientation == .landscapeLeft {
+                appDelegate.restrictRotation = .landscapeLeft
+                orientationMultiplier = 1
+                orientationLeft = true
+            }
+            if UIApplication.shared.statusBarOrientation == .landscapeRight {
+                appDelegate.restrictRotation = .landscapeRight
+                orientationMultiplier = -1
+                orientationLeft = false
+            }
+            
+            // scaling the view
+            camera!.setScale(3) // higher num to zoom out
+            let zoomOut = SKAction.scale(by: 0.7 , duration: 1.2) // lower num to zoom in
+            camera!.run(zoomOut)
+            
+            // only nodes that are children of worldNode will be paused
+            // allows menus to work after they are opened
+            
+            // prep for swipe detection
+            let leftRecognizer = UISwipeGestureRecognizer(target: self,
+                                                          action: #selector(swipeMade(_:)))
+            leftRecognizer.direction = .left
+            self.view!.addGestureRecognizer(leftRecognizer)
+            
+            let rightRecognizer = UISwipeGestureRecognizer(target: self,
+                                                           action: #selector(swipeMade(_:)))
+            rightRecognizer.direction = .right
+            self.view!.addGestureRecognizer(rightRecognizer)
+            
+            let doubleTapRecognizer = UITapGestureRecognizer(target: self, action: #selector(doubleTapMade(_:)))
+            doubleTapRecognizer.numberOfTapsRequired = 2
+            self.view!.addGestureRecognizer(doubleTapRecognizer)
+            
+            // physics contact delegate
+            physicsWorld.contactDelegate = self
+            
+            // iterates through sks nodes and runs the neccesary functions based on class
+            scene?.enumerateChildNodes(withName: "MazeWall") {
+                (node, stop) in
+                let mazeNode = node as? MazeWall
+                mazeNode?.setWallPhysics()
+            }
+            scene?.enumerateChildNodes(withName: "item") {
+                (node, stop) in
+                let itemNode = node as? Item
+                itemNode?.itemInit()
+                let itemAnim = Animator(animNode: itemNode!, atlas: "item", animSpeed: 1.5)
+                self.addChild(itemAnim)
+                totalItems += 1
+                let itemName = itemNode?.userData?["name"]
+                if  itemName != nil {
+                    print("Item with identifier \(itemName!) initialized")
                 }
             }
-        }
-        
-        // slide menu setup
-        slideMenu = Menu(screenHeight: frame.size.height,
-                         screenWidth: frame.size.width)
-        slideMenu.position = CGPoint(x: ((frame.size.width / 3) * 2),
-                                     y: 0)
-        camera!.addChild(slideMenu)
-        slideMenu.zPosition = 1
-        // button returning to main menu
-        let returnButton = Button(label: "Menu")
-        returnButton.action = returnToMenu
-        returnButton.position = CGPoint(x: 0, y: -40)
-        slideMenu.addChild(returnButton)
-        
-        // button to accesss options
-        let optionsButton = Button(label: "Options")
-        optionsButton.action = options
-        optionsButton.position = CGPoint(x: 0, y: 40)
-        slideMenu.addChild(optionsButton)
-        
-        // character select popup setup
-        camera!.addChild(charSelPopup)
-        // button sets tilt and start moving
-        charSelPopup.startButton.action = startGame
-        charSelPopup.visible()
-        charSelOut = true
-        pause(slideMenu)
-        for button in [charSelPopup.char1button, charSelPopup.char2button, charSelPopup.char3button] {
-            button.activeButton.isHidden = true
-            button.defaultButton.isHidden = false
-        }
-        
-        // item popup setup
-        itemPopup.invisible()
-        itemPopup.isUserInteractionEnabled = true
-        itemPopup.popupNodeButton.action = closeItemPopup
-        camera!.addChild(itemPopup)
-        // options popup setup
-        optionsPopup.tiltResetButton.action = resetTilt
-        optionsPopup.invisible()
-        camera!.addChild(optionsPopup)
-        
-        optionsPopup.vibrateButton.action = vibOff
-        optionsPopup.vibrateButton.altAction = vibOn
-        
-        // add health and item counters to HUD
-        for label in [healthLabel, itemLabel, abilityTimerLabel] {
-            label.fontName = "Conductive"
-            label.verticalAlignmentMode = .center
-        }
-        healthLabel.position = CGPoint(x: -frame.size.width/2 + 25 , y: frame.size.height/2 - 20)
-        camera!.addChild(healthLabel)
-        itemLabel.position = CGPoint(x: -frame.size.width/2 + 85 , y: frame.size.height/2 - 20)
-        camera!.addChild(itemLabel)
-        abilityTimerLabel.position = CGPoint(x: 0, y: frame.size.height/2 - 20)
-        abilityTimerLabel.fontSize = 26
-        abilityTimerLabel.fontColor = .red
-        
-        // actions available after win/lose
-        losePopup.loseReturnButton.action = returnToMenu
-        losePopup.retryButton.action = resetLevel
-        winPopup.winReturnButton.action = returnToMenu
-        winPopup.levSelButton.action = levelSelect
-
-        // ACCELEROMETER----------------------------------------------------------------------------------------------------
-        if motionManager.isAccelerometerAvailable {
-            motionManager.accelerometerUpdateInterval = 0.01
-            motionManager.startAccelerometerUpdates(to: .main) {
-                (data, error) in
-                guard let data = data, error == nil else {
-                    return
+            scene?.enumerateChildNodes(withName: "enemy") {
+                (node, stop) in
+                let enemy = node as? Enemy
+                enemy?.enemyInit()
+            }
+            
+            // player-------------------------------------------------------------------------------------------------------
+            player = SKSpriteNode(imageNamed: "RedFront")
+            player.position = CGPoint(x: 0, y: 0)
+            player.name = "player"
+            
+            player.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: player.size.width,
+                                                                   height: player.size.height))
+            player.physicsBody?.affectedByGravity = false
+            player.physicsBody?.allowsRotation = false
+            player.physicsBody?.isDynamic = true
+            
+            //      player.physicsBody?.mass = 0.8
+            player.physicsBody?.restitution = 0
+            player.physicsBody?.contactTestBitMask = 0x00000001
+            
+            // player hidden until start is pressed for cleaner appearance
+            player.isHidden = true
+            
+            worldNode.addChild(player)
+            
+            // addChild(purpleAnimator)
+            
+            // popups/menus--------------------------------------------------------------------------------------------------
+            // moves popups into initial positions
+            charSelPopup.run(moveInFrame)
+            for popup in [optionsPopup, itemPopup, winPopup, losePopup] {
+                popup.run(moveOutOfFrame)
+                popup.invisible()
+            }
+            for popup in [itemPopup, optionsPopup, winPopup, losePopup, charSelPopup] {
+                popup.zPosition = slideMenu.zPosition + 2
+                for child in popup.children {
+                    if child.name != "popupNodeButton" {
+                        child.zPosition = popup.zPosition + 1
+                    }
+                    if child.name == "popupNodeButton" {
+                        child.zPosition = popup.zPosition
+                    }
                 }
-                
-                //records tilt along x axis once, when start button is pressed
-                if (playerTilt == nil) && (startPressed == true) {
+            }
+            
+            // slide menu setup
+            slideMenu = Menu(screenHeight: frame.size.height,
+                             screenWidth: frame.size.width)
+            slideMenu.position = CGPoint(x: ((frame.size.width / 3) * 2),
+                                         y: 0)
+            camera!.addChild(slideMenu)
+            slideMenu.zPosition = 1
+            // button returning to main menu
+            let returnButton = Button(label: "Menu")
+            returnButton.action = returnToMenu
+            returnButton.position = CGPoint(x: 0, y: -40)
+            slideMenu.addChild(returnButton)
+            
+            // button to accesss options
+            let optionsButton = Button(label: "Options")
+            optionsButton.action = options
+            optionsButton.position = CGPoint(x: 0, y: 40)
+            slideMenu.addChild(optionsButton)
+            
+            // character select popup setup
+            camera!.addChild(charSelPopup)
+            // button sets tilt and start moving
+            charSelPopup.startButton.action = startGame
+            charSelPopup.visible()
+            charSelOut = true
+            pause(slideMenu)
+            for button in [charSelPopup.char1button, charSelPopup.char2button, charSelPopup.char3button] {
+                button.activeButton.isHidden = true
+                button.defaultButton.isHidden = false
+            }
+            
+            // item popup setup
+            itemPopup.invisible()
+            itemPopup.isUserInteractionEnabled = true
+            itemPopup.popupNodeButton.action = closeItemPopup
+            camera!.addChild(itemPopup)
+            // options popup setup
+            optionsPopup.tiltResetButton.action = resetTilt
+            optionsPopup.invisible()
+            camera!.addChild(optionsPopup)
+            
+            optionsPopup.vibrateButton.action = vibOff
+            optionsPopup.vibrateButton.altAction = vibOn
+            
+            // add health and item counters to HUD
+            for label in [healthLabel, itemLabel, abilityTimerLabel] {
+                label.fontName = "Conductive"
+                label.verticalAlignmentMode = .center
+            }
+            healthLabel.position = CGPoint(x: -frame.size.width/2 + 25 , y: frame.size.height/2 - 20)
+            camera!.addChild(healthLabel)
+            itemLabel.position = CGPoint(x: -frame.size.width/2 + 85 , y: frame.size.height/2 - 20)
+            camera!.addChild(itemLabel)
+            abilityTimerLabel.position = CGPoint(x: 0, y: frame.size.height/2 - 20)
+            abilityTimerLabel.fontSize = 26
+            abilityTimerLabel.fontColor = .red
+            
+            // actions available after win/lose
+            losePopup.loseReturnButton.action = returnToMenu
+            losePopup.retryButton.action = resetLevel
+            winPopup.winReturnButton.action = returnToMenu
+            winPopup.levSelButton.action = levelSelect
+            
+            // ACCELEROMETER------------------------------------------------------------------------------------------------
+            if motionManager.isAccelerometerAvailable {
+                motionManager.accelerometerUpdateInterval = 0.01
+                motionManager.startAccelerometerUpdates(to: .main) {
+                    (data, error) in
+                    guard let data = data, error == nil else {
+                        return
+                    }
                     
-                    playerTilt = data.acceleration.x
-                    print("INIT: Preferred tilt angle is \(Int(playerTilt! * 90))°")
-                    //0° is flat, 90° is vertical
-                }
-                
-                if (startPressed == true) {
-                    let dataXAdjusted = -data.acceleration.x + playerTilt! //* orientationMultiplier
-                    
-//                  flat = 0, forward is +, back is -
-//                  tilt foward goes up to 1 fully vertical, past it goes back from 1
-//                  tilt back goes up to -1 fully vertical, past it goes back from -1
-                    
-                    // tilt moves, X
-                    if (data.acceleration.y > 0.06 ||
-                        data.acceleration.y < -0.06) {
+                    //records tilt along x axis once, when start button is pressed
+                    if (playerTilt == nil) && (startPressed == true) {
                         
-                        // RIGHT (in landscape right)
-                        if (data.acceleration.y > 0.06) && (data.acceleration.y < 0.4) {
-                            xVelocity = CGFloat(data.acceleration.y * 900 * orientationMultiplier) // right speed
-                            if orientationLeft == true {
-                                playerXDirection = "right"
+                        playerTilt = data.acceleration.x
+                        print("INIT: Preferred tilt angle is \(Int(playerTilt! * 90))°")
+                        //0° is flat, 90° is vertical
+                    }
+                    
+                    if (startPressed == true) {
+                        let dataXAdjusted = -data.acceleration.x + playerTilt! //* orientationMultiplier
+                        
+                        //                  flat = 0, forward is +, back is -
+                        //                  tilt foward goes up to 1 fully vertical, past it goes back from 1
+                        //                  tilt back goes up to -1 fully vertical, past it goes back from -1
+                        
+                        // tilt moves, X
+                        if (data.acceleration.y > 0.06 ||
+                            data.acceleration.y < -0.06) {
+                            
+                            // RIGHT (in landscape right)
+                            if (data.acceleration.y > 0.06) && (data.acceleration.y < 0.4) {
+                                xVelocity = CGFloat(data.acceleration.y * 900 * orientationMultiplier) // right speed
+                                if orientationLeft == true {
+                                    playerXDirection = "right"
+                                }
+                                else {
+                                    playerXDirection = "left"
+                                }
                             }
-                            else {
-                                playerXDirection = "left"
+                            if (data.acceleration.y > 0.4){
+                                //                            print("right cap hit")
+                                xVelocity = CGFloat(0.4 * 900 * orientationMultiplier) // max right speed
+                                if orientationLeft == true {
+                                    playerXDirection = "right"
+                                }
+                                else {
+                                    playerXDirection = "left"
+                                }
+                            }
+                            // LEFT (in landscape right)
+                            if (data.acceleration.y < -0.06) && (data.acceleration.y > -0.4) {
+                                xVelocity = CGFloat(data.acceleration.y * 900 * orientationMultiplier) // left speed
+                                if orientationLeft == true {
+                                    playerXDirection = "left"
+                                }
+                                else {
+                                    playerXDirection = "right"
+                                }                        }
+                            if (data.acceleration.y < -0.4){
+                                //                            print("left cap hit")
+                                xVelocity = CGFloat(-0.4 * 900 * orientationMultiplier) // max left speed
+                                if orientationLeft == true {
+                                    playerXDirection = "left"
+                                }
+                                else {
+                                    playerXDirection = "right"
+                                }
                             }
                         }
-                        if (data.acceleration.y > 0.4){
-//                            print("right cap hit")
-                            xVelocity = CGFloat(0.4 * 900 * orientationMultiplier) // max right speed
-                            if orientationLeft == true {
-                                playerXDirection = "right"
-                            }
-                            else {
-                                playerXDirection = "left"
-                            }
+                            
+                            // tilt doesn't move, X
+                        else {
+                            xVelocity = CGFloat(0)
+                            playerXDirection = "still"
                         }
-                        // LEFT (in landscape right)
-                        if (data.acceleration.y < -0.06) && (data.acceleration.y > -0.4) {
-                            xVelocity = CGFloat(data.acceleration.y * 900 * orientationMultiplier) // left speed
-                            if orientationLeft == true {
-                                playerXDirection = "left"
+                        
+                        // tilt moves, Y
+                        if (dataXAdjusted > 0.06) ||
+                            (dataXAdjusted < -0.06) {
+                            
+                            // UP (in landscape right)
+                            if (dataXAdjusted > 0.06) && (dataXAdjusted < 0.4) {
+                                yVelocity = CGFloat(dataXAdjusted * 900 * orientationMultiplier) // up speed
+                                if orientationLeft == true {
+                                    playerYDirection = "up"
+                                }
+                                else {
+                                    playerYDirection = "down"
+                                    yVelocity *= 1.25 // is faster because tilting down moves the screen out of the player's view
+                                }
                             }
-                            else {
-                                playerXDirection = "right"
-                            }                        }
-                        if (data.acceleration.y < -0.4){
-//                            print("left cap hit")
-                            xVelocity = CGFloat(-0.4 * 900 * orientationMultiplier) // max left speed
-                            if orientationLeft == true {
-                                playerXDirection = "left"
+                            if (dataXAdjusted > 0.4) {
+                                //                            print("forward cap hit")
+                                yVelocity = CGFloat(0.4 * 900 * orientationMultiplier) // max up speed
+                                if orientationLeft == true {
+                                    playerYDirection = "up"
+                                }
+                                else {
+                                    playerYDirection = "down"
+                                    yVelocity *= 1.25
+                                }
                             }
-                            else {
-                                playerXDirection = "right"
+                            // DOWN (in landscape right)
+                            if (dataXAdjusted < -0.06) && (dataXAdjusted > -0.4) {
+                                yVelocity = CGFloat(dataXAdjusted * 900 * orientationMultiplier) // down speed
+                                if orientationLeft == true {
+                                    playerYDirection = "down"
+                                    yVelocity *= 1.25
+                                }
+                                else {
+                                    playerYDirection = "up"
+                                }
                             }
+                            if (dataXAdjusted < -0.4) {
+                                //                            print("backward cap hit")
+                                yVelocity = CGFloat(-0.4 * 900 * orientationMultiplier) // max down speed
+                                if orientationLeft == true {
+                                    playerYDirection = "down"
+                                    yVelocity *= 1.25
+                                }
+                                else {
+                                    playerYDirection = "up"
+                                }
+                            }
+                            
+                        }
+                            
+                            // tilt doesn't move, Y
+                        else {
+                            yVelocity = CGFloat(0)
+                            playerYDirection = "still"
                         }
                     }
                         
-                    // tilt doesn't move, X
-                    else {
+                        // tilt cannot move player before start button is pressed
+                    else if startPressed == false {
                         xVelocity = CGFloat(0)
-                        playerXDirection = "still"
-                    }
-                    
-                    // tilt moves, Y
-                    if (dataXAdjusted > 0.06) ||
-                        (dataXAdjusted < -0.06) {
-        
-                        // UP (in landscape right)
-                        if (dataXAdjusted > 0.06) && (dataXAdjusted < 0.4) {
-                            yVelocity = CGFloat(dataXAdjusted * 900 * orientationMultiplier) // up speed
-                            if orientationLeft == true {
-                                playerYDirection = "up"
-                            }
-                            else {
-                                playerYDirection = "down"
-                                yVelocity *= 1.25 // is faster because tilting down moves the screen out of the player's view
-                            }
-                        }
-                        if (dataXAdjusted > 0.4) {
-//                            print("forward cap hit")
-                            yVelocity = CGFloat(0.4 * 900 * orientationMultiplier) // max up speed
-                            if orientationLeft == true {
-                                playerYDirection = "up"
-                            }
-                            else {
-                                playerYDirection = "down"
-                                yVelocity *= 1.25
-                            }
-                        }
-                        // DOWN (in landscape right)
-                        if (dataXAdjusted < -0.06) && (dataXAdjusted > -0.4) {
-                            yVelocity = CGFloat(dataXAdjusted * 900 * orientationMultiplier) // down speed
-                            if orientationLeft == true {
-                                playerYDirection = "down"
-                                yVelocity *= 1.25
-                            }
-                            else {
-                                playerYDirection = "up"
-                            }
-                        }
-                        if (dataXAdjusted < -0.4) {
-//                            print("backward cap hit")
-                            yVelocity = CGFloat(-0.4 * 900 * orientationMultiplier) // max down speed
-                            if orientationLeft == true {
-                                playerYDirection = "down"
-                                yVelocity *= 1.25
-                            }
-                            else {
-                                playerYDirection = "up"
-                            }
-                        }
-                        
-                    }
-                        
-                    // tilt doesn't move, Y
-                    else {
                         yVelocity = CGFloat(0)
-                        playerYDirection = "still"
                     }
-                }
-                    
-                // tilt cannot move player before start button is pressed
-                else if startPressed == false {
-                    xVelocity = CGFloat(0)
-                    yVelocity = CGFloat(0)
                 }
             }
         }
+        
+        runGameScene()
     }
     
     // SWIPE--------------------------------------------------------------------------------------------------------------
@@ -564,15 +579,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if (slideMenu.isPaused == false) && (startPressed == true) {
             if sender.direction == .left {
                 print("MENU: left swipe")
-                    slideMenu.run(menuEnter)
-                    slideMenuOut = true
-                    pause()
+                slideMenu.run(menuEnter)
+                slideMenuOut = true
+                pause()
             }
             if sender.direction == .right{
                 print("MENU: right swipe")
-                    slideMenu.run(menuLeave)
-                    slideMenuOut = false
-                    resume()
+                slideMenu.run(menuLeave)
+                slideMenuOut = false
+                resume()
             }
         }
     }
@@ -581,13 +596,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     @IBAction func doubleTapMade(_ sender: UITapGestureRecognizer) {
         print("TOUCH: double tap")
         // conditions: not in a menu, gameplay begun, not already using ability, not out of uses
-            if physicsWorld.speed == 1 && startPressed == true && abilityActive == false && abilityUses > 0 {
-                abilityActive = true
-                abilityUses -= 1
-                abilityTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: (#selector(updateTimer)), userInfo: nil, repeats: true)
-                print("ABILITY: \(abilityUses) uses left")
-                print("ABILITY: time started")
-                camera!.addChild(abilityTimerLabel)
+        if physicsWorld.speed == 1 && startPressed == true && abilityActive == false && abilityUses > 0 {
+            abilityActive = true
+            abilityUses -= 1
+            abilityTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: (#selector(updateTimer)), userInfo: nil, repeats: true)
+            print("ABILITY: \(abilityUses) uses left")
+            print("ABILITY: time started")
+            camera!.addChild(abilityTimerLabel)
         }
     }
     
@@ -624,7 +639,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             print(type(of: contactA.node!))
             print(type(of: contactB.node!))
         }
-
+        
         if (contact.bodyA.node != nil) &&
             (contact.bodyB.node != nil) {
             
@@ -638,7 +653,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let reboundDown = SKAction.applyImpulse(CGVector(dx: 0, dy: -reboundImpulse), duration: 0.1)
             
             
-            //enemy-wall
+            // enemy-wall
+            // enemy bounces off of wall to avoid getting stuck
             if (aNode is Enemy) && (bNode is Wall) {
                 if (aNode!.position.x < bNode!.position.x) {
                     aNode!.run(reboundLeft)
@@ -688,7 +704,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     }
                     
                 }
-//                AudioServicesPlayAlertSound(kSystemSoundID_Vibrate)
+                //                AudioServicesPlayAlertSound(kSystemSoundID_Vibrate)
                 print("COLLISION: player touched enemy, health = \(playerHealth)")
                 
                 // ---LOSE CONDITION---
@@ -724,7 +740,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 // enemy & player will rebound only vertical or horizontal,
                 // whichever difference in position is greater
                 if (abs(aNode!.position.x - bNode!.position.x) > abs(aNode!.position.y - bNode!.position.y)) {
-                // x diff > y diff
+                    // x diff > y diff
                     if (aNode!.position.x < bNode!.position.x) {
                         aNode!.run(reboundLeft)
                         bNode!.run(reboundRight)
@@ -739,7 +755,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     }
                 }
                 if (abs(aNode!.position.y - bNode!.position.y) > abs(aNode!.position.x - bNode!.position.x)) {
-                // y diff > x diff
+                    // y diff > x diff
                     if (aNode!.position.y < bNode!.position.y) {
                         aNode!.run(reboundDown)
                         bNode!.run(reboundUp)
@@ -838,24 +854,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
         
-      
+        
         if playerYDirection == "still" && playerXDirection == "still" {
             player.action(forKey: "anim")?.speed = 0
         }
     }
-
+    
     // called every frame--------------------------------------------------------------------------------------------------
     override func update(_ currentTime: TimeInterval) {
         // update volume
         sfxVol = Float(optionsPopup.sfxVol.volValue)/10
         sfxMuted = optionsPopup.sfxVol.muted
-//        TODO: implement sound effects and find a way to identify them (name, type, key?) to adjust volume
+        //        TODO: implement sound effects and find a way to identify them (name, type, key?) to adjust volume
         if sfxMuted == false {
             setSfxVol = SKAction.changeVolume(to: sfxVol, duration: 0)
-//            soundeffect.run(setSfxVol!)
+            //            soundeffect.run(setSfxVol!)
         }
         else {
-//            soundeffect.run(mute)
+            //            soundeffect.run(mute)
         }
         musicVol = Float(optionsPopup.musicVol.volValue)/10
         musicMuted = optionsPopup.musicVol.muted
@@ -874,7 +890,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // update player velocity based on tilt
         player.physicsBody!.velocity = CGVector(dx: xVelocity,
                                                 dy: yVelocity)
-
+        
         // continuously run pathfinding on all enemies and attract on all items
         if startPressed == true {
             scene?.enumerateChildNodes(withName: "enemy") {
@@ -923,22 +939,37 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    func removeAll() {
+    func removeAll(exitLevel: Bool) {
         abilityTimer.invalidate()
-        for parent in [worldNode, camera!, self] {
-            parent.removeAllChildren()
-        }
+                switch exitLevel {
+                case false:
+                    camera!.removeAllChildren()
+                    worldNode.removeAllChildren()
+                    for child in self.children {
+                        if (child != camera) && !(child is MazeWall) && !(child is Enemy) && !(child is Item) {
+                            child.removeAllActions()
+                            child.removeFromParent()
+                        }
+                    }
+                case true:
+                    for parent in [camera!, worldNode, self] {
+                        for child in parent.children {
+                            child.removeAllActions()
+                            child.removeFromParent()
+                        }
+                    }
+                }
         self.removeAllActions()
     }
     
     override func willMove(from view: SKView) {
         appDelegate.restrictRotation = .landscape
         
-//        let inbetweenScene = SKScene(fileNamed: "Test")
-//        inbetweenScene?.userData = ["previousScene":SKScene(fileNamed: self.name!)]
+        //        let inbetweenScene = SKScene(fileNamed: "Test")
+        //        inbetweenScene?.userData = ["previousScene":SKScene(fileNamed: self.name!)]
         
         // remove everything from the scene
         // failing to do so causes duplicates/crashes
-        removeAll()
+        removeAll(exitLevel: true)
     }
 }
