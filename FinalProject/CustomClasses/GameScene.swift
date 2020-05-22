@@ -100,7 +100,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if charChoice != "" {
             // this bool signals the start of gameplay to tilt, menu, and item/enemy class actions
             startPressed = true
-//            player.isHidden = false
+            player.isHidden = false
             charSelPopup.invisible()
             charSelPopup.run(moveOutOfFrame)
             resume(slideMenu)
@@ -253,7 +253,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             player.physicsBody?.contactTestBitMask = 0x00000001
             
             // player hidden until start is pressed for cleaner appearance
-            //            player.isHidden = true
+                        player.isHidden = true
             
             worldNode.addChild(player)
             
@@ -663,16 +663,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let aNode = contact.bodyA.node, bNode = contact.bodyB.node
             let aName = aNode?.name, bName = bNode?.name
             
-            let reboundImpulse = 300
+//            describeCollision(contactA: contact.bodyA, contactB: contact.bodyB)
+            
+            var reboundImpulse = 300
             let reboundLeft = SKAction.applyImpulse(CGVector(dx: -reboundImpulse, dy: 0), duration: 0.1)
             let reboundRight = SKAction.applyImpulse(CGVector(dx: reboundImpulse, dy: 0), duration: 0.1)
             let reboundUp = SKAction.applyImpulse(CGVector(dx: 0, dy: reboundImpulse), duration: 0.1)
             let reboundDown = SKAction.applyImpulse(CGVector(dx: 0, dy: -reboundImpulse), duration: 0.1)
             
+            // or if enemy is with distance of wall
             
             // enemy-wall
             // enemy bounces off of wall to avoid getting stuck
-            if (aNode is Enemy) && (bNode is Wall) {
+            if (aNode is Enemy) && (bNode is MazeWall) {
+                reboundImpulse = 100
                 if (aNode!.position.x < bNode!.position.x) {
                     aNode!.run(reboundLeft)
                     print("ENEMY: wall rebound left")
@@ -690,7 +694,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     print("ENEMY: wall rebound up")
                 }
             }
-            if (aNode is Wall) && (bNode is Enemy) {
+            if (aNode is MazeWall) && (bNode is Enemy) {
+                reboundImpulse = 150
                 if (aNode!.position.x < bNode!.position.x) {
                     bNode!.run(reboundRight)
                     print("ENEMY: wall rebound left")
@@ -712,6 +717,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             // player-enemy
             if ((bName == "player") && (aNode is Enemy)) ||
                 ((aName == "player") && (bNode is Enemy)) {
+                reboundImpulse = 300
                 sfx()
                 if healthSubtracted == false {
                     healthSubtracted = true
