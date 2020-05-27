@@ -676,7 +676,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             // enemy-wall
             // enemy bounces off of wall to avoid getting stuck
             if (aNode is Enemy) && (bNode is MazeWall) {
-                reboundImpulse = 100
+                reboundImpulse = 75
                 if (aNode!.position.x < bNode!.position.x) {
                     aNode!.run(reboundLeft)
                     print("ENEMY: wall rebound left")
@@ -980,7 +980,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     for parent in [camera!, worldNode, self] {
                         for child in parent.children {
                             child.removeAllActions()
-                            child.removeFromParent()
+                            if child != camera {
+                                child.removeFromParent()
+                            }
                         }
                     }
                 }
