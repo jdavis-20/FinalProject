@@ -23,6 +23,10 @@
 		25105E85235322B900CAC3AE /* button.png in Resources */ = {isa = PBXBuildFile; fileRef = 25105E84235322B900CAC3AE /* button.png */; };
 		25105E8C2353384300CAC3AE /* Level1Scene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25105E8B2353384300CAC3AE /* Level1Scene.swift */; };
 		25105E8E2353386700CAC3AE /* Level1Scene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 25105E8D2353386700CAC3AE /* Level1Scene.sks */; };
+		25147C722481CDCA003E5219 /* hor620.png in Resources */ = {isa = PBXBuildFile; fileRef = 25147C712481CDC9003E5219 /* hor620.png */; };
+		25147C742482A394003E5219 /* hor600.png in Resources */ = {isa = PBXBuildFile; fileRef = 25147C732482A394003E5219 /* hor600.png */; };
+		25147C782482AD32003E5219 /* vert220.png in Resources */ = {isa = PBXBuildFile; fileRef = 25147C772482AD32003E5219 /* vert220.png */; };
+		25147C7A2482AE43003E5219 /* yellowlevel.png in Resources */ = {isa = PBXBuildFile; fileRef = 25147C792482AE43003E5219 /* yellowlevel.png */; };
 		252CBD2923F4761D00CF40E3 /* sky.png in Resources */ = {isa = PBXBuildFile; fileRef = 252CBD2723F4761D00CF40E3 /* sky.png */; };
 		252CBD2A23F4761D00CF40E3 /* ship (temp).png in Resources */ = {isa = PBXBuildFile; fileRef = 252CBD2823F4761D00CF40E3 /* ship (temp).png */; };
 		252EE1D323DB40440045115B /* MazeWall.swift in Sources */ = {isa = PBXBuildFile; fileRef = 252EE1D223DB40440045115B /* MazeWall.swift */; };
@@ -139,6 +143,10 @@
 		25105E84235322B900CAC3AE /* button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button.png; sourceTree = "<group>"; };
 		25105E8B2353384300CAC3AE /* Level1Scene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Level1Scene.swift; sourceTree = "<group>"; };
 		25105E8D2353386700CAC3AE /* Level1Scene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Level1Scene.sks; sourceTree = "<group>"; };
+		25147C712481CDC9003E5219 /* hor620.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hor620.png; sourceTree = "<group>"; };
+		25147C732482A394003E5219 /* hor600.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hor600.png; sourceTree = "<group>"; };
+		25147C772482AD32003E5219 /* vert220.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = vert220.png; path = ../../../../../../Downloads/vert220.png; sourceTree = "<group>"; };
+		25147C792482AE43003E5219 /* yellowlevel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = yellowlevel.png; sourceTree = "<group>"; };
 		252CBD2723F4761D00CF40E3 /* sky.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sky.png; sourceTree = "<group>"; };
 		252CBD2823F4761D00CF40E3 /* ship (temp).png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ship (temp).png"; sourceTree = "<group>"; };
 		252EE1D223DB40440045115B /* MazeWall.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MazeWall.swift; sourceTree = "<group>"; };
@@ -319,6 +327,7 @@
 		25105E88235322CB00CAC3AE /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				25147C6A24808D7C003E5219 /* Backgrounds */,
 				258FF9AA24196865008480CE /* Interface */,
 				252CBD4523F57A0F00CF40E3 /* Character */,
 				2585FCD123D9E144005926F5 /* References */,
@@ -327,6 +336,17 @@
 			);
 			name = Images;
 			path = "New Group";
+			sourceTree = "<group>";
+		};
+		25147C6A24808D7C003E5219 /* Backgrounds */ = {
+			isa = PBXGroup;
+			children = (
+				25147C792482AE43003E5219 /* yellowlevel.png */,
+				25147C712481CDC9003E5219 /* hor620.png */,
+				25147C732482A394003E5219 /* hor600.png */,
+				25147C772482AD32003E5219 /* vert220.png */,
+			);
+			path = Backgrounds;
 			sourceTree = "<group>";
 		};
 		252CBD2623F4760200CF40E3 /* Level Select */ = {
@@ -637,6 +657,7 @@
 				25C56B6B23F6E0CE00A61747 /* 1024.png in Resources */,
 				25C56B7123F6F03B00A61747 /* skyvert.png in Resources */,
 				25D21D462428032900C5B278 /* launch.png in Resources */,
+				25147C7A2482AE43003E5219 /* yellowlevel.png in Resources */,
 				254C97CF23EF27E00036FBB6 /* BlueFront.png in Resources */,
 				2561E94223548C0F00B23812 /* LevelSelectScene.sks in Resources */,
 				25105E85235322B900CAC3AE /* button.png in Resources */,
@@ -663,6 +684,7 @@
 				25105E8E2353386700CAC3AE /* Level1Scene.sks in Resources */,
 				25D21D3C2427F62F00C5B278 /* Conductive.ttf in Resources */,
 				254C38B62418090600EF4D0A /* yel.png in Resources */,
+				25147C742482A394003E5219 /* hor600.png in Resources */,
 				25105E4B23521E2900CAC3AE /* Assets.xcassets in Resources */,
 				253A1C882392C2BA00CBECB9 /* tempiconsmall.png in Resources */,
 				25498A44243B9851009B29FC /* Test.sks in Resources */,
@@ -673,10 +695,12 @@
 				254C38B12418090600EF4D0A /* red.png in Resources */,
 				257CAFD4240FE610002E7EA3 /* maze3.png in Resources */,
 				257CAFD5240FE610002E7EA3 /* maze2.png in Resources */,
+				25147C722481CDCA003E5219 /* hor620.png in Resources */,
 				25105E4E23521E2900CAC3AE /* LaunchScreen.storyboard in Resources */,
 				254BB3B4243797340049C3D5 /* front.atlas in Resources */,
 				25C56B6923F6DFF900A61747 /* icon.png in Resources */,
 				254C38B02418090600EF4D0A /* blul.png in Resources */,
+				25147C782482AD32003E5219 /* vert220.png in Resources */,
 				25105E83235322B500CAC3AE /* button_active.png in Resources */,
 				254BB3B82437C2F50049C3D5 /* right.atlas in Resources */,
 				254C97D323EF28E90036FBB6 /* play.png in Resources */,
