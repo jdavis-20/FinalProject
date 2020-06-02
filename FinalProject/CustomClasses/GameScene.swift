@@ -108,12 +108,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         if charChoice == "Med" {
             addChild(purpleAnimator)
+            initPlayer()
         }
         if charChoice == "Bot" {
             addChild(blueAnimator)
+            initPlayer()
         }
         if charChoice == "Arch" {
             addChild(redAnimator)
+            initPlayer()
         }
     }
     
@@ -238,7 +241,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func initPlayer() {
         if worldNode.childNode(withName: "player") == nil {
             // player-------------------------------------------------------------------------------------------------------
-            player = SKSpriteNode(imageNamed: "RedFront")
+            player = SKSpriteNode(texture: purpleAnimator.frontFrames[0])
+            player.setScale(0.5)
             player.position = CGPoint(x: 0, y: 0)
             player.name = "player"
             
