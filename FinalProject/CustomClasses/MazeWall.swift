@@ -10,8 +10,8 @@ import SpriteKit
 
 class MazeWall: SKSpriteNode {
     func setWallPhysics() {
-        self.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: self.size.width,
-                                                                 height: self.size.height))
+        self.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: self.size.width - 0.5,
+                                                                 height: self.size.height - 0.5))
 //        self.name = "wall" //change to individual names later?
         
         self.physicsBody?.isDynamic = false

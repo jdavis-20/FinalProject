@@ -20,7 +20,7 @@ class Enemy: SKSpriteNode {
     let fastSpeed = 160
     let rayRange: CGFloat = 110
     let turnDelay = 0.8
-    let reboundImpulse = 100
+    let reboundImpulse = 50
     let followDirPadding: CGFloat = 10
     
     var followPlayer = false

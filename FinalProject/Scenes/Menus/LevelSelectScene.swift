@@ -33,16 +33,16 @@ class LevelSelectScene : SKScene {
 //        self.run(musicLoop)
         
         let overlayBottom = childNode(withName: "overlaybottom")
-        let obWidth = overlayBottom!.frame.size.width
-        overlayBottom?.setScale(self.frame.size.width/obWidth)
+        let levselScale = self.frame.size.width/overlayBottom!.frame.size.width
+        overlayBottom?.setScale(levselScale)
         overlayBottom?.position = CGPoint(x: 0, y: -self.frame.size.height/2)
         
         let overlayLeft = childNode(withName: "overlayleft")
-        overlayLeft?.setScale(self.frame.size.width/obWidth)
+        overlayLeft?.setScale(levselScale)
         overlayLeft?.position = CGPoint(x: -self.frame.size.width/2, y: 0)
         
         let overlayRight = childNode(withName: "overlayright")
-        overlayRight?.setScale(self.frame.size.width/obWidth)
+        overlayRight?.setScale(levselScale)
         overlayRight?.position = CGPoint(x: self.frame.size.width/2, y: 0)
         
         let bkgd = childNode(withName: "bkgd")

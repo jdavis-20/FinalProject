@@ -61,11 +61,13 @@ class Button: SKNode {
         if activeButton.isHidden == true && defaultButton.isHidden == false {
             activeButton.isHidden = false
             defaultButton.isHidden = true
+            buttonLabel.alpha = 0.8
             buttonLabel.run(textActive)
         }
         else if activeButton.isHidden == false && defaultButton.isHidden == true {
             activeButton.isHidden = true
             defaultButton.isHidden = false
+            buttonLabel.alpha = 1
             buttonLabel.run(textDefault)
         }
     }
@@ -75,6 +77,7 @@ class Button: SKNode {
         if isToggle == false {
             activeButton.isHidden = false
             defaultButton.isHidden = true
+            buttonLabel.alpha = 0.8
             buttonLabel.run(textActive)
         }
         if isToggle == true {
@@ -91,11 +94,13 @@ class Button: SKNode {
                 if defaultButton.contains(location) {
                     activeButton.isHidden = false
                     defaultButton.isHidden = true
+                    buttonLabel.alpha = 0.8
                     buttonLabel.run(textActive)
                     
                 } else {
                     activeButton.isHidden = true
                     defaultButton.isHidden = false
+                    buttonLabel.alpha = 1
                     buttonLabel.run(textDefault)
                 }
             }
@@ -119,6 +124,7 @@ class Button: SKNode {
             if isToggle == false {
                 activeButton.isHidden = true
                 defaultButton.isHidden = false
+                buttonLabel.alpha = 1
                 buttonLabel.run(textDefault)
             }
         }

@@ -15,6 +15,14 @@ class MenuScene: SKScene {
     
     override func didMove(to view: SKView) {
         self.name = "Menu"
+        let bkgd = childNode(withName: "background")
+        let menuScale = self.frame.size.width/bkgd!.frame.size.width
+        bkgd?.setScale(menuScale)
+        bkgd?.position = CGPoint(x: self.frame.size.width/2, y: self.frame.size.height/2)
+        
+        let textbox = childNode(withName: "textbox")
+        textbox?.setScale(menuScale)
+        textbox?.position = CGPoint(x: self.frame.size.width/2, y: self.frame.size.height/2)
         
 //        let song = SKAudioNode(fileNamed: "menuloop.wav")
 //        song.autoplayLooped = true
@@ -45,11 +53,10 @@ class MenuScene: SKScene {
         }
         
         //button triggers actual transition
-        let playButton = Button(defaultButtonImage: "launch",
-                                 activeButtonImage: "launch",
-                                 label: "Launch",
-                                 textMove: false)
-        playButton.setScale(0.8)
+        let playButton = Button(defaultButtonImage: "transparent",
+                                activeButtonImage: "transparent",
+                                label: "Launch",
+                                textMove: false)
         playButton.action = levelSelect
         playButton.buttonLabel.fontSize = 34
         playButton.buttonLabel.position = CGPoint(x: 0, y: 8)
@@ -62,9 +69,12 @@ class MenuScene: SKScene {
             UIControl().sendAction(#selector(NSXPCConnection.suspend), to: UIApplication.shared, for: nil)
         }
         
-        let exitButton = Button(label: "Exit")
+        let exitButton = Button(defaultButtonImage: "transparent",
+                                activeButtonImage: "transparent",
+                                label: "Exit",
+                                textMove: false)
         exitButton.action = exitApp
-        exitButton.position = CGPoint(x: frame.size.width/10, y: frame.size.height/10)
+        exitButton.position = CGPoint(x: frame.size.width/2, y: frame.size.height/3)
         
         addChild(exitButton)
     }

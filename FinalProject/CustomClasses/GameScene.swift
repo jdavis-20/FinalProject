@@ -70,7 +70,8 @@ let mute = SKAction.changeVolume(to: 0, duration: 0)
 let fadeIn = SKAction.changeVolume(to: 1, duration: 2)
 
 // HUD labels
-var healthLabel = SKLabelNode(text: String(10))
+var healthNode = SKSpriteNode()
+//var healthLabel = SKLabelNode(text: String(10))
 var itemLabel = SKLabelNode(text: String(0))
 var abilityTimerLabel = SKLabelNode(text: String(10))
 
@@ -85,7 +86,7 @@ let appDelegate = UIApplication.shared.delegate as! AppDelegate // currently bei
 let purpleAnimator = PlayerAnimator(frontAtlas: "front", backAtlas: "back", leftAtlas: "left", rightAtlas: "right", key: "purple")
 let blueAnimator = PlayerAnimator(frontAtlas: "front", backAtlas: "back", leftAtlas: "left", rightAtlas: "right", key: "blue")
 let redAnimator = PlayerAnimator(frontAtlas: "front", backAtlas: "back", leftAtlas: "left", rightAtlas: "right", key: "red")
-
+let healthTextureAtlas = SKTextureAtlas(named: "health")
 
 
 // GameScene is the superclass to all game levels-----------------------------------------------------------------------------
@@ -246,7 +247,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             player.position = CGPoint(x: 0, y: 0)
             player.name = "player"
             
-            player.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: player.size.width,
+            player.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: player.size.width - 10,
                                                                    height: player.size.height))
             player.physicsBody?.affectedByGravity = false
             player.physicsBody?.allowsRotation = false
@@ -428,13 +429,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         optionsPopup.vibrateButton.altAction = vibOn
         
         // add health and item counters to HUD
-        for label in [healthLabel, itemLabel, abilityTimerLabel] {
+        for label in [//healthLabel,
+                        itemLabel, abilityTimerLabel] {
             label.fontName = "Conductive"
             label.verticalAlignmentMode = .center
         }
-        healthLabel.position = CGPoint(x: -frame.size.width/2 + 25 , y: frame.size.height/2 - 20)
-        camera!.addChild(healthLabel)
+        
+        healthNode = SKSpriteNode(texture: healthTextureAtlas.textureNamed("10H"))
+        healthNode.position = CGPoint(x: -frame.size.width/2 + 40 , y: 0)
+        healthNode.zPosition = 5
+        healthNode.setScale(0.3)
+        camera!.addChild(healthNode)
+//        healthLabel.position = CGPoint(x: -frame.size.width/2 + 25 , y: frame.size.height/2 - 20)
+//        healthLabel.zPosition = 5
+//        camera!.addChild(healthLabel)
         itemLabel.position = CGPoint(x: -frame.size.width/2 + 85 , y: frame.size.height/2 - 20)
+        itemLabel.zPosition = 5
         camera!.addChild(itemLabel)
         abilityTimerLabel.position = CGPoint(x: 0, y: frame.size.height/2 - 20)
         abilityTimerLabel.fontSize = 26
@@ -669,7 +679,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
 //            describeCollision(contactA: contact.bodyA, contactB: contact.bodyB)
             
-            var reboundImpulse = 300
+            var reboundImpulse = 50
             let reboundLeft = SKAction.applyImpulse(CGVector(dx: -reboundImpulse, dy: 0), duration: 0.1)
             let reboundRight = SKAction.applyImpulse(CGVector(dx: reboundImpulse, dy: 0), duration: 0.1)
             let reboundUp = SKAction.applyImpulse(CGVector(dx: 0, dy: reboundImpulse), duration: 0.1)
@@ -680,7 +690,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             // enemy-wall
             // enemy bounces off of wall to avoid getting stuck
             if (aNode is Enemy) && (bNode is MazeWall) {
-                reboundImpulse = 75
+//                reboundImpulse = 50
                 if (aNode!.position.x < bNode!.position.x) {
                     aNode!.run(reboundLeft)
                     print("ENEMY: wall rebound left")
@@ -699,7 +709,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
             }
             if (aNode is MazeWall) && (bNode is Enemy) {
-                reboundImpulse = 150
+//                reboundImpulse = 50
                 if (aNode!.position.x < bNode!.position.x) {
                     bNode!.run(reboundRight)
                     print("ENEMY: wall rebound left")
@@ -721,7 +731,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             // player-enemy
             if ((bName == "player") && (aNode is Enemy)) ||
                 ((aName == "player") && (bNode is Enemy)) {
-                reboundImpulse = 300
+//                reboundImpulse = 300
                 sfx()
                 if healthSubtracted == false {
                     healthSubtracted = true
@@ -836,14 +846,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //camera follows player sprite
         camera?.position.x = player.position.x
         camera?.position.y = player.position.y
-        print("X: \(playerXDirection), Y: \(playerYDirection)")
+//        print("X: \(playerXDirection), Y: \(playerYDirection)")
         
         // if x movement is greater than y, use U/D animations
         if abs(xVelocity) > abs(yVelocity) {
             // left and right animations
             player.action(forKey: "anim")?.speed = CGFloat((abs(xVelocity) / 250))
             if playerXDirection == "left"{
-                print("animate left")
+//                print("animate left")
                 if leftAnimating == false {
                     leftAnimating = true
                     rightAnimating = false; upAnimating = false; downAnimating = false
@@ -851,7 +861,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
             }
             if playerXDirection == "right"{
-                print("animate right")
+//                print("animate right")
                 if rightAnimating == false {
                     rightAnimating = true
                     leftAnimating = false; upAnimating = false; downAnimating = false
@@ -864,7 +874,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             // up and down animations
             player.action(forKey: "anim")?.speed = CGFloat((abs(yVelocity) / 250))
             if playerYDirection == "up"{
-                print("animate up")
+//                print("animate up")
                 if upAnimating == false {
                     upAnimating = true
                     rightAnimating = false; leftAnimating = false; downAnimating = false
@@ -872,7 +882,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
             }
             if playerYDirection == "down"{
-                print("animate down")
+//                print("animate down")
                 if downAnimating == false {
                     downAnimating = true
                     rightAnimating = false; upAnimating = false; leftAnimating = false
@@ -912,8 +922,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             song.run(mute)
         }
         
-        // update HUD text
-        healthLabel.text = String(playerHealth)
+        // update HUD
+//        healthLabel.text = String(playerHealth)
+        if playerHealth >= 0 {
+            healthNode.texture = healthTextureAtlas.textureNamed("\(String(playerHealth))H")
+        }
         itemLabel.text = "\(String(playerItems))/\(String(totalItems))"
         
         // update player velocity based on tilt
