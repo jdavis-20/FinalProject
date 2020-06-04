@@ -390,7 +390,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         slideMenu.position = CGPoint(x: ((frame.size.width / 3) * 2),
                                      y: 0)
         camera!.addChild(slideMenu)
-        slideMenu.zPosition = 1
+        slideMenu.zPosition = 2
         // button returning to main menu
         let returnButton = Button(label: "Menu")
         returnButton.action = returnToMenu
@@ -436,7 +436,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         healthNode = SKSpriteNode(texture: healthTextureAtlas.textureNamed("10H"))
-        healthNode.position = CGPoint(x: -frame.size.width/2 + 40 , y: 0)
+        healthNode.position = CGPoint(x: -frame.size.width/2 + 35 , y: 0)
         healthNode.zPosition = 5
         healthNode.setScale(0.3)
         camera!.addChild(healthNode)
@@ -689,7 +689,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             // enemy-wall
             // enemy bounces off of wall to avoid getting stuck
-            if (aNode is Enemy) && (bNode is MazeWall) {
+            if ((aNode is Enemy) && (bNode is MazeWall)) || ((aNode is Enemy) && (bNode is Enemy)){
 //                reboundImpulse = 50
                 if (aNode!.position.x < bNode!.position.x) {
                     aNode!.run(reboundLeft)

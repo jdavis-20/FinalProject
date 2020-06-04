@@ -18,7 +18,7 @@ class Enemy: SKSpriteNode {
     let normalSpeed = 120
     let slowSpeed = 60
     let fastSpeed = 160
-    let rayRange: CGFloat = 110
+    let rayRange: CGFloat = 100
     let turnDelay = 0.8
     let reboundImpulse = 50
     let followDirPadding: CGFloat = 10
@@ -235,26 +235,26 @@ class Enemy: SKSpriteNode {
         }
 
         // bounce back and switch directions if colliding with another enemy
-        if (nodeAbove is Enemy) {
-            print("ENEMY: X4 turned around")
-            self.run(SKAction.applyImpulse(CGVector(dx: 0, dy: -reboundImpulse), duration: 0.2))
-            down()
-        }
-        if (nodeBelow is Enemy) {
-            print("ENEMY: X3 turned around")
-            self.run(SKAction.applyImpulse(CGVector(dx: 0, dy: reboundImpulse), duration: 0.2))
-            up()
-        }
-        if (nodeLeft is Enemy) {
-            print("ENEMY: X2 turned around")
-            self.run(SKAction.applyImpulse(CGVector(dx: reboundImpulse, dy: 0), duration: 0.2))
-            right()
-        }
-        if (nodeRight is Enemy) {
-            print("ENEMY: X1 turned around")
-            self.run(SKAction.applyImpulse(CGVector(dx: -reboundImpulse, dy: 0), duration: 0.2))
-            left()
-        }
+//        if (nodeAbove is Enemy) {
+//            print("ENEMY: X4 turned around")
+//            self.run(SKAction.applyImpulse(CGVector(dx: 0, dy: -reboundImpulse), duration: 0.2))
+//            down()
+//        }
+//        if (nodeBelow is Enemy) {
+//            print("ENEMY: X3 turned around")
+//            self.run(SKAction.applyImpulse(CGVector(dx: 0, dy: reboundImpulse), duration: 0.2))
+//            up()
+//        }
+//        if (nodeLeft is Enemy) {
+//            print("ENEMY: X2 turned around")
+//            self.run(SKAction.applyImpulse(CGVector(dx: reboundImpulse, dy: 0), duration: 0.2))
+//            right()
+//        }
+//        if (nodeRight is Enemy) {
+//            print("ENEMY: X1 turned around")
+//            self.run(SKAction.applyImpulse(CGVector(dx: -reboundImpulse, dy: 0), duration: 0.2))
+//            left()
+//        }
         
 //        this was an attempt to fix enemies getting stuck- contains method for random out of dirOptions array
 //        if (self.physicsBody?.velocity.dx)! == 0 && (self.physicsBody?.velocity.dy)! < 10 {
