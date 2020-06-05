@@ -48,6 +48,7 @@ var upAnimating = false, downAnimating = false
 var leftAnimating = false, rightAnimating = false
 
 var charChoice = ""
+var charColor = "red"
 var playerYDirection = "up"
 var playerXDirection = "still"
 
@@ -73,6 +74,7 @@ let fadeIn = SKAction.changeVolume(to: 1, duration: 2)
 var healthNode = SKSpriteNode()
 //var healthLabel = SKLabelNode(text: String(10))
 var itemLabel = SKLabelNode(text: String(0))
+var abilityNode = SKSpriteNode()
 var abilityTimerLabel = SKLabelNode(text: String(10))
 
 var abilityTimer = Timer()
@@ -87,6 +89,7 @@ let purpleAnimator = PlayerAnimator(frontAtlas: "front", backAtlas: "back", left
 let blueAnimator = PlayerAnimator(frontAtlas: "front", backAtlas: "back", leftAtlas: "left", rightAtlas: "right", key: "blue")
 let redAnimator = PlayerAnimator(frontAtlas: "front", backAtlas: "back", leftAtlas: "left", rightAtlas: "right", key: "red")
 let healthTextureAtlas = SKTextureAtlas(named: "health")
+let abilityTextureAtlas = SKTextureAtlas(named: "ability")
 
 
 // GameScene is the superclass to all game levels-----------------------------------------------------------------------------
@@ -102,6 +105,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             // this bool signals the start of gameplay to tilt, menu, and item/enemy class actions
             startPressed = true
             player.isHidden = false
+            healthNode.isHidden = false
+            abilityNode.isHidden = false
             charSelPopup.invisible()
             charSelPopup.run(moveOutOfFrame)
             resume(slideMenu)
@@ -109,14 +114,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         if charChoice == "Med" {
             addChild(purpleAnimator)
+            charColor = "purple"
             initPlayer()
         }
         if charChoice == "Bot" {
             addChild(blueAnimator)
+            charColor = "blue"
             initPlayer()
         }
         if charChoice == "Arch" {
             addChild(redAnimator)
+            charColor = "red"
             initPlayer()
         }
     }
@@ -257,12 +265,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             player.physicsBody?.restitution = 0
             player.physicsBody?.contactTestBitMask = 0x00000001
             
-            // player hidden until start is pressed for cleaner appearance
-                        player.isHidden = true
-            
             worldNode.addChild(player)
             
+            abilityNode = SKSpriteNode(texture: abilityTextureAtlas.textureNamed("\(charColor)3"))
+            abilityNode.position = CGPoint(x: -frame.size.width/2 + 35 , y: -35)
+            abilityNode.zPosition = 5
+            abilityNode.alpha = 0.8
+            abilityNode.setScale(0.3)
+            
+            camera!.addChild(abilityNode)
+            
             // addChild(purpleAnimator)
+            
+            // nodes hidden until start is pressed for cleaner appearance & because colors depend on character
+            player.isHidden = true
+            abilityNode.isHidden = true
+            healthNode.isHidden = true
         }
     }
     
@@ -436,8 +454,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         healthNode = SKSpriteNode(texture: healthTextureAtlas.textureNamed("10H"))
-        healthNode.position = CGPoint(x: -frame.size.width/2 + 35 , y: 0)
+        healthNode.position = CGPoint(x: -frame.size.width/2 + 35 , y: 35)
         healthNode.zPosition = 5
+        healthNode.alpha = 0.8
         healthNode.setScale(0.3)
         camera!.addChild(healthNode)
 //        healthLabel.position = CGPoint(x: -frame.size.width/2 + 25 , y: frame.size.height/2 - 20)
@@ -687,6 +706,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             // or if enemy is with distance of wall
             
+            //TODO: needs fix and cleanup, make rebound class?t
             // enemy-wall
             // enemy bounces off of wall to avoid getting stuck
             if ((aNode is Enemy) && (bNode is MazeWall)) || ((aNode is Enemy) && (bNode is Enemy)){
@@ -924,8 +944,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         // update HUD
 //        healthLabel.text = String(playerHealth)
-        if playerHealth >= 0 {
+        
+        // HUD node textures are dependent on game state variables
+        // limited to actual range to avoid calling on nonexistent textures
+        if playerHealth >= 0 && playerHealth <= 10 {
             healthNode.texture = healthTextureAtlas.textureNamed("\(String(playerHealth))H")
+        }
+        if abilityUses >= 0 && abilityUses <= 3 {
+            abilityNode.texture = abilityTextureAtlas.textureNamed("\(charColor)\(String(abilityUses))")
         }
         itemLabel.text = "\(String(playerItems))/\(String(totalItems))"
         
