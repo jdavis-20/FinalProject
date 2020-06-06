@@ -63,8 +63,24 @@ class Enemy: SKSpriteNode {
 //        addChild(upline)
     }
     
+    func left() {
+        self.physicsBody?.velocity = CGVector(dx: -enemySpeed, dy: 0)
+        currentDirection = "left"
+    }
+    func right() {
+        self.physicsBody?.velocity = CGVector(dx: enemySpeed, dy: 0)
+        currentDirection = "right"
+    }
+    func up() {
+        self.physicsBody?.velocity = CGVector(dx: 0, dy: enemySpeed)
+        currentDirection = "up"
+    }
+    func down() {
+        self.physicsBody?.velocity = CGVector(dx: 0, dy: -enemySpeed)
+        currentDirection = "down"
+    }
+    
     func pathfinding(playerNode: SKSpriteNode, currentScene: SKScene, character: String, ability: Bool) {
-        
         let absXDiff = abs(playerNode.position.x-self.position.x)
         let absYDiff = abs(playerNode.position.y-self.position.y)
         let xGreater = absXDiff > absYDiff
@@ -80,23 +96,6 @@ class Enemy: SKSpriteNode {
             self.randomOutOf3 = Int(arc4random_uniform(3))
             self.randomOutOf4 = Int(arc4random_uniform(4))
          // print("ENEMY: var changed \(self.randomOutOf2), \(self.randomOutOf3), \(self.randomOutOf4)")
-        }
-        
-        func left() {
-            self.physicsBody?.velocity = CGVector(dx: -enemySpeed, dy: 0)
-            currentDirection = "left"
-        }
-        func right() {
-            self.physicsBody?.velocity = CGVector(dx: enemySpeed, dy: 0)
-            currentDirection = "right"
-        }
-        func up() {
-            self.physicsBody?.velocity = CGVector(dx: 0, dy: enemySpeed)
-            currentDirection = "up"
-        }
-        func down() {
-            self.physicsBody?.velocity = CGVector(dx: 0, dy: -enemySpeed)
-            currentDirection = "down"
         }
         
         func contDir() {
@@ -116,7 +115,7 @@ class Enemy: SKSpriteNode {
         }
         
         func followDir() {
-            // slow follow cause of sedate
+            // slow follow caused by sedate
             if (character == "Med" && ability == true) {
                 enemySpeed = slowSpeed
             }
@@ -290,33 +289,33 @@ class Enemy: SKSpriteNode {
                                 // down or left
                                 if self.randomOutOf2 == 0 {
 //                                    print("ENEMY: A3 random down")
-                                    down()
+                                    self.down()
                                 }
                                 if self.randomOutOf2 == 1 {
 //                                    print("ENEMY: A3 random left")
-                                    left()
+                                    self.left()
                                 }
                             }
                             if self.currentDirection == "up" {
                                 // right or left
                                 if self.randomOutOf2 == 0 {
 //                                    print("ENEMY: A3 random right")
-                                    right()
+                                    self.right()
                                 }
                                 if self.randomOutOf2 == 1 {
 //                                    print("ENEMY: A3 random left")
-                                    left()
+                                    self.left()
                                 }
                             }
                             if self.currentDirection == "right" {
                                 // down or right
                                 if self.randomOutOf2 == 0 {
 //                                    print("ENEMY: A3 random down")
-                                    down()
+                                    self.down()
                                 }
                                 if self.randomOutOf2 == 1 {
 //                                    print("ENEMY: A3 random right")
-                                    right()
+                                    self.right()
                                 }
                             }
                             if self.currentDirection == "down" {
@@ -366,33 +365,33 @@ class Enemy: SKSpriteNode {
                             // left or right
                             if self.randomOutOf2 == 0 {
 //                                print("ENEMY: B3 random right")
-                                right()
+                                self.right()
                             }
                             if self.randomOutOf2 == 1 {
 //                                print("ENEMY: B3 random left")
-                                left()
+                                self.left()
                             }
                         }
                         if self.currentDirection == "left" {
                             // down or left
                             if self.randomOutOf2 == 0 {
 //                                print("ENEMY: B3 random down")
-                                down()
+                                self.down()
                             }
                             if self.randomOutOf2 == 1 {
 //                                print("ENEMY: B3 random left")
-                                left()
+                                self.left()
                             }
                         }
                         if self.currentDirection == "right" {
                             //down or right
                             if self.randomOutOf2 == 0 {
 //                                print("ENEMY: B3 random down")
-                                down()
+                                self.down()
                             }
                             if self.randomOutOf2 == 1 {
 //                                print("ENEMY: B3 random right")
-                                right()
+                                self.right()
                             }
                         }
                         if self.currentDirection == "up" {
@@ -440,11 +439,11 @@ class Enemy: SKSpriteNode {
                             // up or down
                             if self.randomOutOf2 == 0 {
 //                                print("ENEMY: C3 random down")
-                                down()
+                                self.down()
                             }
                             if self.randomOutOf2 == 1 {
 //                                print("ENEMY: C3 random up")
-                                up()
+                                self.up()
                             }
                             
                         }
@@ -452,11 +451,11 @@ class Enemy: SKSpriteNode {
                             // right or up
                             if self.randomOutOf2 == 0 {
 //                                print("ENEMY: C3 random up")
-                                up()
+                                self.up()
                             }
                             if self.randomOutOf2 == 1 {
 //                                print("ENEMY: C3 random right")
-                                right()
+                                self.right()
                             }
                             
                         }
@@ -464,11 +463,11 @@ class Enemy: SKSpriteNode {
                             // right or down
                             if self.randomOutOf2 == 0 {
 //                                print("ENEMY: C3 random down")
-                                down()
+                                self.down()
                             }
                             if self.randomOutOf2 == 1 {
 //                                print("ENEMY: C3 random right")
-                                right()
+                                self.right()
                             }
                         }
                         if self.currentDirection == "right" {
@@ -517,33 +516,33 @@ class Enemy: SKSpriteNode {
                             // up or down
                             if self.randomOutOf2 == 0 {
 //                                print("ENEMY: D3 random down")
-                                down()
+                                self.down()
                             }
                             if self.randomOutOf2 == 1 {
 //                                print("ENEMY: D3 random up")
-                                up()
+                                self.up()
                             }
                         }
                         if self.currentDirection == "up" {
                             // up or left
                             if self.randomOutOf2 == 0 {
 //                                print("ENEMY: D3 random up")
-                                up()
+                                self.up()
                             }
                             if self.randomOutOf2 == 1 {
 //                                print("ENEMY: D3 random left")
-                                left()
+                                self.left()
                             }
                         }
                         if self.currentDirection == "down" {
                             // down or left
                             if self.randomOutOf2 == 0 {
 //                                print("ENEMY: D3 random down")
-                                down()
+                                self.down()
                             }
                             if self.randomOutOf2 == 1 {
 //                                print("ENEMY: D3 random left")
-                                left()
+                                self.left()
                             }
                         }
                         if self.currentDirection == "left" {

@@ -698,60 +698,105 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
 //            describeCollision(contactA: contact.bodyA, contactB: contact.bodyB)
             
-            var reboundImpulse = 50
-            let reboundLeft = SKAction.applyImpulse(CGVector(dx: -reboundImpulse, dy: 0), duration: 0.1)
-            let reboundRight = SKAction.applyImpulse(CGVector(dx: reboundImpulse, dy: 0), duration: 0.1)
-            let reboundUp = SKAction.applyImpulse(CGVector(dx: 0, dy: reboundImpulse), duration: 0.1)
-            let reboundDown = SKAction.applyImpulse(CGVector(dx: 0, dy: -reboundImpulse), duration: 0.1)
+            func rebound(direction: String, node: SKNode, impulse: Int) {
+                switch direction {
+                case "left":
+                    let reboundAction = SKAction.applyImpulse(CGVector(dx: -impulse, dy: 0), duration: 0.1)
+                    node.run(reboundAction)
+                case "right":
+                    let reboundAction = SKAction.applyImpulse(CGVector(dx: impulse, dy: 0), duration: 0.1)
+                    node.run(reboundAction)
+                case "up":
+                    let reboundAction = SKAction.applyImpulse(CGVector(dx: 0, dy: impulse), duration: 0.1)
+                    node.run(reboundAction)
+                case "down":
+                    let reboundAction = SKAction.applyImpulse(CGVector(dx: 0, dy: -impulse), duration: 0.1)
+                    node.run(reboundAction)
+                default:
+                    break
+                }
+            }
             
-            // or if enemy is with distance of wall
+            var wallImpulse = 80
+            var enemyImpulse = 100
+            var playerImpulse = 300
             
-            //TODO: needs fix and cleanup, make rebound class?t
+            //TODO: needs fix and cleanup, make rebound func
             // enemy-wall
             // enemy bounces off of wall to avoid getting stuck
-            if ((aNode is Enemy) && (bNode is MazeWall)) || ((aNode is Enemy) && (bNode is Enemy)){
-//                reboundImpulse = 50
-                if (aNode!.position.x < bNode!.position.x) {
-                    aNode!.run(reboundLeft)
-                    print("ENEMY: wall rebound left")
-                }
-                if (aNode!.position.x > bNode!.position.x) {
-                    aNode!.run(reboundRight)
-                    print("ENEMY: wall rebound right")
-                }
-                if (aNode!.position.y < bNode!.position.y) {
-                    aNode!.run(reboundDown)
-                    print("ENEMY: wall rebound down")
-                }
-                if (aNode!.position.y > bNode!.position.y) {
-                    aNode!.run(reboundUp)
-                    print("ENEMY: wall rebound up")
+            if (aNode is Enemy) && (bNode is MazeWall) {
+                if (aNode as! Enemy).followPlayer == false {
+                    if (aNode!.position.x < bNode!.position.x) {
+                        rebound(direction: "left", node: aNode!, impulse: wallImpulse)
+                        (aNode as! Enemy).left()
+                    }
+                    if (aNode!.position.x > bNode!.position.x) {
+                        rebound(direction: "right", node: aNode!, impulse: wallImpulse)
+                        (aNode as! Enemy).right()
+                    }
+                    if (aNode!.position.y < bNode!.position.y) {
+                        rebound(direction: "down", node: aNode!, impulse: wallImpulse)
+                        (aNode as! Enemy).down()
+                    }
+                    if (aNode!.position.y > bNode!.position.y) {
+                        rebound(direction: "up", node: aNode!, impulse: wallImpulse)
+                        (aNode as! Enemy).up()
+                    }
                 }
             }
             if (aNode is MazeWall) && (bNode is Enemy) {
-//                reboundImpulse = 50
-                if (aNode!.position.x < bNode!.position.x) {
-                    bNode!.run(reboundRight)
-                    print("ENEMY: wall rebound left")
-                }
-                if (aNode!.position.x > bNode!.position.x) {
-                    bNode!.run(reboundLeft)
-                    print("ENEMY: wall rebound right")
-                }
-                if (aNode!.position.y < bNode!.position.y) {
-                    bNode!.run(reboundUp)
-                    print("ENEMY: wall rebound down")
-                }
-                if (aNode!.position.y > bNode!.position.y) {
-                    bNode!.run(reboundDown)
-                    print("ENEMY: wall rebound up")
+                if (bNode as! Enemy).followPlayer == false {
+                    if (aNode!.position.x < bNode!.position.x) {
+                        rebound(direction: "left", node: bNode!, impulse: wallImpulse)
+                        (bNode as! Enemy).left()
+                    }
+                    if (aNode!.position.x > bNode!.position.x) {
+                        rebound(direction: "right", node: bNode!, impulse: wallImpulse)
+                        (bNode as! Enemy).right()
+                    }
+                    if (aNode!.position.y < bNode!.position.y) {
+                        rebound(direction: "down", node: bNode!, impulse: wallImpulse)
+                        (bNode as! Enemy).down()
+                    }
+                    if (aNode!.position.y > bNode!.position.y) {
+                        rebound(direction: "up", node: bNode!, impulse: wallImpulse)
+                        (bNode as! Enemy).up()
+                    }
                 }
             }
+            
+            // enemy-enemy
+            if (aNode is Enemy) && (bNode is Enemy) {
+                if (aNode!.position.x < bNode!.position.x) {
+                    rebound(direction: "left", node: aNode!, impulse: enemyImpulse)
+                    (aNode as! Enemy).left()
+                    rebound(direction: "right", node: bNode!, impulse: enemyImpulse)
+                    (bNode as! Enemy).right()
+                }
+                if (aNode!.position.x > bNode!.position.x) {
+                    rebound(direction: "right", node: aNode!, impulse: enemyImpulse)
+                    (aNode as! Enemy).right()
+                    rebound(direction: "left", node: bNode!, impulse: enemyImpulse)
+                    (bNode as! Enemy).left()
+                }
+                if (aNode!.position.y < bNode!.position.y) {
+                    rebound(direction: "down", node: aNode!, impulse: enemyImpulse)
+                    (aNode as! Enemy).down()
+                    rebound(direction: "up", node: bNode!, impulse: enemyImpulse)
+                    (bNode as! Enemy).up()
+                }
+                if (aNode!.position.y > bNode!.position.y) {
+                    rebound(direction: "up", node: aNode!, impulse: enemyImpulse)
+                    (aNode as! Enemy).up()
+                    rebound(direction: "down", node: bNode!, impulse: enemyImpulse)
+                    (bNode as! Enemy).down()
+                }
+            }
+            
             
             // player-enemy
             if ((bName == "player") && (aNode is Enemy)) ||
                 ((aName == "player") && (bNode is Enemy)) {
-//                reboundImpulse = 300
                 sfx()
                 if healthSubtracted == false {
                     healthSubtracted = true
@@ -799,30 +844,26 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 if (abs(aNode!.position.x - bNode!.position.x) > abs(aNode!.position.y - bNode!.position.y)) {
                     // x diff > y diff
                     if (aNode!.position.x < bNode!.position.x) {
-                        aNode!.run(reboundLeft)
-                        bNode!.run(reboundRight)
-                        print("ENEMY: rebound left")
+                        rebound(direction: "left", node: aNode!, impulse: playerImpulse)
+                        rebound(direction: "right", node: bNode!, impulse: playerImpulse)
                         enemyDelay()
                     }
                     if (aNode!.position.x > bNode!.position.x) {
-                        aNode!.run(reboundRight)
-                        bNode!.run(reboundLeft)
-                        print("ENEMY: rebound right")
+                        rebound(direction: "right", node: aNode!, impulse: playerImpulse)
+                        rebound(direction: "left", node: bNode!, impulse: playerImpulse)
                         enemyDelay()
                     }
                 }
                 if (abs(aNode!.position.y - bNode!.position.y) > abs(aNode!.position.x - bNode!.position.x)) {
                     // y diff > x diff
                     if (aNode!.position.y < bNode!.position.y) {
-                        aNode!.run(reboundDown)
-                        bNode!.run(reboundUp)
-                        print("ENEMY: rebound down")
+                        rebound(direction: "down", node: aNode!, impulse: playerImpulse)
+                        rebound(direction: "up", node: bNode!, impulse: playerImpulse)
                         enemyDelay()
                     }
                     if (aNode!.position.y > bNode!.position.y) {
-                        aNode!.run(reboundUp)
-                        bNode!.run(reboundDown)
-                        print("ENEMY: rebound up")
+                        rebound(direction: "up", node: aNode!, impulse: playerImpulse)
+                        rebound(direction: "down", node: bNode!, impulse: playerImpulse)
                         enemyDelay()
                     }
                 }
