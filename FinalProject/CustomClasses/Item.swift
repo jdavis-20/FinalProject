@@ -23,8 +23,8 @@ class Item: SKSpriteNode {
     }
     func attract(character: String, ability: Bool, playerNode: SKSpriteNode) {
         if character == "Arch" && ability == true {
-            if (abs(playerNode.position.x-self.position.x) < 150) &&
-                (abs(playerNode.position.y-self.position.y) < 150) {
+            if (abs(playerNode.position.x-self.position.x) < 160) &&
+                (abs(playerNode.position.y-self.position.y) < 160) {
                 print("ITEM: attract distance detected")
                 self.run(SKAction.move(to: playerNode.position, duration: 0.2))
             }

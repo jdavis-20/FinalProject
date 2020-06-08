@@ -30,14 +30,6 @@ class Animator: SKNode {
         super.init()
     }
     
-//    func animateNode() {
-//        let firstFrame = animFrames[0]
-//        node.setScale(0.5)
-//        node.texture = firstFrame
-//        node.run(SKAction.repeatForever(SKAction.animate(with: animFrames, timePerFrame: 0.1,
-//                                                           resize: false, restore: false)), withKey: "item")
-//    }
-    
     required init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

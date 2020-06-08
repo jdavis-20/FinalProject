@@ -70,12 +70,12 @@ let song = SKAudioNode(fileNamed: "menuloop.wav")
 let mute = SKAction.changeVolume(to: 0, duration: 0)
 let fadeIn = SKAction.changeVolume(to: 1, duration: 2)
 
-// HUD labels
+// HUD
 var healthNode = SKSpriteNode()
-//var healthLabel = SKLabelNode(text: String(10))
 var itemLabel = SKLabelNode(text: String(0))
 var abilityNode = SKSpriteNode()
-var abilityTimerLabel = SKLabelNode(text: String(10))
+var abilityTimerNode = SKSpriteNode()
+var abilityTimerFrame = SKSpriteNode(imageNamed: "timerframe")
 
 var abilityTimer = Timer()
 
@@ -83,7 +83,7 @@ var abilityTimer = Timer()
 let transition = SKTransition.fade(withDuration: 1)
 let moveInFrame = SKAction.move(to: CGPoint(x: 0, y: 0), duration: 0)
 let moveOutOfFrame = SKAction.move(to: CGPoint(x: 4000, y: 7000), duration: 0)
-let appDelegate = UIApplication.shared.delegate as! AppDelegate // currently being used for restricting rotation
+let appDelegate = UIApplication.shared.delegate as! AppDelegate // currently being used only for restricting rotation
 
 let purpleAnimator = PlayerAnimator(frontAtlas: "front", backAtlas: "back", leftAtlas: "left", rightAtlas: "right", key: "purple")
 let blueAnimator = PlayerAnimator(frontAtlas: "front", backAtlas: "back", leftAtlas: "left", rightAtlas: "right", key: "blue")
@@ -168,15 +168,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // sets the timer as needed and updates the HUD label for it
     @objc func updateTimer(){
         abilityTimerSeconds -= 1
-        abilityTimerLabel.text = String(abilityTimerSeconds)
+        let shrink = SKAction.resize(toWidth: abilityTimerNode.frame.size.width - 20, duration: 1)
+        abilityTimerNode.run(shrink)
         print("ABILITY: \(abilityTimerSeconds) seconds left")
-        if abilityTimerSeconds < 1 {
+        if abilityTimerSeconds <= 0 {
             print("ABILITY: time is up")
             abilityActive = false
             abilityTimer.invalidate()
-            abilityTimerLabel.removeFromParent()
+            abilityTimerNode.removeFromParent()
+            abilityTimerFrame.removeFromParent()
             abilityTimerSeconds = 10
-            abilityTimerLabel.text = String(abilityTimerSeconds)
         }
     }
     
@@ -211,9 +212,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         default:
             self.view?.presentScene(SKScene(fileNamed: "LevelSelectScene")!, transition: transition)
         }
-        
-        
-        
     }
     
     // options button in the in-game menu
@@ -275,8 +273,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             camera!.addChild(abilityNode)
             
-            // addChild(purpleAnimator)
-            
             // nodes hidden until start is pressed for cleaner appearance & because colors depend on character
             player.isHidden = true
             abilityNode.isHidden = true
@@ -289,7 +285,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         charChoice = ""
         charSelPopup.character = ""
         abilityTimerSeconds = 10
-        abilityTimerLabel.text = String(abilityTimerSeconds)
+//        abilityTimerLabel.text = String(abilityTimerSeconds)
         abilityActive = false
         playerTilt = nil
         startPressed = false
@@ -309,6 +305,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         print("STARTED?: \(startPressed)")
         print("CHARCHOSEN?: \(charChoice)")
         levelName = self.name!
+        print("LEVEL: \(levelName)")
         
         addChild(worldNode)
         worldNode.name = "worldNode"
@@ -446,9 +443,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         optionsPopup.vibrateButton.action = vibOff
         optionsPopup.vibrateButton.altAction = vibOn
         
-        // add health and item counters to HUD
-        for label in [//healthLabel,
-                        itemLabel, abilityTimerLabel] {
+        // add HUD elements
+        for label in [itemLabel] {
             label.fontName = "Conductive"
             label.verticalAlignmentMode = .center
         }
@@ -459,15 +455,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         healthNode.alpha = 0.8
         healthNode.setScale(0.3)
         camera!.addChild(healthNode)
-//        healthLabel.position = CGPoint(x: -frame.size.width/2 + 25 , y: frame.size.height/2 - 20)
-//        healthLabel.zPosition = 5
-//        camera!.addChild(healthLabel)
+
         itemLabel.position = CGPoint(x: -frame.size.width/2 + 85 , y: frame.size.height/2 - 20)
         itemLabel.zPosition = 5
         camera!.addChild(itemLabel)
-        abilityTimerLabel.position = CGPoint(x: 0, y: frame.size.height/2 - 20)
-        abilityTimerLabel.fontSize = 26
-        abilityTimerLabel.fontColor = .red
+        
+        // TODO: add visual timer
+//        abilityTimerLabel.position = CGPoint(x: 0, y: frame.size.height/2 - 20)
+//        abilityTimerLabel.fontSize = 26
+//        abilityTimerLabel.fontColor = .red
+        
+        abilityTimerNode = SKSpriteNode(imageNamed: "timercontent")
+        abilityTimerNode.size = CGSize(width: 200, height: 10)
+        abilityTimerNode.anchorPoint = CGPoint(x: 0, y: 0.5)
+        abilityTimerNode.position = CGPoint(x: -abilityTimerNode.frame.size.width/2 , y: frame.size.height/2 - 20)
+        abilityTimerNode.alpha = 0.8
+        abilityTimerNode.zPosition = 4
+        abilityTimerFrame.position = CGPoint(x: 0, y: frame.size.height/2 - 20)
+        abilityTimerFrame.zPosition = 5
+        abilityTimerFrame.alpha = 0.8
         
         // actions available after win/lose
         losePopup.loseReturnButton.action = returnToMenu
@@ -652,7 +658,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             abilityTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: (#selector(updateTimer)), userInfo: nil, repeats: true)
             print("ABILITY: \(abilityUses) uses left")
             print("ABILITY: time started")
-            camera!.addChild(abilityTimerLabel)
+//            camera!.addChild(abilityTimerLabel)
+            camera!.addChild(abilityTimerNode)
+            camera!.addChild(abilityTimerFrame)
+            abilityTimerNode.run(SKAction.resize(toWidth: 200, duration: 0))
+            abilityTimerNode.run(SKAction.resize(toWidth: 180, duration: 1))
         }
     }
     
@@ -984,8 +994,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         // update HUD
-//        healthLabel.text = String(playerHealth)
-        
         // HUD node textures are dependent on game state variables
         // limited to actual range to avoid calling on nonexistent textures
         if playerHealth >= 0 && playerHealth <= 10 {
